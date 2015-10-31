@@ -1,0 +1,1 @@
+/Users/Satya/dotfiles/nvimrc
