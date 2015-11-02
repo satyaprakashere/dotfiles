@@ -8,7 +8,7 @@
 # hlsearch on (H) or off (h):
 ~h
 # Last Search Pattern:
-~Msle0~/\<orig\>
+~MSle0~/neocom
 
 # Last Substitute Search Pattern:
 ~MSle0&std::c
@@ -17,58 +17,64 @@
 $c
 
 # Command Line History (newest to oldest):
-:set gfn=Source\ Code\ Pro:h13,Menlo:h13
-:set gfn=Source\ Code\ Pro:h15,Menlo:h15
-:e ~/Documents/programming/leetcode/leetcode_problem4.cpp
+:wq
 :e ~/.vimrc
 :q
+:e ~/Documents/programming/leetcode/leetcode_problem1.cpp
+:! clang++ % -std=c++11
+:set background=dark
+:set background=light
+:ls!
+:ls
+:b [Scratch]
+:b sad
+:colorscheme Tomorrow-Night-Eighti
+:w
+:b Documents/programming/leetcode/leetcode_problem1.cpp
+:b ~/.vimrc
+:b ~/
+:b leetcode_problem1.cpp
+:b[Scratc
+:files
+:buffers
+:e ~/Documents/programming/leetcode/leetcode_problem4.cpp
+:vsp
+:b Scratch
+:! clang++ %
+:resize 10
+:Shell clang++ %
+:Shell ls -la
+:Wq
+:e ~/.gvimrc
+:e ~/Documents/programming/leetcode/leetcode_problem3.cpp
+:Q
+:set gfn=Source\ Code\ Pro:h13,Menlo:h13
+:set gfn=Source\ Code\ Pro:h15,Menlo:h15
 :colorscheme solarized
 :let g:solarized_termcolors=256
 :set g:solarized_termcolors=256
-:set background=dark
-:set background=light
 :e ~/Documents/problem3.cpp
-:wq
-:w
-:e ~/.gvimrc
 :tabe ~/Documents/cpp_template.cpp
 :e
-:e ~/Documents/programming/leetcode/leetcode_problem3.cpp
 :tabe
 :w leetcode_problem3_v0.1.cpp
 :BundleInstall
-:e ~/Documents/programming/leetcode/leetcode_problem1.cpp
 :e ~/Documents/programming/leetcode/leetcode_problem2.cpp
 :e Documents/programming/leetcode/leetcode_problem2.cpp
 :make
 :e Documents/programming/leetcode/leetcode_problem3.cpp
 :e Documents/programming/leetcode/leetcode_problem1.cpp
 :q!
-:vsp
 :noh
 :tabedit ~/.vimrc
-:e leetcode_problem2.cpp
-:w leetcode_problem2_v0.2.cpp
-:w leetcode_problem2_v0.1.cpp
-:pwd
-:ls
-:cd Documents/programming/leetcode/
-:W
-:w leetcode_problem1_v0.4.cpp
-:w leetcode_problem1_v0.3.cpp
-:w leetcode_problem1_v0.2.cpp
-:w! leetcode_problem1_v0.1.cpp
-:w leetcode_problem1_v0.1.cpp
-:e Documents/problem3.cpp
-:e .ycm_extra_conf.py
-:e ../.ycm_extra_conf.py
-:e Documents/problem1.cpp
-:YcmRestartServer
-:quit
-:YcmDebugInfo
-:YcmCompleter
 
 # Search String History (newest to oldest):
+?/neocom
+?/shortme
+?/colum
+?/colorco
+?/shift
+?/>
 ? \<max_length\>
 ? \<orig\>
 ?/vjj
@@ -103,317 +109,422 @@ $c
 
 # Registers:
 "0	LINE	0
-	  autocmd filetype cpp nnoremap<D-b> :<ESC>!clang++ -std=c++11 % -o %:r<Enter>
+	  let result = localtime() - startTime
 ""1	LINE	0
-	let g:solarized_termcolors=256
-"2	CHAR	0
-	  <vkopenurldef>
-	    <name>KeyCode::VK_OPEN_URL_ITERM</name>
-	    <url>file:///Applications/iTerm.app</url>
-	  </vkopenurldef>
-	
+	    Bundle 'Shougo/neocomplete.vim'
+"2	LINE	0
+	    Bundle 'Shougo/neocomplete.vim'
 "3	LINE	0
-	<?xml version="1.0"?>
-	<root>
-	
-	</root>
+	            //}
 "4	LINE	0
-	  
+	                //continue;
 "5	LINE	0
-	  map <D-b> :CommandT<CR>
+	            //if(it->first != temp.first) {
 "6	LINE	0
-	set background=light
+	            //auto it = std::lower_bound(ALL(orig), temp, [](const pii& p, const pii& t) { return p.first < t.first; });
 "7	LINE	0
+	    noremap <Up> <NOP>
+	    noremap <Down> <NOP>
+	    noremap <Left> <NOP>
+	    noremap <Right> <NOP>
 	
+	    let mapleader ="\<Space>"
+	    let mapleader ="\<Space>"
+	    :nnoremap <F5> :<C-U>make %:r && ./%:r<CR>
+	    :nnoremap ; :
+	    :cmap jk <ESC> 
+	    :inoremap jk <ESC>
+	    :nnoremap <leader>p :VimFilerExplorer<CR>
+	
+	    "move through tabs
+	    nnoremap <C-t>     :tabnew<CR>
+	    nnoremap <C-Tab>   :tabnext<CR>
+	    nnoremap <C-S-Tab> :tabprev<CR>
+	    noremap <D-d> <C-n>
+	    "map <D-S-d> :sp<Enter>
+	    map <D-l> :browse oldfiles<Enter>
+	    "map <D-f> <C-D-f>
+	
+	    nnoremap<D-j> <C-w>l
+	    nnoremap<D-k> <C-w>h
+	
+	    nnoremap<D-b> :SCCompileAF
+	    nnoremap<leader>b :SCCompileAF
+	    "nnoremap<D-/> <leader>ci
+	
+	    autocmd filetype cpp nnoremap<D-b> :Shell clang++ -std=c++11 % -o %:r<Enter>
+	    autocmd filetype cpp nnoremap<leader>b :Shell clang++ -std=c++11 % -o %:r<Enter>
+	
+	    autocmd filetype cpp nnoremap<D-r> :SCCompileRunAsyncAF -std=c++11
+	    autocmd filetype cpp nnoremap<leader>r :SCCompileRunAsyncAF -std=c++11
+	
+	
+	    "map <D-Enter> <C-D-f>
+	
+	    "move through display lines with j and k (Vim's default is semantic jump)
+	    nnoremap j gj
+	    nnoremap k gk
+	    nnoremap gj j
+	    nnoremap gk k
+	
+	    "just scroll
+	    map <Down> 2<C-e>
+	    map <Up> 2<C-y>
+	
+	    nnoremap <leader>o :<C-u>Unite -buffer-name=files buffer neomru/file file_rec/async<CR>
+	    nnoremap <leader>y :<C-u>Unite history/yank<CR>
 "8	LINE	0
-	/*
-	 *Given an array of integers, find two numbers such that they add up to a specific target number.
-	 *
-	 *The function twoSum should return indices of the two numbers such that they add up to the target, where index1 must be less than index2. Please note that your returned answers (both index1 and index2) are not zero-based.
-	 *
-	 *You may assume that each input would have exactly one solution.
-	 *
-	 *Input: numbers={2, 7, 11, 15}, target=9
-	 *Output: index1=1, index2=2
-	 */
+	
 "9	LINE	0
-	//
-	//  Created by Satya Prakash.
-	//  Copyright (c) 2015 Satya Prakash. All rights reserved.
-	//
-	
-	#include <iostream>
-	#include <vector>
-	#include <string>
-	#include <set>
-	#include <map>
-	#include <stack>
-	#include <queue>
-	#include <array>
-	#include <tuple>
-	#include <cmath>
-	#include <ctime>
-	#include <numeric>
-	#include <limits>
-	#include <iterator>
-	#include <algorithm>
-	#include <unordered_set>
-	#include <unordered_map>
-	
-	using std::vector;
-	using std::string;
-	using std::set;
-	using std::map;
-	using std::queue;
-	using std::stack;
-	using std::cin;
-	using std::cout;
-	using std::clog;
-	using std::cerr;
-	using std::ceil;
-	using std::min;
-	using std::max;
-	using std::abs;
-	using std::fabs;
-	using std::swap;
-	using std::array;
-	using std::pair;
-	using std::sort;
-	using std::ostream;
-	using std::make_pair;
-	using std::multiset;
-	using std::multimap;
-	using std::unordered_set;
-	using std::unordered_map;
-	using std::priority_queue;
 	
 "a	CHAR	0
 	
 	  pastetoggle=<F10>
 "-	CHAR	0
-	, KeyCode::BACKQUOTE
+	0
 
 # File marks:
-'0  138  0  ~/Documents/programming/leetcode/leetcode_problem4.cpp
-'1  166  0  ~/Documents/programming/leetcode/leetcode_problem4.cpp
-'2  197  12  ~/Documents/problem3.cpp
-'3  67  4  ~/.vimrc
-'4  169  12  ~/.vimrc
-'5  6  94  ~/Library/Application Support/Karabiner/private.xml
-'6  1  0  ~/Library/Application Support/Karabiner/private.xml
-'7  168  0  ~/Documents/programming/leetcode/leetcode_problem4.cpp
-'8  5  4  ~/.gvimrc
-'9  3  42  ~/.gvimrc
+'0  1  8  ~/dotfiles/.gitignore
+'1  21  19  ~/.vimrc
+'2  22  16  ~/.vimrc
+'3  143  50  ~/.vimrc
+'4  194  0  ~/.vimrc
+'5  449  15  ~/.vimrc
+'6  40  0  ~/dotfiles/emacs.config
+'7  79  0  ~/.vimrc
+'8  200  4  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+'9  194  20  ~/Documents/programming/leetcode/leetcode_problem1.cpp
 
 # Jumplist (newest first):
--'  138  0  ~/Documents/programming/leetcode/leetcode_problem4.cpp
--'  70  0  ~/.vimrc
+-'  1  8  ~/dotfiles/.gitignore
+-'  21  19  ~/.vimrc
 -'  1  0  ~/.vimrc
--'  166  0  ~/Documents/programming/leetcode/leetcode_problem4.cpp
--'  65  4  ~/.vimrc
+-'  22  16  ~/.vimrc
+-'  24  36  ~/.vimrc
+-'  194  53  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  1  0  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  187  12  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  143  50  ~/.vimrc
+-'  194  0  ~/.vimrc
+-'  449  15  ~/.vimrc
+-'  112  0  ~/.vimrc
+-'  110  0  ~/.vimrc
+-'  186  0  ~/.vimrc
+-'  188  0  ~/.vimrc
+-'  84  0  ~/.vimrc
+-'  83  9  ~/.vimrc
+-'  79  17  ~/.vimrc
+-'  35  0  ~/.vimrc
+-'  18  0  ~/.vimrc
+-'  31  0  ~/.vimrc
+-'  7  0  ~/.vimrc
+-'  40  0  ~/dotfiles/emacs.config
+-'  5  0  ~/dotfiles/emacs.config
+-'  197  0  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  198  8  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  200  4  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  205  23  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  203  0  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  201  1  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  475  0  ~/.vimrc
+-'  186  31  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  17  16  ~/.vimrc
+-'  183  18  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  472  0  ~/.vimrc
+-'  4  0  ~/.gvimrc
+-'  5  0  ~/.gvimrc
+-'  53  60  ~/.emacs
+-'  52  0  ~/.emacs
+-'  45  0  ~/.emacs
+-'  51  6  ~/.emacs
+-'  39  0  ~/.emacs
+-'  36  0  ~/.emacs
+-'  34  0  ~/.emacs
+-'  33  21  ~/.emacs
+-'  32  0  ~/.emacs
+-'  30  0  ~/.emacs
+-'  11  15  /private/etc/hosts
+-'  9  0  /private/etc/hosts
+-'  12  0  /private/etc/hosts
+-'  1  0  /private/etc/hosts
+-'  91  18  ~/.zshrc
+-'  88  0  ~/.zshrc
+-'  48  14  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  121  0  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  210  0  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  2  1  ~/.gvimrc
+-'  3  1  ~/.gvimrc
+-'  1  0  ~/.gvimrc
+-'  109  0  ~/.vimrc
+-'  192  33  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  176  16  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  169  0  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  178  22  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  177  16  ~/Documents/programming/leetcode/leetcode_problem3.cpp
+-'  1  0  ~/Documents/programming/leetcode/leetcode_problem3.cpp
+-'  7  0  ~/Documents/programming/leetcode/leetcode_problem3.cpp
+-'  237  0  ~/.vimrc
+-'  52  19  ~/Documents/programming/leetcode/leetcode_problem3.cpp
+-'  2  0  ~/Documents/programming/leetcode/leetcode_problem3.cpp
+-'  437  0  ~/.vimrc
+-'  172  49  ~/Documents/programming/leetcode/leetcode_problem3.cpp
+-'  148  2  ~/Documents/programming/leetcode/leetcode_problem4.cpp
 -'  1  0  ~/Documents/programming/leetcode/leetcode_problem4.cpp
+-'  138  0  ~/Documents/programming/leetcode/leetcode_problem4.cpp
+-'  166  0  ~/Documents/programming/leetcode/leetcode_problem4.cpp
+-'  106  4  ~/.vimrc
 -'  197  12  ~/Documents/problem3.cpp
 -'  178  0  ~/Documents/programming/leetcode/leetcode_problem4.cpp
--'  67  4  ~/.vimrc
 -'  168  0  ~/Documents/programming/leetcode/leetcode_problem4.cpp
--'  169  12  ~/.vimrc
+-'  212  12  ~/.vimrc
 -'  6  94  ~/Library/Application Support/Karabiner/private.xml
--'  1  0  ~/Library/Application Support/Karabiner/private.xml
--'  5  4  ~/.gvimrc
--'  173  8  ~/Documents/programming/leetcode/leetcode_problem4.cpp
--'  3  2  ~/.gvimrc
--'  1  0  ~/.gvimrc
--'  159  0  ~/Documents/programming/leetcode/leetcode_problem4.cpp
--'  3  1  ~/dotfiles/gvimrc
--'  1  0  ~/dotfiles/gvimrc
--'  144  0  ~/Documents/programming/leetcode/leetcode_problem4.cpp
--'  2  21  ~/.gvimrc
--'  6  14  ~/.gvimrc
--'  88  0  ~/.vimrc
--'  172  13  ~/Documents/programming/leetcode/leetcode_problem4.cpp
--'  179  0  ~/Documents/programming/leetcode/leetcode_problem4.cpp
--'  90  0  ~/Documents/cpp_template.cpp
--'  164  0  ~/Documents/cpp_template.cpp
--'  165  0  ~/Documents/cpp_template.cpp
--'  1  0  ~/Documents/cpp_template.cpp
--'  23  2  /usr/local/Library/Taps/rogual/homebrew-neovim-dot-app/neovim-dot-app.rb
--'  3  2  /usr/local/Library/Taps/rogual/homebrew-neovim-dot-app/neovim-dot-app.rb
--'  26  0  /usr/local/Library/Formula/macvim.rb
--'  14  2  /usr/local/Library/Taps/rogual/homebrew-neovim-dot-app/neovim-dot-app.rb
--'  1  0  /usr/local/Library/Formula/macvim.rb
--'  1  0  /usr/local/Library/Taps/rogual/homebrew-neovim-dot-app/neovim-dot-app.rb
--'  167  0  ~/.vimrc
--'  77  0  ~/.vimrc
--'  78  0  ~/.vimrc
--'  75  0  ~/.vimrc
--'  85  0  ~/.vimrc
--'  165  28  ~/Documents/programming/leetcode/leetcode_problem3.cpp
--'  1  0  ~/Documents/programming/leetcode/leetcode_problem3.cpp
--'  166  30  ~/Documents/programming/leetcode/leetcode_problem3.cpp
--'  168  26  ~/.vimrc
--'  161  30  ~/Documents/programming/leetcode/leetcode_problem3.cpp
--'  160  26  ~/Documents/programming/leetcode/leetcode_problem3.cpp
--'  157  0  ~/Documents/programming/leetcode/leetcode_problem3.cpp
--'  321  13  ~/.vimrc
--'  58  0  ~/.vimrc
--'  19  26  ~/.vimrc
--'  190  0  ~/Documents/programming/leetcode/leetcode_problem3.cpp
--'  183  0  ~/Documents/programming/leetcode/leetcode_problem3.cpp
--'  163  7  ~/Documents/programming/leetcode/leetcode_problem3.cpp
--'  161  0  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  195  0  ~/.vimrc
+-'  207  4  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  16  15  ~/.vimrc
+-'  69  0  ~/.vimrc
+-'  68  3  ~/.vimrc
+-'  64  2  ~/.vimrc
+-'  65  2  ~/.vimrc
+-'  70  42  ~/.vimrc
+-'  138  75  ~/.vimrc
+-'  185  12  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  194  53  ~/Documents/programming/leetcode/leetcode_problem1.cpp
 -'  1  0  ~/Documents/programming/leetcode/leetcode_problem1.cpp
--'  179  101  ~/Documents/programming/leetcode/leetcode_problem1.cpp
--'  177  30  ~/Documents/programming/leetcode/leetcode_problem1.cpp
--'  186  12  ~/Documents/programming/leetcode/leetcode_problem1.cpp
--'  187  16  ~/Documents/programming/leetcode/leetcode_problem1.cpp
--'  188  12  ~/Documents/programming/leetcode/leetcode_problem1.cpp
--'  163  4  ~/Documents/programming/leetcode/leetcode_problem2.cpp
--'  1  0  ~/Documents/programming/leetcode/leetcode_problem2.cpp
--'  1  0  Documents/programming/leetcode/leetcode_problem2.cpp
--'  169  52  ~/Documents/programming/leetcode/leetcode_problem3.cpp
--'  110  0  ~/Documents/programming/leetcode/leetcode_problem3.cpp
--'  167  0  ~/Documents/programming/leetcode/leetcode_problem3.cpp
--'  179  25  ~/Documents/programming/leetcode/leetcode_problem3.cpp
--'  181  18  ~/Documents/programming/leetcode/leetcode_problem1.cpp
--'  122  8  ~/Documents/programming/leetcode/leetcode_problem1.cpp
--'  87  0  ~/.vimrc
--'  197  8  ~/Documents/programming/leetcode/leetcode_problem1.cpp
--'  176  16  ~/Documents/programming/leetcode/leetcode_problem1.cpp
--'  174  0  ~/Documents/programming/leetcode/leetcode_problem1.cpp
--'  175  0  ~/Documents/programming/leetcode/leetcode_problem1.cpp
--'  143  39  ~/Documents/programming/leetcode/leetcode_problem1.cpp
--'  36  11  ~/Documents/programming/leetcode/leetcode_problem1.cpp
--'  19  10  ~/Documents/programming/leetcode/leetcode_problem1.cpp
--'  205  4  ~/Documents/programming/leetcode/leetcode_problem1.cpp
--'  1  0  ~/leetcode_problem2.cpp
--'  129  0  ~/Documents/programming/leetcode/leetcode_problem2.cpp
--'  209  20  ~/Documents/programming/leetcode/leetcode_problem2.cpp
--'  205  4  ~/Documents/programming/leetcode/leetcode_problem2.cpp
--'  211  25  ~/Documents/programming/leetcode/leetcode_problem2.cpp
--'  210  19  ~/Documents/programming/leetcode/leetcode_problem2.cpp
--'  1  0  ~/leetcode_problem2.cpp
--'  1  0  ~/leetcode_problem2.cpp
--'  1  0  ~/leetcode_problem2.cpp
--'  1  0  ~/leetcode_problem2.cpp
--'  1  0  ~/leetcode_problem2.cpp
--'  1  0  ~/leetcode_problem2.cpp
--'  1  0  ~/leetcode_problem2.cpp
--'  1  0  ~/leetcode_problem2.cpp
--'  1  0  ~/leetcode_problem2.cpp
--'  1  0  ~/leetcode_problem2.cpp
--'  163  4  ~/Documents/programming/leetcode/leetcode_problem2.cpp
--'  138  0  ~/Documents/programming/leetcode/leetcode_problem4.cpp
+-'  187  12  ~/Documents/programming/leetcode/leetcode_problem1.cpp
+-'  21  19  ~/.vimrc
+-'  1  0  ~/.vimrc
+-'  22  16  ~/.vimrc
 
 # History of marks within files (newest to oldest):
 
+> ~/dotfiles/.gitignore
+	"	1	8
+	^	1	9
+	.	1	8
+	+	1	8
+
 > ~/.vimrc
-	"	70	0
-	^	67	4
-	.	67	3
-	+	53	16
-	+	191	0
-	+	192	2
-	+	86	0
-	+	87	0
-	+	88	0
-	+	91	20
-	+	92	19
-	+	86	21
-	+	88	33
-	+	89	0
-	+	62	0
-	+	75	0
-	+	347	0
-	+	410	34
-	+	78	4
-	+	79	0
-	+	24	29
-	+	78	1
-	+	63	11
-	+	64	23
-	+	63	15
-	+	64	22
-	+	62	19
-	+	94	20
-	+	100	30
-	+	54	0
-	+	94	36
-	+	21	0
-	+	25	29
-	+	26	29
-	+	27	29
-	+	24	0
-	+	21	0
-	+	57	51
-	+	57	51
-	+	100	40
-	+	94	0
-	+	100	0
-	+	100	40
-	+	94	57
-	+	100	40
-	+	58	0
-	+	94	61
-	+	100	75
-	+	105	30
-	+	102	66
-	+	103	37
-	+	105	24
-	+	60	0
-	+	105	0
-	+	94	0
-	+	100	0
-	+	95	0
-	+	98	0
-	+	21	0
-	+	58	0
-	+	56	0
-	+	56	86
-	+	56	95
-	+	56	0
-	+	56	34
-	+	21	0
-	+	63	0
-	+	64	0
-	+	21	0
-	+	17	0
-	+	21	0
-	+	19	0
-	+	21	0
+	"	21	19
+	^	143	51
+	.	21	0
+	+	97	0
+	+	97	86
+	+	97	95
+	+	97	0
+	+	97	34
+	+	23	0
+	+	104	0
+	+	104	0
+	+	23	0
+	+	18	0
+	+	23	0
+	+	20	0
+	+	23	0
+	+	19	3
 	+	18	3
-	+	17	3
-	+	21	0
-	+	21	0
-	+	17	40
-	+	60	0
-	+	58	0
-	+	59	45
-	+	58	34
-	+	87	0
-	+	21	0
-	+	20	30
-	+	58	0
-	+	168	0
-	+	167	0
-	+	169	0
-	+	168	0
-	+	169	0
-	+	70	0
-	+	74	0
+	+	23	0
+	+	23	0
+	+	18	40
+	+	101	0
+	+	99	0
+	+	100	45
+	+	99	34
+	+	126	0
+	+	23	0
+	+	23	30
+	+	99	0
+	+	211	0
+	+	210	0
+	+	212	0
+	+	211	0
+	+	212	0
+	+	109	0
+	+	113	0
+	+	114	0
+	+	114	0
+	+	115	0
+	+	115	0
+	+	212	0
+	+	106	30
+	+	103	0
+	+	106	30
+	+	107	0
+	+	106	3
+	+	181	0
+	+	237	0
+	+	238	0
+	+	110	0
+	+	139	0
+	+	104	3
+	+	106	0
+	+	104	0
+	+	105	3
+	+	17	71
+	+	474	0
+	+	475	0
+	+	50	0
 	+	75	0
-	+	75	0
-	+	76	0
-	+	76	0
-	+	169	0
-	+	67	30
-	+	62	0
-	+	67	30
+	+	139	41
+	+	140	45
+	+	63	10
+	+	35	0
+	+	35	0
+	+	35	0
+	+	35	18
+	+	35	0
+	+	35	0
+	+	35	1
+	+	35	19
+	+	35	1
+	+	35	1
+	+	35	0
+	+	35	48
+	+	35	8
+	+	50	0
+	+	35	0
+	+	35	0
+	+	67	0
+	+	35	0
+	+	49	0
+	+	67	0
+	+	66	0
 	+	68	0
-	+	67	3
-	i	61	0
+	+	71	40
+	+	65	0
+	+	66	0
+	+	71	15
+	+	71	0
+	+	69	34
+	+	70	0
+	+	62	0
+	+	61	1
+	+	206	0
+	+	208	14
+	+	194	0
+	+	142	46
+	+	143	51
+	+	23	0
+	+	22	0
+	+	23	0
+	+	21	0
+	i	102	0
+
+> ~/Documents/programming/leetcode/leetcode_problem1.cpp
+	"	194	53
+	^	194	54
+	.	194	54
+	+	178	21
+	+	179	129
+	+	187	68
+	+	185	42
+	+	185	0
+	+	187	103
+	+	185	43
+	+	190	46
+	+	187	37
+	+	192	61
+	+	191	69
+	+	187	78
+	+	196	46
+	+	190	0
+	+	183	0
+	+	142	0
+	+	128	0
+	+	192	75
+	+	196	0
+	+	184	33
+	+	185	32
+	+	196	28
+	+	192	35
+	+	191	32
+	+	190	61
+	+	185	47
+	+	190	0
+	+	196	56
+	+	191	0
+	+	187	109
+	+	187	0
+	+	78	0
+	+	210	39
+	+	196	0
+	+	205	29
+	+	207	22
+	+	186	34
+	+	186	32
+	+	193	43
+	+	194	51
+	+	187	33
+	+	165	47
+	+	167	31
+	+	187	31
+	+	164	15
+	+	164	15
+	+	165	9
+	+	165	0
+	+	169	0
+	+	168	3
+	+	167	7
+	+	166	3
+	+	165	3
+	+	167	0
+	+	210	33
+	+	187	55
+	+	205	41
+	+	207	24
+	+	187	41
+	+	187	24
+	+	179	45
+	+	119	0
+	+	126	1
+	+	120	0
+	+	123	53
+	+	124	20
+	+	120	8
+	+	125	22
+	+	187	114
+	+	187	0
+	+	120	23
+	+	187	35
+	+	175	0
+	+	175	0
+	+	175	0
+	+	175	0
+	+	140	0
+	+	169	0
+	+	175	0
+	+	175	0
+	+	175	0
+	+	175	0
+	+	169	0
+	+	176	0
+	+	163	0
+	+	182	4
+	+	187	0
+	+	176	0
+	+	187	119
+	+	194	52
+	+	187	0
+	+	180	47
+	+	181	17
+	+	181	25
+	+	179	68
+	+	182	0
+	+	187	86
+	+	188	46
+	+	189	23
+	+	194	54
+	u	174	0
+
+> ~/dotfiles/emacs.config
+	"	40	0
+	^	4	0
+	.	5	0
+	+	1	0
+	+	4	0
+	+	5	0
 
 > ~/Documents/programming/leetcode/leetcode_problem4.cpp
-	"	138	0
+	"	158	14
 	^	173	9
 	.	168	0
 	+	1	0
@@ -429,6 +540,214 @@ $c
 	+	172	29
 	+	173	0
 	+	168	0
+
+> ~/.gvimrc
+	"	4	0
+	^	4	0
+	.	4	0
+	+	1	0
+	+	1	20
+	+	6	0
+	+	2	0
+	+	2	0
+	+	2	1
+	+	6	14
+	+	1	21
+	+	6	0
+	+	2	42
+	+	3	23
+	+	1	10
+	+	3	0
+	+	6	0
+	+	1	0
+	+	2	0
+	+	3	0
+	+	2	0
+	+	2	0
+	+	4	0
+	+	5	0
+	+	4	0
+
+> ~/.emacs
+	"	53	60
+	^	53	66
+	.	53	65
+	+	2	0
+	+	6	0
+	+	7	0
+	+	12	0
+	+	8	0
+	+	14	48
+	+	32	26
+	+	31	25
+	+	32	11
+	+	15	0
+	+	30	0
+	+	54	0
+	+	33	0
+	+	54	0
+	+	54	0
+	+	54	0
+	+	34	0
+	+	35	0
+	+	36	0
+	+	36	57
+	+	36	57
+	+	37	0
+	+	39	0
+	+	54	0
+	+	44	0
+	+	51	0
+	+	54	39
+	+	54	85
+	+	54	96
+	+	54	0
+	+	53	0
+	+	54	0
+	+	53	65
+
+> /private/etc/hosts
+	"	11	15
+	^	11	16
+	.	11	15
+	+	12	0
+	+	10	0
+	+	11	15
+
+> ~/.zshrc
+	"	91	18
+	^	91	19
+	.	91	18
+	+	88	0
+	+	85	0
+	+	85	28
+	+	84	0
+	+	85	0
+	+	86	0
+	+	85	0
+	+	85	0
+	+	89	25
+	+	90	33
+	+	89	0
+	+	88	0
+	+	91	18
+
+> ~/.emacs.d/init.el
+	"	4	77
+	^	4	44
+	.	4	44
+	+	1	0
+	+	5	0
+	+	6	0
+	+	3	1
+	+	5	0
+	+	5	0
+	+	4	44
+
+> ~/dotfiles/emacs
+	"	1	0
+
+> ~/Documents/programming/leetcode/leetcode_problem3.cpp
+	"	177	16
+	^	6	0
+	.	5	0
+	+	8	0
+	+	2	0
+	+	2	0
+	+	7	0
+	+	191	0
+	+	160	0
+	+	168	29
+	+	169	12
+	+	166	32
+	+	169	32
+	+	182	30
+	+	164	33
+	+	182	52
+	+	182	0
+	+	182	28
+	+	182	50
+	+	182	32
+	+	182	20
+	+	182	33
+	+	182	49
+	+	182	47
+	+	183	0
+	+	188	14
+	+	190	31
+	+	191	41
+	+	190	18
+	+	191	47
+	+	182	29
+	+	182	79
+	+	163	10
+	+	182	0
+	+	182	12
+	+	182	24
+	+	133	0
+	+	136	1
+	+	134	48
+	+	133	29
+	+	135	20
+	+	166	31
+	+	166	22
+	+	182	0
+	+	182	51
+	+	182	33
+	+	182	55
+	+	182	51
+	+	182	30
+	+	182	0
+	+	182	34
+	+	166	16
+	+	182	0
+	+	182	68
+	+	78	28
+	+	75	24
+	+	182	0
+	+	182	0
+	+	182	0
+	+	182	0
+	+	182	32
+	+	182	0
+	+	182	0
+	+	182	0
+	+	182	0
+	+	182	0
+	+	182	0
+	+	182	0
+	+	182	0
+	+	182	0
+	+	182	0
+	+	163	0
+	+	190	0
+	+	190	0
+	+	166	20
+	+	166	0
+	+	182	54
+	+	182	44
+	+	182	23
+	+	182	23
+	+	182	0
+	+	182	0
+	+	166	8
+	+	170	0
+	+	194	0
+	+	166	0
+	+	165	21
+	+	166	22
+	+	167	6
+	+	166	7
+	+	172	15
+	+	2	76
+	+	4	78
+	+	2	0
+	+	7	0
+	+	2	1
+	+	5	0
+
+> Documents/problem3.cpp
+	"	1	0
 
 > ~/Documents/problem3.cpp
 	"	197	12
@@ -548,22 +867,6 @@ $c
 	+	4	32
 	+	5	35
 	+	6	75
-
-> ~/.gvimrc
-	"	5	4
-	^	4	24
-	.	4	23
-	+	1	0
-	+	2	20
-	+	5	0
-	+	3	0
-	+	3	0
-	+	3	1
-	+	6	14
-	+	2	21
-	+	6	0
-	+	3	42
-	+	4	23
 
 > ~/dotfiles/gvimrc
 	"	3	1
@@ -753,208 +1056,10 @@ $c
 	+	211	25
 	+	213	0
 
-> ~/Documents/programming/leetcode/leetcode_problem1.cpp
-	"	2	0
-	.	1	0
-	+	180	31
-	+	183	25
-	+	182	21
-	+	180	0
-	+	177	38
-	+	179	0
-	+	183	35
-	+	179	79
-	+	178	21
-	+	179	75
-	+	180	20
-	+	96	9
-	+	178	21
-	+	179	129
-	+	189	68
-	+	183	42
-	+	183	0
-	+	189	103
-	+	183	43
-	+	190	46
-	+	189	37
-	+	192	61
-	+	191	69
-	+	189	78
-	+	196	46
-	+	190	0
-	+	181	0
-	+	142	0
-	+	128	0
-	+	192	75
-	+	196	0
-	+	182	33
-	+	183	32
-	+	196	28
-	+	192	35
-	+	191	32
-	+	190	61
-	+	183	47
-	+	190	0
-	+	196	56
-	+	191	0
-	+	189	109
-	+	189	0
-	+	78	0
-	+	210	39
-	+	196	0
-	+	205	29
-	+	207	22
-	+	184	34
-	+	184	32
-	+	193	43
-	+	194	51
-	+	189	33
-	+	165	47
-	+	167	31
-	+	189	31
-	+	164	15
-	+	164	15
-	+	165	9
-	+	165	0
-	+	169	0
-	+	168	3
-	+	167	7
-	+	166	3
-	+	165	3
-	+	167	0
-	+	210	33
-	+	189	55
-	+	205	41
-	+	207	24
-	+	189	41
-	+	189	24
-	+	179	45
-	+	119	0
-	+	126	1
-	+	120	0
-	+	123	53
-	+	124	20
-	+	120	8
-	+	125	22
-	+	189	114
-	+	189	0
-	+	120	23
-	+	189	35
-	+	175	0
-	+	175	0
-	+	175	0
-	+	175	0
-	+	140	0
-	+	169	0
-	+	175	0
-	+	175	0
-	+	175	0
-	+	175	0
-	+	169	0
-	+	176	0
-	+	163	0
-	+	180	4
-	+	189	0
-	+	1	0
-	u	174	0
-
 > /usr/local/Library/Taps/rogual/homebrew-neovim-dot-app/neovim-dot-app.rb
 	"	23	2
 	.	3	0
 	+	3	0
-
-> ~/Documents/programming/leetcode/leetcode_problem3.cpp
-	"	161	8
-	^	169	35
-	.	169	15
-	+	5	0
-	+	2	0
-	+	2	0
-	+	4	0
-	+	188	0
-	+	157	0
-	+	165	29
-	+	166	12
-	+	163	32
-	+	166	32
-	+	179	30
-	+	161	33
-	+	179	52
-	+	179	0
-	+	179	28
-	+	179	50
-	+	179	32
-	+	179	20
-	+	179	33
-	+	179	49
-	+	179	47
-	+	180	0
-	+	185	14
-	+	187	31
-	+	188	41
-	+	187	18
-	+	188	47
-	+	179	29
-	+	179	79
-	+	160	10
-	+	179	0
-	+	179	12
-	+	179	24
-	+	130	0
-	+	133	1
-	+	131	48
-	+	130	29
-	+	132	20
-	+	163	31
-	+	163	22
-	+	179	0
-	+	179	51
-	+	179	33
-	+	179	55
-	+	179	51
-	+	179	30
-	+	179	0
-	+	179	34
-	+	163	16
-	+	179	0
-	+	179	68
-	+	75	28
-	+	72	24
-	+	179	0
-	+	179	0
-	+	179	0
-	+	179	0
-	+	179	32
-	+	179	0
-	+	179	0
-	+	179	0
-	+	179	0
-	+	179	0
-	+	179	0
-	+	179	0
-	+	179	0
-	+	179	0
-	+	179	0
-	+	160	0
-	+	187	0
-	+	187	0
-	+	163	20
-	+	163	0
-	+	179	54
-	+	179	44
-	+	179	23
-	+	179	23
-	+	179	0
-	+	179	0
-	+	163	8
-	+	167	0
-	+	191	0
-	+	163	0
-	+	162	21
-	+	163	22
-	+	164	6
-	+	163	7
-	+	169	15
 
 > Documents/programming/leetcode/leetcode_problem2.cpp
 	"	1	0
@@ -1182,23 +1287,6 @@ $c
 	+	93	0
 	+	19	19
 	+	64	9
-
-> ~/.zshrc
-	"	88	0
-	^	88	1
-	.	88	0
-	+	88	0
-	+	85	0
-	+	85	28
-	+	84	0
-	+	85	0
-	+	86	0
-	+	85	0
-	+	85	0
-	+	89	25
-	+	90	33
-	+	89	0
-	+	88	0
 
 > ~/Documents/c.cpp
 	"	97	0

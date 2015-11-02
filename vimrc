@@ -2,45 +2,87 @@
 "make Vim non compatible with Vi
 set nocompatible
 
-filetype off                  " required for Vundle
+"required for Vundle
+filetype off 
 
-" set the runtime path to include Vundle and initialize
+"set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
+"alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" Vundle plugins
-if !has('gui_running') || has('gui_macvim')
-    Bundle 'Valloric/YouCompleteMe'
-endif
-Bundle 'Shougo/neocomplete.vim'
-Bundle 'SirVer/ultisnips'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'terryma/vim-multiple-cursors'
-Bundle 'sollidsnake/vterm'
-"Bundle 'Raimondi/delimitMate'
-Bundle 'scrooloose/syntastic'
-Bundle 'xuhdev/SingleCompile'
-Bundle 'jiangmiao/auto-pairs'
+" Vundle plugins {
+    " Disabling YCM in VimR (doesn't work due to conflict in python bindings)
+    if !has('gui_running') || has('gui_macvim')
+        Bundle 'Valloric/YouCompleteMe'
+        Bundle 'Shougo/neocomplete.vim'
+    endif
+    Bundle 'SirVer/ultisnips'
+    Bundle 'scrooloose/nerdcommenter'
+    Bundle 'terryma/vim-multiple-cursors'
+    Bundle 'sollidsnake/vterm'
+    "Bundle 'Raimondi/delimitMate'
+    Bundle 'scrooloose/syntastic'
+    Bundle 'xuhdev/SingleCompile'
+    Bundle 'jiangmiao/auto-pairs'
+" }
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
-
 "--------------------------------------------------
+
+" Custom Funtions for adding new Functionality {
+
+    " Times the number of times a particular command takes to execute the specified
+    " number of times (in seconds).
+    function! HowLong( command, numberOfTimes )
+    " We don't want to be prompted by a message if the command being tried is
+    " an echo as that would slow things down while waiting for user input.
+    let more = &more
+    set nomore
+    let startTime = localtime()
+    for i in range( a:numberOfTimes )
+        execute a:command
+    endfor
+    let result = localtime() - startTime
+    let &more = more
+    return result
+    endfunction
+    " Custom Shell command for executing shell function in a different frame.
+    command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
+    function! s:RunShellCommand(cmdline)
+    echo a:cmdline
+    let expanded_cmdline = a:cmdline
+    for part in split(a:cmdline, ' ')
+        if part[0] =~ '\v[%#<]'
+            let expanded_part = fnameescape(expand(part))
+            let expanded_cmdline = substitute(expanded_cmdline, part, expanded_part, '')
+        endif
+    endfor
+    botright new
+    set buflisted
+    setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+    resize 10
+    "call setline(1, 'You entered:    ' . a:cmdline)
+    "call setline(2, 'Expanded Form:  ' .expanded_cmdline)
+    let startTime = localtime()
+    execute '$read !'. expanded_cmdline
+    let result = localtime() - startTime
+    echo '[Finished in '.result.'s]'
+    "call setline(2,substitute(getline(2),'.','=','g')
+    setlocal nomodifiable
+    endfunction
+" }
+
 
 "----[Filetype]----------
 "switch on filetype identification
-filetype on
-
 "enable builtin plugins for various filetypes
-filetype plugin on
-
 "enable builtin indenting scheme for various filetypes
-filetype indent on
+filetype plugin indent on
 
 "switch on syntax highlighting
 syntax on
@@ -60,92 +102,96 @@ let g:syntastic_cpp_compiler_options = '-std=c++11'
 let g:ycm_min_num_of_chars_for_completion = 2
  "color scheme 
 "let g:solarized_termtrans=1
-set background=light
-if has('gui_running') 
-    set background=dark
-else
+if !has('gui_running') 
+    set background=light
     let g:solarized_termcolors=256
 endif
 colorscheme solarized
 
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
+" Key mappings {
 
-let mapleader ="\<Space>"
-let mapleader ="\<Space>"
-:nnoremap <F5> :<C-U>make %:r && ./%:r<CR>
-:nnoremap ; :
-:cmap jk <ESC> 
-:inoremap jk <ESC>
-:nnoremap <leader>p :VimFilerExplorer<CR>
+    noremap <Up> <NOP>
+    noremap <Down> <NOP>
+    noremap <Left> <NOP>
+    noremap <Right> <NOP>
 
-"move through tabs
-nnoremap <C-t>     :tabnew<CR>
-nnoremap <C-Tab>   :tabnext<CR>
-nnoremap <C-S-Tab> :tabprev<CR>
-noremap <D-d> <C-n>
-"map <D-S-d> :sp<Enter>
-map <D-l> :browse oldfiles<Enter>
-"map <D-f> <C-D-f>
+    let mapleader ="\<Space>"
+    let mapleader ="\<Space>"
+    :nnoremap <F5> :<C-U>make %:r && ./%:r<CR>
+    :nnoremap ; :
+    :cmap jk <ESC> 
+    :inoremap jk <ESC>
+    :nnoremap <leader>p :VimFilerExplorer<CR>
 
-nnoremap<D-j> <C-w>l
-nnoremap<D-k> <C-w>h
+    "move through tabs
+    nnoremap <C-t>     :tabnew<CR>
+    nnoremap <C-Tab>   :tabnext<CR>
+    nnoremap <C-S-Tab> :tabprev<CR>
+    noremap <D-d> <C-n>
+    "map <D-S-d> :sp<Enter>
+    map <D-l> :browse oldfiles<Enter>
+    "map <D-f> <C-D-f>
 
-nnoremap<D-b> :SCCompileAF
-nnoremap<leader>b :SCCompileAF
-"nnoremap<D-/> <leader>ci
+    nnoremap<D-j> <C-w>l
+    nnoremap<D-k> <C-w>h
 
-autocmd filetype cpp nnoremap<D-b> :!clang++ -std=c++11 % -o %:r<Enter>
-autocmd filetype cpp nnoremap<leader>b :!clang++ -std=c++11 % -o %:r<Enter>
+    nnoremap<D-b> :SCCompileAF
+    nnoremap<leader>b :SCCompileAF
+    "nnoremap<D-/> <leader>ci
 
-autocmd filetype cpp nnoremap<D-r> :SCCompileRunAsyncAF -std=c++11
-autocmd filetype cpp nnoremap<leader>r :SCCompileRunAsyncAF -std=c++11
+    autocmd filetype cpp nnoremap<D-b> :silent Shell clang++ -std=c++11 % -o %:r<Enter>
+    autocmd filetype cpp nnoremap<leader>b :silent Shell clang++ -std=c++11 % -o %:r<Enter>
+
+    autocmd filetype cpp nnoremap<D-r> :SCCompileRunAsyncAF -std=c++11
+    autocmd filetype cpp nnoremap<leader>r :SCCompileRunAsyncAF -std=c++11
 
 
-"map <D-Enter> <C-D-f>
+    "map <D-Enter> <C-D-f>
 
-"move through display lines with j and k (Vim's default is semantic jump)
-nnoremap j gj
-nnoremap k gk
-nnoremap gj j
-nnoremap gk k
+    "move through display lines with j and k (Vim's default is semantic jump)
+    nnoremap j gj
+    nnoremap k gk
+    nnoremap gj j
+    nnoremap gk k
 
-"just scroll
-map <Down> 2<C-e>
-map <Up> 2<C-y>
+    "just scroll
+    map <Down> 2<C-e>
+    map <Up> 2<C-y>
 
-nnoremap <leader>o :<C-u>Unite -buffer-name=files buffer neomru/file file_rec/async<CR>
-nnoremap <leader>y :<C-u>Unite history/yank<CR>
-nnoremap <leader>f :<C-u>Unite outline<CR>
-nnoremap <leader>s :<C-u>Unite session<CR>
-nnoremap <leader>c :<C-u>Unite -horizontal -direction=botright -buffer-name=unite_commands command mapping<CR>
-"doesn't seem to work
-"nnoremap <leader>t :<C-u>Unite tag<CR>
-nnoremap <leader>y :<C-u>Unite history/yank<CR>
+    nnoremap <leader>o :<C-u>Unite -buffer-name=files buffer neomru/file file_rec/async<CR>
+    nnoremap <leader>y :<C-u>Unite history/yank<CR>
+    nnoremap <leader>f :<C-u>Unite outline<CR>
+    nnoremap <leader>s :<C-u>Unite session<CR>
+    nnoremap <leader>c :<C-u>Unite -horizontal -direction=botright -buffer-name=unite_commands command mapping<CR>
+    "doesn't seem to work
+    "nnoremap <leader>t :<C-u>Unite tag<CR>
+    nnoremap <leader>y :<C-u>Unite history/yank<CR>
 
-"use <C-l> to clear the highlight of search hits
-nnoremap <C-l> :nohls<CR>
-inoremap <C-l> <C-O>:nohls<CR>
+    "use <C-l> to clear the highlight of search hits
+    nnoremap <C-l> :nohls<CR>
+    inoremap <C-l> <C-O>:nohls<CR>
 
-"make Y consistent with C and D
-nmap Y y$
+    "make Y consistent with C and D
+    nmap Y y$
 
-"re-select text block that was just pasted/edited
-nnoremap <leader>gv `[v`]
+    "re-select text block that was just pasted/edited
+    nnoremap <leader>gv `[v`]
 
-"re-format paragraphs of text
-nnoremap <leader>gq gqip
+    "re-format paragraphs of text
+    nnoremap <leader>gq gqip
 
-"do not leave visual mode after visually shifting text
-vnoremap < <gv
-vnoremap > >gv
+    "do not leave visual mode after visually shifting text
+    vnoremap < <gv
+    vnoremap > >gv
+
+" }
 
 "use option (alt) as meta key on Mac
 if has('macunix')
   set macmeta
 endif
+
+"set cmdheight=2
 
 "use , over \ as leader
 "let mapleader = ","
@@ -158,6 +204,8 @@ set ttymouse=xterm2
 
 "do not display :intro at Vim start
 "set shortmess+=I
+
+set shortmess=a
 
 "always display status line
 set laststatus=2
@@ -191,7 +239,7 @@ set textwidth=79
 
 set formatoptions=qrn1
 
-"set colorcolumn=85
+set colorcolumn=85
 
 "break lines at characters in 'breakat'
 set linebreak
@@ -428,3 +476,4 @@ nnoremap <leader>ss :SplitjoinSplit<CR>
 "----[Vimshell]----------
 "nnoremap <leader>r :VimShellInteractive irb
 "nnoremap <leader>rs :'<,'>VimShellSendString
+
