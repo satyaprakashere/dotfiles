@@ -1,88 +1,51 @@
-"----[General]----------
-"make Vim non compatible with Vi
-set nocompatible
+"----[Plugin manager Vundle setup]-----------------
+    set nocompatible            "make Vim non compatible with Vim
+    filetype off                "required for Vundle
 
-"required for Vundle
-filetype off 
+    set rtp+=~/.vim/bundle/Vundle.vim           "set the runtime path to include Vundle and initialize
+    call vundle#begin()
 
-"set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-"alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+    Plugin 'VundleVim/Vundle.vim'               " let Vundle manage Vundle, required
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
-" Vundle plugins {
-    " Disabling YCM in VimR (doesn't work due to conflict in python bindings)
-    if !has('gui_running') || has('gui_macvim')
+    if has('gui_macvim') || !has('gui_running') " Disabling YCM in VimR (doesn't work due to conflict in python bindings)
         Bundle 'Valloric/YouCompleteMe'
-        Bundle 'Shougo/neocomplete.vim'
+        Bundle 'scrooloose/nerdtree'
     endif
-    Bundle 'SirVer/ultisnips'
+    if has('lua') 
+        Bundle 'Shougo/neocomplete.vim'
+        Bundle 'SirVer/ultisnips'
+    endif
+    Bundle 'vim-latex/vim-latex'
+    Bundle 'severin-lemaignan/vim-minimap'
+    Bundle 'kien/ctrlp.vim'
+    Bundle 'tpope/vim-fugitive'
+    "Bundle 'bling/vim-airline'
+    "Bundle 'wincent/command-t'
+    "Bundle 'mileszs/ack.vim'
+    "Bundle 'mkarmona/materialbox'
+    Bundle 'honza/vim-snippets'
     Bundle 'scrooloose/nerdcommenter'
     Bundle 'terryma/vim-multiple-cursors'
-    Bundle 'sollidsnake/vterm'
+    "Bundle 'sollidsnake/vterm'
     "Bundle 'Raimondi/delimitMate'
     Bundle 'scrooloose/syntastic'
-    Bundle 'xuhdev/SingleCompile'
+    "Bundle 'xuhdev/SingleCompile'
     Bundle 'jiangmiao/auto-pairs'
-" }
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
+    call vundle#end()                           " All of your Plugins must be added before the following line
 "--------------------------------------------------
 
-" Custom Funtions for adding new Functionality {
-
-    " Times the number of times a particular command takes to execute the specified
-    " number of times (in seconds).
-    function! HowLong( command, numberOfTimes )
-    " We don't want to be prompted by a message if the command being tried is
-    " an echo as that would slow things down while waiting for user input.
-    let more = &more
-    set nomore
-    let startTime = localtime()
-    for i in range( a:numberOfTimes )
-        execute a:command
-    endfor
-    let result = localtime() - startTime
-    let &more = more
-    return result
-    endfunction
-    " Custom Shell command for executing shell function in a different frame.
-    command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
-    function! s:RunShellCommand(cmdline)
-    echo a:cmdline
-    let expanded_cmdline = a:cmdline
-    for part in split(a:cmdline, ' ')
-        if part[0] =~ '\v[%#<]'
-            let expanded_part = fnameescape(expand(part))
-            let expanded_cmdline = substitute(expanded_cmdline, part, expanded_part, '')
-        endif
-    endfor
-    botright new
-    set buflisted
-    setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
-    resize 10
-    "call setline(1, 'You entered:    ' . a:cmdline)
-    "call setline(2, 'Expanded Form:  ' .expanded_cmdline)
-    let startTime = localtime()
-    execute '$read !'. expanded_cmdline
-    let result = localtime() - startTime
-    echo '[Finished in '.result.'s]'
-    "call setline(2,substitute(getline(2),'.','=','g')
-    setlocal nomodifiable
-    endfunction
-" }
-
+"----[General Settings]----------------------------
 
 "----[Filetype]----------
 "switch on filetype identification
 "enable builtin plugins for various filetypes
 "enable builtin indenting scheme for various filetypes
 filetype plugin indent on
+
+"set default file type cpp
+"set filetype?
+"set filetype=cpp
 
 "switch on syntax highlighting
 syntax on
@@ -91,100 +54,16 @@ set encoding=utf-8
 
 set number
 
-"set default file type cpp
-"set filetype?
-set filetype=cpp
-
+" Automatically change current directory to current open file's directory.
 set autochdir
-let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
-let g:syntastic_cpp_compiler_options = '-std=c++11'
 
-let g:ycm_min_num_of_chars_for_completion = 2
- "color scheme 
+"color scheme
 "let g:solarized_termtrans=1
-if !has('gui_running') 
+if !has('gui_running')
     set background=light
     let g:solarized_termcolors=256
 endif
 colorscheme solarized
-
-" Key mappings {
-
-    noremap <Up> <NOP>
-    noremap <Down> <NOP>
-    noremap <Left> <NOP>
-    noremap <Right> <NOP>
-
-    let mapleader ="\<Space>"
-    let mapleader ="\<Space>"
-    :nnoremap <F5> :<C-U>make %:r && ./%:r<CR>
-    :nnoremap ; :
-    :cmap jk <ESC> 
-    :inoremap jk <ESC>
-    :nnoremap <leader>p :VimFilerExplorer<CR>
-
-    "move through tabs
-    nnoremap <C-t>     :tabnew<CR>
-    nnoremap <C-Tab>   :tabnext<CR>
-    nnoremap <C-S-Tab> :tabprev<CR>
-    noremap <D-d> <C-n>
-    "map <D-S-d> :sp<Enter>
-    map <D-l> :browse oldfiles<Enter>
-    "map <D-f> <C-D-f>
-
-    nnoremap<D-j> <C-w>l
-    nnoremap<D-k> <C-w>h
-
-    nnoremap<D-b> :SCCompileAF
-    nnoremap<leader>b :SCCompileAF
-    "nnoremap<D-/> <leader>ci
-
-    autocmd filetype cpp nnoremap<D-b> :silent Shell clang++ -std=c++11 % -o %:r<Enter>
-    autocmd filetype cpp nnoremap<leader>b :silent Shell clang++ -std=c++11 % -o %:r<Enter>
-
-    autocmd filetype cpp nnoremap<D-r> :SCCompileRunAsyncAF -std=c++11
-    autocmd filetype cpp nnoremap<leader>r :SCCompileRunAsyncAF -std=c++11
-
-
-    "map <D-Enter> <C-D-f>
-
-    "move through display lines with j and k (Vim's default is semantic jump)
-    nnoremap j gj
-    nnoremap k gk
-    nnoremap gj j
-    nnoremap gk k
-
-    "just scroll
-    map <Down> 2<C-e>
-    map <Up> 2<C-y>
-
-    nnoremap <leader>o :<C-u>Unite -buffer-name=files buffer neomru/file file_rec/async<CR>
-    nnoremap <leader>y :<C-u>Unite history/yank<CR>
-    nnoremap <leader>f :<C-u>Unite outline<CR>
-    nnoremap <leader>s :<C-u>Unite session<CR>
-    nnoremap <leader>c :<C-u>Unite -horizontal -direction=botright -buffer-name=unite_commands command mapping<CR>
-    "doesn't seem to work
-    "nnoremap <leader>t :<C-u>Unite tag<CR>
-    nnoremap <leader>y :<C-u>Unite history/yank<CR>
-
-    "use <C-l> to clear the highlight of search hits
-    nnoremap <C-l> :nohls<CR>
-    inoremap <C-l> <C-O>:nohls<CR>
-
-    "make Y consistent with C and D
-    nmap Y y$
-
-    "re-select text block that was just pasted/edited
-    nnoremap <leader>gv `[v`]
-
-    "re-format paragraphs of text
-    nnoremap <leader>gq gqip
-
-    "do not leave visual mode after visually shifting text
-    vnoremap < <gv
-    vnoremap > >gv
-
-" }
 
 "use option (alt) as meta key on Mac
 if has('macunix')
@@ -281,6 +160,7 @@ set showmatch
 "highlight the current line
 set cursorline
 
+
 "highlight current column
 "set cursorcolumn
 
@@ -352,6 +232,20 @@ set smarttab
 "smart autoindenting
 set smartindent
 
+" Called once right before you start selecting multiple cursors
+function! Multiple_cursors_before()
+  if exists(':NeoCompleteLock')==2
+    exe 'NeoCompleteLock'
+  endif
+endfunction
+
+" Called once only when the multiple selection is canceled (default <Esc>)
+function! Multiple_cursors_after()
+  if exists(':NeoCompleteUnlock')==2
+    exe 'NeoCompleteUnlock'
+  endif
+endfunction
+
 "use system clipoard for yank, delete and paste operations
 if has('macunix')
   set clipboard=unnamed
@@ -393,10 +287,6 @@ autocmd BufWritePre */.git/COMMIT_EDITMSG setlocal noundofile
 
 "access undo tree
 nnoremap <leader>u :GundoToggle<CR>
-
-"----[Completion]----------
-"enable neocomplete on startup
-let g:neocomplete#enable_at_startup = 1
 
 "set omnicompletion for Ruby, Eruby and Rails
 autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
@@ -477,3 +367,269 @@ nnoremap <leader>ss :SplitjoinSplit<CR>
 "nnoremap <leader>r :VimShellInteractive irb
 "nnoremap <leader>rs :'<,'>VimShellSendString
 
+
+"----[UltiSnips configurations]-----------------
+    let g:UltiSnipsExpandTrigger="<C-e>"
+    "if has('gui_running') && !has('gui_macvim')
+        "let g:UltiSnipsExpandTrigger="<tab>"
+    "endif
+    let g:UltiSnipsJumpForwardTrigger="<C-b>"
+    let g:UltiSnipsJumpBackwardTrigger="<C-z>"
+    let g:UltiSnipsEditSplit="vertical"
+    let g:UltiSnipsSnippetDirectories=["bundle/ultisnips"]
+"-----------------------------------------------
+
+"----[YouCompleteMe configurations]-----------------
+    let g:ycm_min_num_of_chars_for_completion = 2
+    let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
+    let g:syntastic_cpp_compiler_options = '-std=c++11'
+    let g:ycm_complete_in_comments = 1 
+    let g:ycm_seed_identifiers_with_syntax = 1 
+    let g:ycm_collect_identifiers_from_comments_and_strings = 1 
+"-----------------------------------------------
+
+"----[Key mappings]------------------------------------------------------------
+
+    noremap <Up> <NOP>
+    noremap <Down> <NOP>
+    noremap <Left> <NOP>
+    noremap <Right> <NOP>
+
+    let mapleader ="\<Space>"
+    nnoremap <F5> :<C-U>make %:r && ./%:r<CR>
+    nnoremap ; :
+    nnoremap q; q:
+    cnoremap jk <ESC>
+    vnoremap jk <ESC>
+    inoremap jk <ESC>
+    nnoremap <leader>p :VimFilerExplorer<CR>
+
+    "move through tabs
+    nnoremap <C-t>     :tabnew<CR>
+    nnoremap <C-Tab>   :tabnext<CR>
+    nnoremap <C-S-Tab> :tabprev<CR>
+    cnoremap <C-j> <Up>
+    cnoremap <C-k> <Down>
+
+    if has('macunix')
+        map <D-d> :vsp<CR>
+        "cmap <D-d> <ESC><C-n>
+        "map <D-S-d> :sp<Enter>
+        map <D-l> :buffers<CR>
+        "map <D-f> <C-D-f>
+        if has('gui_macvim')
+            nnoremap<D-/> <leader>ci
+        endif
+        nnoremap<D-j> <C-w>l
+        nnoremap<D-k> <C-w>h
+        nnoremap<D-b> :SCCompileAF
+        autocmd filetype cpp nnoremap<D-b> :silent Shell clang++ -std=c++11 % -o %:r<CR>
+        "autocmd filetype cpp nnoremap<D-r> ! clang++ -std=c++11 % -o %:r && ./%:r<CR>
+        autocmd filetype cpp nnoremap<D-r> :SCCompileRunAF -std=c++11<CR>
+    endif
+    nnoremap<leader>b :SCCompileAF
+
+    autocmd filetype cpp nnoremap<leader>b :silent Shell clang++ -std=c++11 % -o %:r<CR>
+    "autocmd filetype cpp :UltiSnipsAddFiletypes cpp
+
+    autocmd filetype cpp nnoremap<leader>r :SCCompileRunAF -std=c++11<CR>
+
+    augroup myvimrc
+        au!
+        au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+    augroup END
+
+    "move through display lines with j and k (Vim's default is semantic jump)
+    nnoremap j gj
+    nnoremap k gk
+    nnoremap gj j
+    nnoremap gk k
+
+    "just scroll
+    map <Down> 2<C-e>
+    map <Up> 2<C-y>
+
+    nnoremap <leader>o :<C-u>Unite -buffer-name=files buffer neomru/file file_rec/async<CR>
+    nnoremap <leader>y :<C-u>Unite history/yank<CR>
+    nnoremap <leader>f :<C-u>Unite outline<CR>
+    nnoremap <leader>s :<C-u>Unite session<CR>
+    nnoremap <leader>c :<C-u>Unite -horizontal -direction=botright -buffer-name=unite_commands command mapping<CR>
+    "doesn't seem to work
+    "nnoremap <leader>t :<C-u>Unite tag<CR>
+    nnoremap <leader>y :<C-u>Unite history/yank<CR>
+
+    "use <C-l> to clear the highlight of search hits
+    nnoremap <C-l> :nohls<CR>
+    inoremap <C-l> <C-O>:nohls<CR>
+
+    "make Y consistent with C and D
+    nmap Y y$
+
+    "re-select text block that was just pasted/edited
+    nnoremap <leader>gv `[v`]
+
+    "re-format paragraphs of text
+    nnoremap <leader>gq gqip
+
+    "do not leave visual mode after visually shifting text
+    vnoremap < <gv
+    vnoremap > >gv
+
+"------------------------------------------------------------------------------------------------
+
+"----[FNeocomplete configurations]-----------------
+
+    "Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
+    " Disable AutoComplPop.
+    let g:acp_enableAtStartup = 0
+    " Use neocomplete.
+    let g:neocomplete#enable_at_startup = 1
+    " Use smartcase.
+    let g:neocomplete#enable_smart_case = 1
+    " Set minimum syntax keyword length.
+    let g:neocomplete#sources#syntax#min_keyword_length = 3
+    let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+    " Define dictionary.
+    let g:neocomplete#sources#dictionary#dictionaries = {
+        \ 'default' : '',
+        \ 'vimshell' : $HOME.'/.vimshell_hist',
+        \ 'scheme' : $HOME.'/.gosh_completions'
+            \ }
+
+    " Define keyword.
+    if !exists('g:neocomplete#keyword_patterns')
+        let g:neocomplete#keyword_patterns = {}
+    endif
+    let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+    " Plugin key-mappings.
+    inoremap <expr><C-g>     neocomplete#undo_completion()
+    inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+    " Recommended key-mappings.
+    " <CR>: close popup and save indent.
+    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+    function! s:my_cr_function()
+    return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+    " For no inserting <CR> key.
+    "return pumvisible() ? "\<C-y>" : "\<CR>"
+    endfunction
+    " <TAB>: completion.
+    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    " <C-h>, <BS>: close popup and delete backword char.
+    inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+    " Close popup by <Space>.
+    "inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+    " AutoComplPop like behavior.
+    "let g:neocomplete#enable_auto_select = 1
+
+    " Shell like behavior(not recommended).
+    "set completeopt+=longest
+    "let g:neocomplete#enable_auto_select = 1
+    "let g:neocomplete#disable_auto_complete = 1
+    "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+
+    " Enable omni completion.
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+    " Enable heavy omni completion.
+    if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
+    endif
+    "let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+    "let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+    "let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+    " For perlomni.vim setting.
+    " https://github.com/c9s/perlomni.vim
+    let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+
+"------------------------------------------------------------------------------------------------
+
+"----[Custom Funtions for adding new Functionality]----------------------------------------------
+
+    command! Compile Shell clang++ -std=c++11 % -o %:r
+    " Times the number of times a particular command takes to execute the specified
+    " number of times (in seconds).
+    function! HowLong( command, numberOfTimes )
+    " We don't want to be prompted by a message if the command being tried is
+    " an echo as that would slow things down while waiting for user input.
+    let more = &more
+    set nomore
+    let startTime = localtime()
+    for i in range( a:numberOfTimes )
+        execute a:command
+    endfor
+    let result = localtime() - startTime
+    let &more = more
+    return result
+    endfunction
+
+
+    " Custom Shell command for executing shell function in a different frame.
+    command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
+
+    function! s:RunShellCommand(cmdline)
+    echo a:cmdline
+    let expanded_cmdline = a:cmdline
+    silent! bw compilation
+    "buffer [Scratch]
+    "q
+    for part in split(a:cmdline, ' ')
+        if part[0] =~ '\v[%#<]'
+            let expanded_part = fnameescape(expand(part))
+            let expanded_cmdline = substitute(expanded_cmdline, part, expanded_part, '')
+        endif
+    endfor
+    botright new
+    set buflisted
+    setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+    resize 10
+    "call setline(1, 'You entered:    ' . a:cmdline)
+    "call setline(2, 'Expanded Form:  ' .expanded_cmdline)
+    file compilation
+    let startTime = localtime()
+    execute '$read !'. expanded_cmdline
+    let result = localtime() - startTime
+    echo '[Finished in '.result.'s]'
+    "call setline(2,substitute(getline(2),'.','=','g')
+    setlocal nomodifiable
+    endfunction
+"--------------------------------------------------
+
+"------[CtrlP settings]----------------------------
+
+    let g:ctrlp_map = '<c-p>'
+    let g:ctrlp_cmd = 'CtrlPMixed'
+    let g:ctrlp_working_path_mode = 'ra'
+    set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.out    " MacOSX/Linux
+    let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+    "let g:ctrlp_custom_ignore = {
+                "\ 'dir':  '\v[\/]\.(git|hg|svn)$',
+                "\ 'file': '\v\.(exe|so|dll)$',
+                "\ 'link': 'some_bad_symbolic_links',
+                "\ }
+"--------------------------------------------------
+
+"------[Buffer managment plugin]-------------------
+    " Enable the list of buffers
+    "let g:airline#extensions#tabline#enabled = 1
+
+    " Show just the filename
+    "let g:airline#extensions#tabline#fnamemod = ':t'
+"---------------------------------------------------
+
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+"map <leader>n :NERDTreeToggle<CR>
+"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+"let g:NERDTreeDirArrows = 1
+"let g:NERDTreeDirArrowExpandable = '▸'
+"let g:NERDTreeDirArrowCollapsible = '▾'

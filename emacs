@@ -51,3 +51,4 @@
       ;(do-applescript "tell application \"System Events\" to tell process \"Emacs\" to set visible to false"))))
 
 (substitute-key-definition 'delete-window 'delete-frame global-map)
+

@@ -49,7 +49,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git) #, brew, autojump)
 
 # User configuration
 
@@ -79,13 +79,39 @@ source $ZSH/oh-my-zsh.sh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
+
+cdf() {
+    target=`osascript -e 'tell application "Finder" to if (count of Finder windows) > 0 then get POSIX path of (target of front Finder window as text)'`
+    if [ "$target" != "" ]; then
+        cd "$target"; pwd
+    else
+        echo 'No Finder window found' >&2
+    fi
+}
+man() {
+    env \
+    LESS_TERMCAP_mb=$(printf "\e[1;31m") \
+    LESS_TERMCAP_md=$(printf "\e[1;31m") \
+    LESS_TERMCAP_me=$(printf "\e[0m") \
+    LESS_TERMCAP_se=$(printf "\e[0m") \
+    LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
+    LESS_TERMCAP_ue=$(printf "\e[0m") \
+    LESS_TERMCAP_us=$(printf "\e[1;32m") \
+    man "$@"
+}
+
+[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+alias ls='ls -FG'
+export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias cc='clang++ -std=c++11'
-#alias vim='mvim -v'
-#alias vi='mvim -v'
-#alias macvim='open -a MacVim'
-#alias vimr='open -a VimR'
 alias subl='open -a Sublime\ Text'
 export EDITOR='vim'
+export http_proxy=10.3.100.207:8080
+export https_proxy=10.3.100.207:8080
+alias scheme="rlwrap -r -c -f ~/dotfiles/scheme/mit_scheme_bindings.txt scheme"
+export MANPATH=$PATH:/usr/local/opt/erlang/lib/erlang/man
+export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
+export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
