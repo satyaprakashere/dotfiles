@@ -1,0 +1,90 @@
+" make Vim non compatible with Vim
+set nocompatible
+
+" required for VundleVim
+filetype off
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+
+let vundle_autoinstall = 0
+let vundle_readme = expand('~/.vim/bundle/vundle/README.md')
+
+if !filereadable(vundle_readme)
+    echo "Installing Vundle..."
+    echo ""
+    silent !mkdir -p ~/.vim/bundle
+    silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
+    let vundle_autoinstall = 1
+endif
+
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'sheerun/vim-polyglot'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'scrooloose/syntastic'
+Plugin 'honza/vim-snippets'
+Plugin 'kien/ctrlp.vim'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'vim-latex/vim-latex'
+Plugin 'tpope/vim-fugitive'
+Plugin 'majutsushi/tagbar'
+Plugin 'tpope/vim-fireplace'
+Plugin 'severin-lemaignan/vim-minimap'
+Plugin 'itchyny/lightline.vim'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-vinegar'
+Plugin 'gcmt/wildfire.vim'
+
+" Unused plugins
+"Plugin 'octol/vim-cpp-enhanced-highlight'
+"Plugin 'tpope/vim-surround'
+"Plugin 'sollidsnake/vterm'
+"Plugin 'Raimondi/delimitMate'
+"Plugin 'xuhdev/SingleCompile'
+"Plugin 'jordwalke/VimCompleteLikeAModernEditor'
+"Plugin 'ervandew/supertab'
+"Plugin 'bling/vim-airline'
+"Plugin 'wincent/command-t'
+"Plugin 'mileszs/ack.vim'
+"Plugin 'mkarmona/materialbox'
+
+" Disabling YCM in VimR (doesn't work due to conflict in python bindings)
+if has('gui_macvim') || !has('gui_running')
+    Plugin 'Valloric/YouCompleteMe'
+    Plugin 'scrooloose/nerdtree'
+endif
+
+if has('lua') 
+    Plugin 'Shougo/neocomplete.vim'
+    Plugin 'SirVer/ultisnips'
+endif
+
+" This plug-in is huge and causes errors during BundleInstall, but it's the
+" de-facto standard for LaTeX so I'm leaving it here as a reminder for the
+" day I want to edit LaTeX, which is not uncommon for me at all.
+" Bundle 'vim-scripts/LaTeX-Suite-aka-Vim-LaTeX'
+
+" All of your Plugins must be added before the following line
+call vundle#end()
+
+if vundle_autoinstall
+    echo "Installing bundles..."
+    echo ""
+    :BundleInstall
+endif
+
+filetype plugin indent on   " filetype detection on
+syntax on                   " switch on syntax highlighting
+set encoding=utf-8
+
+" Now process all of the configuration files that I have stored in my 'config'
+" directory, which significantly cleans up this file.
+for filename in sort(split(glob('~/.vim/config/*.vim'), '\n'))
+    execute 'source '.filename
+endfor
