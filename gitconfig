@@ -1,3 +1,7 @@
 [user]
-	name = satyapr93
-	email = satyapr93@gmail.com
+    name = satyapr93
+    email = satyapr93@gmail.com
+[filter "lfs"]
+    clean = git-lfs clean %f
+    smudge = git-lfs smudge %f
+    required = true
