@@ -1,0 +1,74 @@
+#
+# Executes commands at the start of an interactive session.
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
+
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+# Customize to your needs...
+
+# 10 second wait if you do something that will delete everything.  I wish I'd had this before...
+setopt RM_STAR_WAIT
+
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+alias ls='ls -FG'
+alias cc='clang++ -std=c++14'
+alias subl='open -a Sublime\ Text'
+alias emacs='emacs -nw'
+alias scheme="rlwrap -r -c -f ~/dotfiles/scheme/mit_scheme_bindings.txt scheme"
+
+export EDITOR='vim'
+export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
+export http_proxy=http://10.3.100.207:8080
+export https_proxy=http://10.3.100.207:8080
+#export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
+#export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
+#export MANPATH=$MANPATH:/usr/local/opt/erlang/lib/erlang/man
+export MANPATH=$PATH:/usr/local/opt/erlang/lib/erlang/man
+export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
+export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
+export RBENV_ROOT=/usr/local/var/rbenv
+export PATH=$(brew --prefix ruby)/bin:$PATH
+export PATH=/usr/local/bin:$PATH
+#if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+#source ~/Library/Python/2.7/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
+test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
+export ALTERNATE_EDITOR='emacsclient'
+export PATH="$HOME/.cask/bin:$PATH"
+alias ecask=/usr/local/opt/cask/bin/cask
+export PATH=~/.cabal/bin:$PATH
+
+#cdf() {
+    #target=`osascript -e 'tell application "Finder" to if (count of Finder windows) > 0 then get POSIX path of (target of front Finder window as text)'`
+    #if [ "$target" != "" ]; then
+        #cd "$target"; pwd
+    #else
+        #echo 'No Finder window found' >&2
+    #fi
+#}
+
+man() {
+    env \
+    LESS_TERMCAP_mb=$(printf "\e[1;31m") \
+    LESS_TERMCAP_md=$(printf "\e[1;31m") \
+    LESS_TERMCAP_me=$(printf "\e[0m") \
+    LESS_TERMCAP_se=$(printf "\e[0m") \
+    LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
+    LESS_TERMCAP_ue=$(printf "\e[0m") \
+    LESS_TERMCAP_us=$(printf "\e[1;32m") \
+    man "$@"
+}
+
+[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

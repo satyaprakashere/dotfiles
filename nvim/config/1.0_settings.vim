@@ -1,21 +1,19 @@
 " ---------------------- Basic configuration settings ------------------------
 let mapleader="\<Space>"    " Use space instead of backslash as my leader key
 
-if !has("gui_running")
-    "let g:solarized_termtrans = 1
-    let g:solarized_termcolors=256
-    let &t_Co=256
-    set background=light
-endif
+"let $NVIM_TUI_ENABLE_CURSOR__SHAPE=1
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+set background=light
 colorscheme solarized
-set guifont=Monaco\ for\ Powerline:h12
+let g:Guifont="Menlo for Powerline:h12"
+let g:python_host_prog = '/usr/local/bin/python'
 
 " ------------------------- [Editing] ----------------------------------------
 filetype plugin indent on           " filetype detection on
 syntax on                           " switch on syntax highlighting
 set encoding=utf-8                  " set file encoding
 set autoindent                      " Maintain indent levels automatically.
-set antialias                       " set antialising on
+"set antialias                       " set antialising on
 set backspace=2                     " Allow backspacing in basically every possible
                                     " situation (the way I like it).
 set complete=.,w,b,u,t,i,d,k,s      "set keyword completion options
@@ -63,14 +61,13 @@ set guioptions=aivce                " control guioptions
 set list                            " display non-printable characters as configured in 'listchars' option
 set linespace=1                     " set linespace
 set laststatus=2                    " Always show the status line.
-set lazyredraw                      " do not update the display when running macros
 set mouse=a                         " Allow use of the mouse in all situations.
 set number                          " show line numbers
 set shortmess=at
 set shortmess+=I                    " hide Vim welcome screen
 set showmode                        " show current mode down the bottom
 set showmatch                       " show matching brackets.
-set showcmd                         " Show commands as I am typing them.
+"set showcmd                         " Show commands as I am typing them.
 set scrolloff=5                     " Don't let the cursor get fewer than 5 lines
 set wrap                            " break lines longer than screen width
 set whichwrap=h,l,~,[,]             " These keys will move the cursor over line

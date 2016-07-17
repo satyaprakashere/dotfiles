@@ -1,17 +1,8 @@
-"----[Syntastic]----------
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_enable_signs=1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_cpp_mri_args = "-std=c++14"
-let g:syntastic_cpp_cpplint_exec = '/Users/Satya/Library/Python/2.7/bin/cpplint'
-let g:syntastic_cpp_cpplint_exec = '~/.vim/syntax_checker/cpplint.py'
-"let g:syntastic_cpp_cpplint_exec = '/Users/Satya/Library/Python/2.7/bin/cclint'
-
+let g:neomake_cpp_enabled_makers = ['clang']
+let g:neomake_cpp_clang_maker = {
+    \ 'args' : ['-std=c++14'],
+\ }
+autocmd! BufWritePost * Neomake
 "------[polyglot settings]-----------------------------------
 let g:polyglot_disabled = ['c++', 'c++11', 'c']
 
@@ -57,6 +48,7 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|so|dll)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
+let g:ctrlp_clear_cache_on_exit=0
 
 "---------[AG settings]-------------------------------------
 let g:ag_working_path_mode="r"
@@ -67,7 +59,9 @@ let g:ag_working_path_mode="r"
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 nmap <leader>f <Plug>(easymotion-s2)
+nmap <leader>F <Plug>(easymotion-s2)
 nmap <leader>t <Plug>(easymotion-t2)
+nmap <leader>T <Plug>(easymotion-t2)
 
 " These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
 " Without these mappings, `n` & `N` works fine. (These mappings just provide
@@ -200,14 +194,6 @@ function! TagbarStatusFunc(current, sort, fname, ...) abort
   return lightline#statusline(0)
 endfunction
 
-augroup AutoSyntastic
-  autocmd!
-  autocmd BufWritePost *.c,*.cpp call s:syntastic()
-augroup END
-function! s:syntastic()
-  SyntasticCheck
-  call lightline#update()
-endfunction
 set noshowmode
 
 "----[AutoClose]----------

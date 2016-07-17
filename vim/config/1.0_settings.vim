@@ -1,14 +1,10 @@
 " ---------------------- Basic configuration settings ------------------------
 let mapleader="\<Space>"    " Use space instead of backslash as my leader key
 
-if !has("gui_running")
-    "let g:solarized_termtrans = 1
-    let g:solarized_termcolors=256
-    let &t_Co=256
-    set background=light
-endif
+let g:solarized_termcolors=256
+let &t_Co=256
+set background=light
 colorscheme solarized
-set guifont=Monaco\ for\ Powerline:h12
 
 " ------------------------- [Editing] ----------------------------------------
 filetype plugin indent on           " filetype detection on
@@ -16,11 +12,14 @@ syntax on                           " switch on syntax highlighting
 set encoding=utf-8                  " set file encoding
 set autoindent                      " Maintain indent levels automatically.
 set antialias                       " set antialising on
+"set backspace=indent,eol,start
 set backspace=2                     " Allow backspacing in basically every possible
                                     " situation (the way I like it).
 set complete=.,w,b,u,t,i,d,k,s      "set keyword completion options
 set completeopt=menu,longest,preview "set what to show in the popup menu
 set expandtab                       " expand tab into spaces
+set exrc
+set secure
 set fileformats=unix,dos            " Create UNIX format files by default, but
                                     " autodetect dos files.
 set linebreak                       " Wrap text while typing (this is a soft wrap
@@ -35,10 +34,11 @@ set smarttab                        "use shiftwidth when inserting <Tab> in fron
 set textwidth=100                    " By default, don't wrap at any specific
                                     " column.
 set tabstop=4                       " The best tab stop is 4.
-let IspellLang = 'english'          " A couple of environment variables for the spelling stuff.
 set wildmenu                        "enable enhanced command line completion
 set wildmode=longest:full,full      "using bash style
 set wildignore=*.o,*.obj,*~         "ignoring the following file patterns
+
+let IspellLang = 'english'          " A couple of environment variables for the spelling stuff.
 
 " use system clipoard for yank, delete and paste operations
 if has('macunix')
@@ -54,7 +54,7 @@ set colorcolumn=85                  " highlight column 85
 set cursorline                      " highlight current cursor line
 set display=lastline                " display as much of lastline as possible instead of a lot of @
 set nofoldenable                    " disable folding
-set foldcolumn=3                    " Show a 4-column gutter to the left for
+set foldcolumn=1                    " Show a 4-column gutter to the left for
                                     " folding characters.
 set foldmethod=marker               " Fold on markers; {{{ and }}} by default.
 set formatoptions=qrn12             " Auto-wrap by tw, allow 'gq', recognize lists,
@@ -148,3 +148,22 @@ if v:version >= 704
      "With Vim 7.4, relativenumber is definitely the way to go.
     set relativenumber
 endif
+
+let $PATH .= ':' . "/Users/Satya/.cabal/bin"
+autocmd filetype haskell set shiftwidth=2
+au BufRead,BufNewFile *.px set filetype=phoenix
+autocmd filetype phoenix set shiftwidth=2
+autocmd filetype python set shiftwidth=2
+
+function! s:goyo_enter()
+    colorscheme pencil
+endfunction
+
+function! s:goyo_leave()
+    colorscheme solarized
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+let &path.="/src/include,./"

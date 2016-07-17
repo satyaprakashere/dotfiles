@@ -47,4 +47,6 @@
         setlocal nomodifiable
         nnoremap q :q<CR>
     endfunction
+
+    command! OpencvBuild Shell clang++ -std=c++11 % -o %:r `pkg-config --cflags --libs opencv`
 "--------------------------------------------------

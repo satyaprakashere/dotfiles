@@ -1,16 +1,17 @@
-"----[Syntastic]----------
+"----[syntastic]----------
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%{syntasticStatuslineFlag()}
 set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_enable_signs=1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_cpp_mri_args = "-std=c++14"
-let g:syntastic_cpp_cpplint_exec = '/Users/Satya/Library/Python/2.7/bin/cpplint'
-let g:syntastic_cpp_cpplint_exec = '~/.vim/syntax_checker/cpplint.py'
-"let g:syntastic_cpp_cpplint_exec = '/Users/Satya/Library/Python/2.7/bin/cclint'
+let g:dyntastic_always_populate_loc_list = 1
+let g:gyntastic_enable_signs=1
+let g:hyntastic_auto_loc_list = 1
+let g:kyntastic_check_on_wq = 1
+let g:kyntastic_check_on_open = 1
+let g:lyntastic_cpp_mri_args = "-std=c++14"
+let g:qyntastic_cpp_cpplint_exec = '/Users/Satya/Library/Python/2.7/bin/cpplint'
+let g:wyntastic_cpp_cpplint_exec = '~/.vim/eyntax_checker/cpplint.py'
+"let g:ryntastic_cpp_cpplint_exec = '/Users/Satya/Library/Python/2.7/bin/cclint'
 
 "------[polyglot settings]-----------------------------------
 let g:polyglot_disabled = ['c++', 'c++11', 'c']
@@ -50,13 +51,28 @@ endfunction
 let g:ctrlp_map = '<C-p>'
 let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_match_func = { 'match': 'matcher#cmatch' }
 
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.out,*.out    " MacOSX/Linux
+let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
+if executable('ag')
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
+
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.out,*.pdf    " MacOSX/Linux
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'file': '\v\.(exe|a|so|dll)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
+
+let g:ctrlp_clear_cache_on_exit=0
+
+"let g:ctrlp_working_path_mode = 0
+let g:ctrlp_match_window_bottom=1
+let g:ctrlp_max_height=15
+"let g:ctrlp_match_window_reversed=0
+"let g:ctrlp_mruf_max=500
+"let g:ctrlp_follow_symlinks=1
 
 "---------[AG settings]-------------------------------------
 let g:ag_working_path_mode="r"
@@ -64,6 +80,7 @@ let g:ag_working_path_mode="r"
 
 "------[easymotion settings]---------------------------------
 " Gif config
+map <Leader> <Plug>(easymotion-prefix)
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 nmap <leader>f <Plug>(easymotion-s2)
@@ -81,134 +98,6 @@ map <Leader>h <Plug>(easymotion-linebackward)
 
 let g:EasyMotion_smartcase = 1
 "------------------------------------------------------------
-
-"--------[lightline settings]-------------------------------
-let g:lightline = {
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'fugitive': 'LightLineFugitive',
-      \   'filename': 'LightLineFilename',
-      \   'fileformat': 'LightLineFileformat',
-      \   'filetype': 'LightLineFiletype',
-      \   'fileencoding': 'LightLineFileencoding',
-      \   'mode': 'LightLineMode',
-      \   'ctrlpmark': 'CtrlPMark',
-      \ },
-      \ 'component_expand': {
-      \   'syntastic': 'SyntasticStatuslineFlag',
-      \ },
-      \ 'component_type': {
-      \   'syntastic': 'error',
-      \ },
-      \ 'separator': { 'left': '', 'right': '' },
-      \ 'subseparator': { 'left': '', 'right': '' }
-      \ }
-
-
-function! LightLineModified()
-  return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-endfunction
-
-function! LightLineReadonly()
-  return &ft !~? 'help' && &readonly ? '' : ''
-endfunction
-
-"\ fname == 'ControlP' ? g:lightline.ctrlp_item :
-function! LightLineFilename()
-  let fname = expand('%:t')
-  return fname == '__Tagbar__' ? g:lightline.fname :
-        \ fname =~ '__Gundo\|NERD_tree' ? '' :
-        \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-        \ &ft == 'unite' ? unite#get_status_string() :
-        \ &ft == 'vimshell' ? vimshell#get_status_string() :
-        \ ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
-        \ ('' != fname ? fname : '[No Name]') .
-        \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
-endfunction
-
-function! LightLineFugitive()
-  try
-    if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
-      let mark = ''  " edit here for cool mark
-      let _ = fugitive#head()
-      return strlen(_) ? ' ' ._ : ''
-    endif
-  catch
-  endtry
-  return ''
-endfunction
-
-function! LightLineFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
-endfunction
-
-function! LightLineFiletype()
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-endfunction
-
-function! LightLineFileencoding()
-  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-endfunction
-
-function! LightLineMode()
-  let fname = expand('%:t')
-  return fname == '__Tagbar__' ? 'Tagbar' :
-        \ fname == 'ControlP' ? 'CtrlP' :
-        \ fname == '__Gundo__' ? 'Gundo' :
-        \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
-        \ fname =~ 'NERD_tree' ? 'NERDTree' :
-        \ &ft == 'unite' ? 'Unite' :
-        \ &ft == 'vimfiler' ? 'VimFiler' :
-        \ &ft == 'vimshell' ? 'VimShell' :
-        \ winwidth(0) > 60 ? lightline#mode() : ''
-endfunction
-
-function! CtrlPMark()
-  if expand('%:t') =~ 'ControlP'
-    call lightline#link('iR'[g:lightline.ctrlp_regex])
-    return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
-          \ , g:lightline.ctrlp_next], 0)
-  else
-    return ''
-  endif
-endfunction
-
-let g:ctrlp_status_func = {
-  \ 'main': 'CtrlPStatusFunc_1',
-  \ 'prog': 'CtrlPStatusFunc_2',
-  \ }
-
-function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
-  let g:lightline.ctrlp_regex = a:regex
-  let g:lightline.ctrlp_prev = a:prev
-  let g:lightline.ctrlp_item = a:item
-  let g:lightline.ctrlp_next = a:next
-  return lightline#statusline(0)
-endfunction
-
-function! CtrlPStatusFunc_2(str)
-  return lightline#statusline(0)
-endfunction
-
-let g:tagbar_status_func = 'TagbarStatusFunc'
-
-function! TagbarStatusFunc(current, sort, fname, ...) abort
-    let g:lightline.fname = a:fname
-  return lightline#statusline(0)
-endfunction
-
-augroup AutoSyntastic
-  autocmd!
-  autocmd BufWritePost *.c,*.cpp call s:syntastic()
-augroup END
-function! s:syntastic()
-  SyntasticCheck
-  call lightline#update()
-endfunction
-set noshowmode
 
 "----[AutoClose]----------
 let g:AutoClosePairs = {'(': ')', '{': '}', '[': ']', '"': '"', "'": "'", '#{': '}', '`': '`'}
@@ -318,13 +207,19 @@ set grepprg=grep\ -nH\ $*
 let g:tex_flavor='latex'
 
 "----[UltiSnips configurations]-----------------
-    let g:UltiSnipsExpandTrigger="<C-e>"
-    let g:UltiSnipsJumpForwardTrigger="<C-b>"
-    let g:UltiSnipsJumpBackwardTrigger="<C-z>"
-    let g:UltiSnipsEditSplit="vertical"
-    let g:UltiSnipsSnippetDirectories=["bundle/ultisnips"]
-    let g:ulti_expand_or_jump_res = 0
+let g:UltiSnipsExpandTrigger="<C-e>"
+let g:UltiSnipsJumpForwardTrigger="<C-b>"
+let g:UltiSnipsJumpBackwardTrigger="<C-z>"
+let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsSnippetDirectories=["plugged/ultisnips", "mysnippets"]
+let g:ulti_expand_or_jump_res = 0
 "-----------------------------------------------
 
-autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
-nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
+"autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+"nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
+"
+"let g:haskell_conceal_wide = 1
+
+let g:indent_guides_guide_size = 1
+let g:indent_guides_color_change_percent = 3
+"let g:indent_guides_enable_on_vim_startup = 1

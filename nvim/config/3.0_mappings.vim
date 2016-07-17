@@ -8,7 +8,8 @@ inoremap <C-c> <ESC>
 cnoremap <C-c> <ESC>
 
 nnoremap ; :
-nnoremap q; q:
+nnoremap q :q<CR>
+"nnoremap q; q:
 cnoremap jk <ESC>
 inoremap jk <ESC>
 
@@ -35,7 +36,7 @@ nnoremap <Leader>. :!open .<CR>
 nnoremap <leader>o :CtrlPMRU<CR>
 nnoremap <leader>vp :vsp<CR>
 nnoremap <leader>sp :sp<CR>
-nnoremap <leader>gc :w \| SyntasticCheck cpplint<CR>
+"nnoremap <leader>gc :w \| SyntasticCheck cpplint<CR>
 nnoremap <leader>bn :bn<CR>
 nnoremap <leader>bp :bp<CR>
 nnoremap <leader>bl :buffers<CR>
@@ -62,8 +63,8 @@ if has('macunix')
     noremap <D-l> :buffers<CR>
     noremap <D-j> <C-w>l
     noremap <D-k> <C-w>h
-    noremap <D-b> :SCCompileAF<CR>
-    noremap <D-r> :SCCompileRunAF<CR>
+    noremap <D-b> :SCCompile<CR>
+    noremap <D-r> :SCCompileRun<CR>
     autocmd filetype cpp nnoremap<D-b> :SCCompileAF -std=c++14<CR>
     autocmd filetype cpp nnoremap<D-r> :SCCompileRunAF -std=c++14<CR>
 endif
