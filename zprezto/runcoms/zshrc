@@ -22,9 +22,11 @@ alias ls='ls -FG'
 alias cc='clang++ -std=c++14'
 alias subl='open -a Sublime\ Text'
 alias emacs='emacs -nw'
+eval "$(thefuck --alias)"
 alias scheme="rlwrap -r -c -f ~/dotfiles/scheme/mit_scheme_bindings.txt scheme"
 
 export EDITOR='vim'
+export HOMEBREW_EDITOR='vim'
 export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
 export http_proxy=http://10.3.100.207:8080
 export https_proxy=http://10.3.100.207:8080
