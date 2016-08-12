@@ -16,7 +16,7 @@ syn match phoenixComment ';.*' contains=phoenixTodo
 syn keyword phoenixTodo FIXME NOTE TODO OPTIMIZE XXX HACK contained
 
 syn keyword phoenixKeyword match when cond for if unless try receive send
-syn keyword phoenixKeyword exit raise throw after rescue catch else do end data class where type define Kind Type value extension case
+syn keyword phoenixKeyword exit raise throw after rescue catch else do end data class where type define Kind Type value extension typeOf
 syn keyword phoenixKeyword quote unquote super with fanily
 
 syn keyword phoenixLet let val

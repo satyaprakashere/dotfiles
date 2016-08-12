@@ -1,0 +1,49 @@
+# Customize to your needs...
+
+# 10 second wait if you do something that will delete everything....
+setopt RM_STAR_WAIT
+
+# Aliases
+#alias zshconfig="mate ~/.zshrc"
+#alias ohmyzsh="mate ~/.oh-my-zsh"
+#alias emacs='emacs -nw'
+alias ls='ls -FG'
+alias cc='clang++ -std=c++14'
+alias subl='open -a Sublime\ Text'
+alias scheme="rlwrap -r -c -f ~/dotfiles/scheme/mit_scheme_bindings.txt scheme"
+
+alias zshrc='vim ~/.zshrc'
+alias shellrc='vim ~/.shellrc'
+alias vimrc='vim ~/.vimrc'
+alias nvimrc='vim ~/.nvimrc'
+
+alias ecask=/usr/local/opt/cask/bin/cask
+
+# Exports
+export EDITOR='vim'
+export HOMEBREW_EDITOR='vim'
+export ALTERNATE_EDITOR='vi'
+export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
+
+export http_proxy=http://10.3.100.207:8080
+export https_proxy=http://10.3.100.207:8080
+
+# for homebrew packages
+export PATH=$PATH:~/.cabal/bin
+export MANPATH=$MANPATH:/usr/local/opt/erlang/lib/erlang/man
+
+export CLASSPATH=".:/usr/local/Cellar/antlr/4.5.2/antlr-4.5.2-complete.jar:$CLASSPATH"
+
+#export RBENV_ROOT=/usr/local/var/rbenv
+#export PATH=$(brew --prefix ruby)/bin:$PATH
+#export PATH=/usr/local/bin:$PATH
+
+#export PATH="$HOME/.cask/bin:$PATH"
+
+#test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
+#if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+#source ~/Library/Python/2.7/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
+
+#[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+
+#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

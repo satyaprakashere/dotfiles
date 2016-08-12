@@ -52,7 +52,9 @@ Plug 'neomake/neomake'
 Plug 'Shougo/vimproc.vim'
 Plug 'artur-shaik/vim-javacomplete2'
 Plug 'Shougo/deoplete.nvim'
-
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+Plug 'szw/vim-g'
 
 "Plug 'xolox/vim-easytags'
 "Plug 'rking/ag.vim'                                     " Fast searching/substitution in multiple files
@@ -99,7 +101,7 @@ Plug 'idris-hackers/idris-vim'
 
 if has('lua')
     "Plug 'Shougo/neocomplete.vim'
-    Plug 'SirVer/ultisnips'
+    "Plug 'SirVer/ultisnips'
 endif
 
 

@@ -3,7 +3,7 @@ let mapleader="\<Space>"    " Use space instead of backslash as my leader key
 
 "let $NVIM_TUI_ENABLE_CURSOR__SHAPE=1
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-set background=light
+set background=dark
 colorscheme solarized
 let g:Guifont="Menlo for Powerline:h12"
 let g:python_host_prog = '/usr/local/bin/python'
@@ -13,7 +13,6 @@ filetype plugin indent on           " filetype detection on
 syntax on                           " switch on syntax highlighting
 set encoding=utf-8                  " set file encoding
 set autoindent                      " Maintain indent levels automatically.
-"set antialias                       " set antialising on
 set backspace=2                     " Allow backspacing in basically every possible
                                     " situation (the way I like it).
 set complete=.,w,b,u,t,i,d,k,s      "set keyword completion options

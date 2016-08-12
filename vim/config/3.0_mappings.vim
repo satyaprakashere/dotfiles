@@ -10,7 +10,7 @@ noremap <Right> <NOP>
 nnoremap q :q<CR>
 nnoremap ; :
 cnoremap jk <ESC>
-vnoremap jk <ESC>
+"vnoremap jk <ESC>
 inoremap jk <ESC>
 
 "----------update existing mappings--------------------------------------------

@@ -152,7 +152,9 @@ endif
 let $PATH .= ':' . "/Users/Satya/.cabal/bin"
 autocmd filetype haskell set shiftwidth=2
 au BufRead,BufNewFile *.px set filetype=phoenix
+au BufRead,BufNewFile *.pxl set filetype=phoenixl
 autocmd filetype phoenix set shiftwidth=2
+autocmd filetype sh set shiftwidth=2
 autocmd filetype python set shiftwidth=2
 
 function! s:goyo_enter()
