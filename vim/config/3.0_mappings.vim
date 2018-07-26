@@ -47,6 +47,7 @@ nnoremap <leader>gv `[v`]                       "re-select text block that was j
 nnoremap <leader>gq gqip                        "re-format paragraphs of text
 nnoremap <leader>wt :silent! %s/\s\+$// \| retab <CR>
 nnoremap <leader>s :w<CR>
+nnoremap <leader>l :ls<CR>
 nnoremap <leader><CR> <Plug>(wildfire-quick-select)
 
 "autocmd filetype cpp nnoremap <leader>b :SCCompileAF -w -std=c++14<CR>

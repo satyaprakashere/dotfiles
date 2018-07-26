@@ -1,9 +1,9 @@
 " ---------------------- Basic configuration settings ------------------------
 let mapleader="\<Space>"    " Use space instead of backslash as my leader key
 
-"let $NVIM_TUI_ENABLE_CURSOR__SHAPE=1
+let $NVIM_TUI_ENABLE_CURSOR__SHAPE=1
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-set background=dark
+set background=light
 colorscheme solarized
 let g:Guifont="Menlo for Powerline:h12"
 let g:python_host_prog = '/usr/local/bin/python'

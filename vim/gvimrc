@@ -1,7 +1,14 @@
-macmenu &Tools.Make key=<nop>
-macmenu &Tools.List\ Errors key=<nop>
-set background=dark
-set guifont=Monaco\ for\ Powerline:h12
+if (has("termguicolors"))
+    set termguicolors
+endif
+colorscheme OceanicNext
+set guifont=Inconsolata\ for\ Powerline\ Regular\ 14
 
 highlight Pmenu ctermbg=238 gui=bold    "alter the look and feel of the drop-down menu
 hi NonText guifg=bg
+
+" GUI Mapping
+noremap <M-t> :tabnew<CR>
+noremap <M-w> :close<CR>
+noremap <M-n> :tabnext<CR>
+noremap <M-p> :tabNext<CR>

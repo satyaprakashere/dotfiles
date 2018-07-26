@@ -51,7 +51,7 @@ endfunction
 let g:ctrlp_map = '<C-p>'
 let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_match_func = { 'match': 'matcher#cmatch' }
+"let g:ctrlp_match_func = { 'match': 'matcher#cmatch' }
 
 let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
 if executable('ag')
@@ -223,5 +223,8 @@ let g:ulti_expand_or_jump_res = 0
 let g:indent_guides_guide_size = 1
 let g:indent_guides_color_change_percent = 3
 "let g:indent_guides_enable_on_vim_startup = 1
+
+" Command Palette : CtrlP
+let g:ctrlp_cmdpalette_execute = 1
 
 autocmd FileType java setlocal omnifunc=javacomplete#Complete

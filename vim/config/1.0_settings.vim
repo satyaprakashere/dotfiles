@@ -14,6 +14,7 @@ set autoindent                      " Maintain indent levels automatically.
 set antialias                       " set antialising on
 "set backspace=indent,eol,start
 set backspace=2                     " Allow backspacing in basically every possible
+set spelllang=en
                                     " situation (the way I like it).
 set complete=.,w,b,u,t,i,d,k,s      "set keyword completion options
 set completeopt=menu,longest,preview "set what to show in the popup menu
@@ -42,9 +43,9 @@ let IspellLang = 'english'          " A couple of environment variables for the 
 
 " use system clipoard for yank, delete and paste operations
 if has('macunix')
-  set clipboard=unnamed
-else "linux
   set clipboard=unnamedplus
+else "linux
+  set clipboard=unnamed
 endif
 
 " ---------------------------- [Display] -------------------------------------
@@ -133,6 +134,8 @@ let g:tex_flavor='latex'
 " it as the default yank, delete, change, and put operations.
 if has('unnamedplus')
     set clipboard=unnamedplus
+else
+    set clipboard=unnamed
 endif
 
 " ------------------------- Version-specific options -------------------------
@@ -151,11 +154,14 @@ endif
 
 let $PATH .= ':' . "/Users/Satya/.cabal/bin"
 autocmd filetype haskell set shiftwidth=2
+autocmd filetype json set shiftwidth=2
 au BufRead,BufNewFile *.px set filetype=phoenix
 au BufRead,BufNewFile *.pxl set filetype=phoenixl
 autocmd filetype phoenix set shiftwidth=2
 autocmd filetype sh set shiftwidth=2
 autocmd filetype python set shiftwidth=2
+autocmd filetype markdown set cursorline!
+autocmd filetype markdown set spell
 
 function! s:goyo_enter()
     colorscheme pencil
@@ -169,3 +175,13 @@ autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 let &path.="/src/include,./"
+
+augroup sourcesession
+        autocmd!
+        autocmd VimEnter * nested
+        \ if !argc() && empty(v:this_session) && filereadable('Session.vim') |
+        \   source Session.vim |
+        \ elseif !argc() && empty(v:this_session) |
+        \   source ~/Session.vim |
+        \ endif
+augroup END
