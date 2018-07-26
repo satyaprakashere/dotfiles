@@ -1,8 +1,9 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_cnt =7
 let g:netrw_dirhist_1='/Users/Satya'
 let g:netrw_dirhist_2='/Users'
 let g:netrw_dirhist_3='/'
 let g:netrw_dirhist_4='/Users/Satya/Documents/programming'
 let g:netrw_dirhist_5='/Users/Satya/Documents/programming/competitive_programming/leetcode'
 let g:netrw_dirhist_6='/Users/Satya/Documents/github/ChessJavaFx/build'
+let g:netrw_dirhist_7='/private/etc/pf.anchors'

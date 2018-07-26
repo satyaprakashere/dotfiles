@@ -116,11 +116,12 @@ syn region phoenixSigil matchgroup=phoenixSigilDelimiter start=+\~\a\z("""\)+ en
 syn region phoenixSigil matchgroup=phoenixSigilDelimiter start=+\~\a\z('''\)+ end=+^\s*\zs\z1+ skip=+\\'+ fold
 
 " Defines
-syn keyword phoenixDefine              func            nextgroup=phoenixFunctionDeclaration    skipwhite skipnl
-syn keyword phoenixDefine              defunc            nextgroup=phoenixFunctionDeclaration    skipwhite skipnl
+" syn keyword phoenixDefine              func            nextgroup=phoenixFunctionDeclaration    skipwhite skipnl
+" syn keyword phoenixDefine              defunc            nextgroup=phoenixFunctionDeclaration    skipwhite skipnl
 syn keyword phoenixPrivateDefine       funcp           nextgroup=phoenixFunctionDeclaration    skipwhite skipnl
 syn keyword phoenixModuleDefine        module      nextgroup=phoenixModuleDeclaration      skipwhite skipnl
 syn keyword phoenixProtocolDefine      protocol    nextgroup=phoenixProtocolDeclaration    skipwhite skipnl
+syn keyword phoenixImplDefine          func        nextgroup=phoenixImplDeclaration        skipwhite skipnl
 syn keyword phoenixImplDefine          instance        nextgroup=phoenixImplDeclaration        skipwhite skipnl
 syn keyword phoenixRecordDefine        defrecord      nextgroup=phoenixRecordDeclaration      skipwhite skipnl
 syn keyword phoenixPrivateRecordDefine defrecordp     nextgroup=phoenixRecordDeclaration      skipwhite skipnl

@@ -3,9 +3,9 @@ let mapleader="\<Space>"    " Use space instead of backslash as my leader key
 
 "let $NVIM_TUI_ENABLE_CURSOR__SHAPE=1
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-set background=dark
 colorscheme solarized
-let g:Guifont="Menlo for Powerline:h12"
+set background=dark
+let g:Guifont="Monaco for Powerline:h13"
 let g:python_host_prog = '/usr/local/bin/python'
 
 " ------------------------- [Editing] ----------------------------------------
@@ -15,6 +15,7 @@ set encoding=utf-8                  " set file encoding
 set autoindent                      " Maintain indent levels automatically.
 set backspace=2                     " Allow backspacing in basically every possible
                                     " situation (the way I like it).
+set clipboard=unnamed               "use system clipoard for yank, delete and paste operations
 set complete=.,w,b,u,t,i,d,k,s      "set keyword completion options
 set completeopt=menu,longest,preview "set what to show in the popup menu
 set expandtab                       " expand tab into spaces
@@ -25,6 +26,7 @@ set linebreak                       " Wrap text while typing (this is a soft wra
 set modeline                        " Always read modeline stuff from the bottom of
                                     " files.
 set modelines=1                     " Read the modeline only from the last line.
+set omnifunc=syntaxcomplete#Complete
 set softtabstop=4
 set shiftwidth=4                    " number of spaces to use when (auto)indenting (=, <<, >>)
 set shiftround                      "round indent to a multiple of shiftwidth
@@ -36,14 +38,6 @@ let IspellLang = 'english'          " A couple of environment variables for the 
 set wildmenu                        "enable enhanced command line completion
 set wildmode=longest:full,full      "using bash style
 set wildignore=*.o,*.obj,*~         "ignoring the following file patterns
-
-" use system clipoard for yank, delete and paste operations
-if has('macunix')
-  set clipboard=unnamed
-else "linux
-  set clipboard=unnamedplus
-endif
-
 " ---------------------------- [Display] -------------------------------------
 set autochdir                       " Automatically change current directory to
                                     " current open file's directory.
@@ -130,6 +124,10 @@ let g:tex_flavor='latex'
 if has('unnamedplus')
     set clipboard=unnamedplus
 endif
+
+au BufRead,BufNewFile *.px set filetype=phoenix
+au BufRead,BufNewFile *.pxl set filetype=phoenixl
+autocmd filetype phoenix set shiftwidth=2
 
 " ------------------------- Version-specific options -------------------------
 if v:version > 702

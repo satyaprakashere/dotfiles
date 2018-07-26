@@ -1,5 +1,7 @@
 "----[Custom Funtions for adding new Functionality]----------------------------------------------
 
+    command! CWS :silent! %s/\s\+$//e | retab <CR>
+
     command! Compile Shell clang++ -std=c++14 % -o %:r
     " Times the number of times a particular command takes to execute the specified
     " number of times (in seconds).

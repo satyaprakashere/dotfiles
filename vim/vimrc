@@ -13,61 +13,66 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
-" Generic/C++ plugins
-Plug 'airblade/vim-gitgutter'                           " shows git diff in editor
+" Generic/C++ plugins/Must have plugins
 Plug 'altercation/vim-colors-solarized'                 " Solarized color scheme.
-Plug 'christoomey/vim-sort-motion'
-Plug 'easymotion/vim-easymotion'                        " Various Shortcuts to improve motion controls
-Plug 'gcmt/wildfire.vim'                                " expand visual-selection region
-Plug 'honza/vim-snippets'                               " Snippets for vaious programming languages
-Plug 'itchyny/lightline.vim'                            " light-weight powerline
-Plug 'jiangmiao/auto-pairs'                             " Auto pairs
-Plug 'jreybert/vimagit'
-Plug 'ctrlpvim/ctrlp.vim'                                   " Fast fuzzy search for opening projects files
 Plug 'octol/vim-cpp-enhanced-highlight'                 " Syntax highlighting for cpp language
-Plug 'scrooloose/nerdcommenter'                         " Shortcut for commenting lines and blocks.
-Plug 'scrooloose/syntastic'                             " Syntax checking plugin for 50+ languages
-Plug 'sheerun/vim-polyglot'                             " Syntax highlighting for 50+ languages.
 Plug 'terryma/vim-multiple-cursors'                     " Sublime multiple cursor.
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'                               " git plugin
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-dispatch'
+Plug 'easymotion/vim-easymotion'                        " Modern Vim motion controls
+Plug 'scrooloose/nerdcommenter'                         " Shortcut for commenting lines and blocks.
+Plug 'reedes/vim-colors-pencil'                         " color pencil theme for notes/docs.
+Plug 'JazzCore/ctrlp-cmatcher'                          " fast fuzzy matcher for ctrlp
+Plug 'itchyny/lightline.vim'                            " light-weight powerline for status bar
+Plug 'jiangmiao/auto-pairs'                             " Auto pairs
+Plug 'sheerun/vim-polyglot'                             " Syntax highlighting for 50+ languages.
 Plug 'xuhdev/SingleCompile'                             " Single file compilation
-Plug 'wikitopian/hardmode'
-Plug 'xolox/vim-misc'
-Plug 'tfnico/vim-gradle'
-Plug 'vim-scripts/GreedyBackspace.vim'
-Plug 'vim-scripts/Wombat'
-Plug 'johnsyweb/vim-makeshift'
-Plug 'scrooloose/nerdtree'
-Plug 'FelikZ/ctrlp-py-matcher'
-Plug 'JazzCore/ctrlp-cmatcher'
-Plug 'junegunn/goyo.vim'
-Plug 'reedes/vim-colors-pencil'
-Plug 'nathanaelkane/vim-indent-guides'
-Plug 'ervandew/supertab'
-Plug 'neomake/neomake'
-Plug 'Shougo/vimproc.vim'
-Plug 'artur-shaik/vim-javacomplete2'
-Plug 'Shougo/deoplete.nvim'
-Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
-Plug 'szw/vim-g'
-
-"Plug 'xolox/vim-easytags'
-"Plug 'rking/ag.vim'                                     " Fast searching/substitution in multiple files
-"Plug 'Shougo/unite.vim'
-"Plug 'vim-scripts/LaTeX-Suite-aka-Vim-LaTeX'            " Latex all-in-one plugin
+Plug 'tpope/vim-surround'                               " change quotes/braces easily
+Plug 'ctrlpvim/ctrlp.vim'                               " Fast fuzzy search for opening projects files
+Plug 'Shougo/neocomplete'
+Plug 'Shougo/neosnippet'
+Plug 'Shougo/neosnippet-snippets'
+Plug 'EinfachToll/DidYouMean'
 
 " Haskell plugins
 Plug 'dag/vim2hs'
 Plug 'eagletmt/ghcmod-vim'
 Plug 'eagletmt/neco-ghc'
 
-Plug 'derekelkins/agda-vim'
+"Plug 'derekelkins/agda-vim'
 Plug 'idris-hackers/idris-vim'
+
+"Plug 'scrooloose/nerdtree'
+"Plug 'jreybert/vimagit'
+"Plug 'airblade/vim-gitgutter'                           " shows git diff in editor
+"Plug 'christoomey/vim-sort-motion'
+"Plug 'gcmt/wildfire.vim'                                " expand visual-selection region
+"Plug 'honza/vim-snippets'                               " Snippets for vaious programming languages
+"Plug 'scrooloose/syntastic'                             " Syntax checking plugin for 50+ languages
+"Plug 'tpope/vim-commentary'
+"Plug 'tpope/vim-fugitive'                               " git plugin
+"Plug 'tpope/vim-repeat'
+"Plug 'tpope/vim-dispatch'
+"Plug 'wikitopian/hardmode'
+"Plug 'xolox/vim-misc'
+"Plug 'tfnico/vim-gradle'
+"Plug 'vim-scripts/GreedyBackspace.vim'
+"Plug 'vim-scripts/Wombat'
+"Plug 'johnsyweb/vim-makeshift'
+"Plug 'FelikZ/ctrlp-py-matcher'
+"Plug 'junegunn/goyo.vim'
+"Plug 'nathanaelkane/vim-indent-guides'
+"Plug 'ervandew/supertab'
+"Plug 'neomake/neomake'
+Plug 'Shougo/vimproc.vim'
+"Plug 'artur-shaik/vim-javacomplete2'
+"Plug 'Shougo/deoplete.nvim'
+"Plug 'godlygeek/tabular'
+"Plug 'plasticboy/vim-markdown'
+"Plug 'szw/vim-g'
+
+"Plug 'xolox/vim-easytags'
+"Plug 'rking/ag.vim'                                     " Fast searching/substitution in multiple files
+"Plug 'Shougo/unite.vim'
+"Plug 'vim-scripts/LaTeX-Suite-aka-Vim-LaTeX'            " Latex all-in-one plugin
 
 
 " Unused plugins

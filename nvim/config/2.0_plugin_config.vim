@@ -311,3 +311,4 @@ let g:tex_flavor='latex'
     let g:UltiSnipsSnippetDirectories=["bundle/ultisnips"]
     let g:ulti_expand_or_jump_res = 0
 "-----------------------------------------------
+autocmd FileType java setlocal omnifunc=javacomplete#Complete

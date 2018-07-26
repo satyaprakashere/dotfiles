@@ -13,39 +13,39 @@ set viminfo+=n~/.nvim/viminfo/viminfo
 call plug#begin('~/.nvim/plugged')
 
 " Generic/C++ plugins
-Plug 'airblade/vim-gitgutter'                           " shows git diff in editor
+"Plug 'airblade/vim-gitgutter'                           " shows git diff in editor
 "Plug 'altercation/vim-colors-solarized'                 " Solarized color scheme.
 Plug 'frankier/neovim-colors-solarized-truecolor-only'
-Plug 'christoomey/vim-sort-motion'
+"Plug 'christoomey/vim-sort-motion'
 Plug 'easymotion/vim-easymotion'                        " Various Shortcuts to improve motion controls
-Plug 'gcmt/wildfire.vim'                                " expand visual-selection region
-Plug 'honza/vim-snippets'                               " Snippets for vaious programming languages
+"Plug 'gcmt/wildfire.vim'                                " expand visual-selection region
+"Plug 'honza/vim-snippets'                               " Snippets for vaious programming languages
 Plug 'itchyny/lightline.vim'                            " light-weight powerline
 Plug 'jiangmiao/auto-pairs'                             " Auto pairs
-Plug 'jreybert/vimagit'
+"Plug 'jreybert/vimagit'
 Plug 'kien/ctrlp.vim'                                   " Fast fuzzy search for opening projects files
 Plug 'octol/vim-cpp-enhanced-highlight'                 " Syntax highlighting for cpp language
 Plug 'scrooloose/nerdcommenter'                         " Shortcut for commenting lines and blocks.
-Plug 'sheerun/vim-polyglot'                             " Syntax highlighting for 50+ languages.
+"Plug 'sheerun/vim-polyglot'                             " Syntax highlighting for 50+ languages.
 Plug 'terryma/vim-multiple-cursors'                     " Sublime multiple cursor.
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'                               " git plugin
-Plug 'tpope/vim-repeat'
+"Plug 'tpope/vim-commentary'
+"Plug 'tpope/vim-fugitive'                               " git plugin
+"Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'vim-scripts/LaTeX-Suite-aka-Vim-LaTeX'            " Latex all-in-one plugin
+"Plug 'vim-scripts/LaTeX-Suite-aka-Vim-LaTeX'            " Latex all-in-one plugin
 Plug 'xuhdev/SingleCompile'                             " Single file compilation
-Plug 'benekastah/neomake'
+"Plug 'benekastah/neomake'
 Plug 'artur-shaik/vim-javacomplete2'
-Plug 'Shougo/deoplete.nvim'
-Plug 'junegunn/fzf.vim'
+"Plug 'Shougo/deoplete.nvim'
+"Plug 'junegunn/fzf.vim'
 
 "Plug 'rking/ag.vim'                                     " Fast searching/substitution in multiple files
 "Plug 'Shougo/unite.vim'
 
 " Haskell plugins
-Plug 'dag/vim2hs'
-Plug 'eagletmt/ghcmod-vim'
-Plug 'eagletmt/neco-ghc'
+"Plug 'dag/vim2hs'
+"Plug 'eagletmt/ghcmod-vim'
+"Plug 'eagletmt/neco-ghc'
 
 
 "Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --system-libclang' }
@@ -83,8 +83,8 @@ Plug 'eagletmt/neco-ghc'
 "endif
 
 if has('lua')
-    Plug 'Shougo/neocomplete.vim'
-    Plug 'SirVer/ultisnips'
+    "Plug 'Shougo/neocomplete.vim'
+    "Plug 'SirVer/ultisnips'
 endif
 
 

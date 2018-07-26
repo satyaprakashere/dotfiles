@@ -3,7 +3,7 @@ let mapleader="\<Space>"    " Use space instead of backslash as my leader key
 
 let g:solarized_termcolors=256
 let &t_Co=256
-set background=light
+set background=dark
 colorscheme solarized
 
 " ------------------------- [Editing] ----------------------------------------
@@ -15,6 +15,7 @@ set antialias                       " set antialising on
 "set backspace=indent,eol,start
 set backspace=2                     " Allow backspacing in basically every possible
                                     " situation (the way I like it).
+set clipboard=unnamed               "use system clipoard for yank, delete and paste operations
 set complete=.,w,b,u,t,i,d,k,s      "set keyword completion options
 set completeopt=menu,longest,preview "set what to show in the popup menu
 set expandtab                       " expand tab into spaces
@@ -24,6 +25,7 @@ set fileformats=unix,dos            " Create UNIX format files by default, but
                                     " autodetect dos files.
 set linebreak                       " Wrap text while typing (this is a soft wrap
                                     " without textwidth set).
+" set macmeta                         " use alt as meta key
 set modeline                        " Always read modeline stuff from the bottom of
                                     " files.
 set modelines=1                     " Read the modeline only from the last line.
@@ -40,11 +42,8 @@ set wildignore=*.o,*.obj,*~         "ignoring the following file patterns
 
 let IspellLang = 'english'          " A couple of environment variables for the spelling stuff.
 
-" use system clipoard for yank, delete and paste operations
-if has('macunix')
-  set clipboard=unnamed
-else "linux
-  set clipboard=unnamedplus
+if $DISPLAY =~ '\(\(cos\|scs\)\d\+nai\d\+\)\|\(spkpc\d\+\)\|\(tc-garyjohn\)' 
+set clipboard=autoselect,exclude:.* 
 endif
 
 " ---------------------------- [Display] -------------------------------------
@@ -169,3 +168,5 @@ autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 let &path.="/src/include,./"
+
+cd ~/Documents

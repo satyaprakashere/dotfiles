@@ -16,7 +16,7 @@ syn match phoenixComment ';.*' contains=phoenixTodo
 syn keyword phoenixTodo FIXME NOTE TODO OPTIMIZE XXX HACK contained
 
 syn keyword phoenixKeyword match when cond for if unless try receive send
-syn keyword phoenixKeyword exit raise throw after rescue catch else do end data class begin where type define Kind Type value extension case
+syn keyword phoenixKeyword exit raise throw after rescue catch else do end data class where type define Kind Type value extension typeOf
 syn keyword phoenixKeyword quote unquote super with fanily
 
 syn keyword phoenixLet let val
@@ -116,14 +116,12 @@ syn region phoenixSigil matchgroup=phoenixSigilDelimiter start=+\~\a\z("""\)+ en
 syn region phoenixSigil matchgroup=phoenixSigilDelimiter start=+\~\a\z('''\)+ end=+^\s*\zs\z1+ skip=+\\'+ fold
 
 " Defines
-" syn keyword phoenixDefine              func            nextgroup=phoenixFunctionDeclaration    skipwhite skipnl
-" syn keyword phoenixDefine              func            nextgroup=phoenixFunctionDeclaration    skipwhite skipnl
+syn keyword phoenixDefine              func            nextgroup=phoenixFunctionDeclaration    skipwhite skipnl
 syn keyword phoenixDefine              defunc            nextgroup=phoenixFunctionDeclaration    skipwhite skipnl
 syn keyword phoenixPrivateDefine       funcp           nextgroup=phoenixFunctionDeclaration    skipwhite skipnl
 syn keyword phoenixModuleDefine        module      nextgroup=phoenixModuleDeclaration      skipwhite skipnl
 syn keyword phoenixProtocolDefine      protocol    nextgroup=phoenixProtocolDeclaration    skipwhite skipnl
 syn keyword phoenixImplDefine          instance        nextgroup=phoenixImplDeclaration        skipwhite skipnl
-syn keyword phoenixImplDefine          func        nextgroup=phoenixImplDeclaration        skipwhite skipnl
 syn keyword phoenixRecordDefine        defrecord      nextgroup=phoenixRecordDeclaration      skipwhite skipnl
 syn keyword phoenixPrivateRecordDefine defrecordp     nextgroup=phoenixRecordDeclaration      skipwhite skipnl
 syn keyword phoenixMacroDefine         defmacro       nextgroup=phoenixMacroDeclaration       skipwhite skipnl
