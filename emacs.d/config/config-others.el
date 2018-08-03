@@ -1,4 +1,3 @@
-
 (setq mac-command-key-is-meta nil)
 (setq mac-option-key-is-meta t)
 (setq mac-option-modifier 'meta)
@@ -9,32 +8,34 @@
 (linum-relative-in-helm-p)
 
 ;----------------[Auto Save]--------------------------------;
-(defvar emacs-autosave-directory
-  (concat user-emacs-directory "autosaves/")
-  "This variable dictates where to put auto saves. It is set to a
-  directory called autosaves located wherever your .emacs.d/ is
-  located.")
+;; (defvar emacs-autosave-directory
+;;   (concat user-emacs-directory "autosaves/")
+;;   "This variable dictates where to put auto saves. It is set to a
+;;   directory called autosaves located wherever your .emacs.d/ is
+;;   located.")
+(setq backup-directory-alist
+	`(("." . ,(concat user-emacs-directory "backups"))))
 
 
 
 ;--------------[Smart-mode-line settings]--------------------;
-;(require 'cl)
-;(require 'powerline)
-;(require 'powerline-evil)
-;(require 'smart-mode-line)
-;(require 'smart-mode-line-powerline-theme)
-;(powerline-evil-vim-theme)
-;(require 'airline-themes)
-;(load-theme 'airline-dark t)
-;(setq powerline-arrow-shape 'arrow)
-;(setq powerline-default-separator 'arrow)
-;(set-face-attribute 'mode-line nil
-                    ;:foreground "#FFFFFF"
-                    ;:background "#353535"
-                    ;:box nil)
-;(setq sml/no-confirm-load-theme t)
-;(setq sml/theme 'respectful)
-;(sml/setup)
+(require 'cl)
+(require 'powerline)
+(require 'powerline-evil)
+(require 'smart-mode-line)
+(require 'smart-mode-line-powerline-theme)
+(powerline-evil-vim-theme)
+(require 'airline-themes)
+(load-theme 'airline-dark t)
+(setq powerline-arrow-shape 'arrow)
+(setq powerline-default-separator 'arrow)
+(set-face-attribute 'mode-line nil
+                    :foreground "#FFFFFF"
+                    :background "#353535"
+                    :box nil)
+(setq sml/no-confirm-load-theme t)
+(setq sml/theme 'respectful)
+(sml/setup)
 
 ;----------------[Evil-Leader]-------------------------------
 (require 'evil-leader)
@@ -55,6 +56,8 @@
 )
 ;----------------[Evil Mode]----------------------------------
 (require 'evil)
+;(evil-ex-define-cmd "wq" 'save-buffers-kill-emacs)
+(define-key evil-normal-state-map (kbd "q") ":q")
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
 (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
 (define-key evil-insert-state-map (kbd "C-u")
@@ -66,102 +69,102 @@
 ;;-----------------[Helm]-------------------------------------
 ;;; (setq package-load-list '((helm-core t) (helm t) (async t)))
 ;;; (package-initialize)
-;(require 'helm-config)
-;(helm-mode 1)
-;(recentf-mode 1)
-;(setq-default recent-save-file "~/.emacs.d/recentf")  
-;(setq helm-autoresize-mode 1)
-;(setq helm-autoresize-max-height 30)
-;(setq helm-M-x-fuzzy-match t)
-;(global-set-key (kbd "M-x") 'helm-M-x)
-;(global-set-key (kbd "C-l") 'helm-recentf)
-;(blink-cursor-mode -1)
-;(define-key global-map [remap find-file] 'helm-find-files)
-;(define-key global-map [remap occur] 'helm-occur)
-;(define-key global-map [remap list-auffers] 'helm-suffers-list)
-;(define-key global-map [remap dabbrev-expand] 'helm-dabbrev)
-;(global-set-key (kbd "M-x") 'helm-M-x)
-;(unless (boundp 'completion-in-region-function)
-  ;(define-key lisp-interaction-mode-map [remap completion-at-point] 'helm-lisp-completion-at-point)
-  ;(define-key emacs-lisp-mode-map       [remap completion-at-point] 'helm-lisp-completion-at-point))
+(require 'helm-config)
+(helm-mode 1)
+(recentf-mode 1)
+(setq-default recent-save-file "~/.emacs.d/recentf")  
+(setq helm-autoresize-mode 1)
+(setq helm-autoresize-max-height 30)
+(setq helm-M-x-fuzzy-match t)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-l") 'helm-recentf)
+(blink-cursor-mode -1)
+(define-key global-map [remap find-file] 'helm-find-files)
+(define-key global-map [remap occur] 'helm-occur)
+(define-key global-map [remap list-auffers] 'helm-suffers-list)
+(define-key global-map [remap dabbrev-expand] 'helm-dabbrev)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(unless (boundp 'completion-in-region-function)
+  (define-key lisp-interaction-mode-map [remap completion-at-point] 'helm-lisp-completion-at-point)
+  (define-key emacs-lisp-mode-map       [remap completion-at-point] 'helm-lisp-completion-at-point))
 
 ;;; -----------------------------
 ;;; helm-projectile
-;(when (package-installed-p 'helm-projectile)
-  ;(projectile-global-mode)
-  ;(helm-projectile-on)
-  ;)
+(when (package-installed-p 'helm-projectile)
+  (projectile-global-mode)
+  (helm-projectile-on)
+  )
 
 ;;-----------[Sublimity]--
-;;(require 'sublimity)
-;;(require 'sublimity-scroll)
-;;(setq sublimity-scroll-weight 10
-      ;;sublimity-scroll-drift-length 5)
-;;(sublimity-mode 1)
+(require 'sublimity)
+(require 'sublimity-scroll)
+(setq sublimity-scroll-weight 10
+      sublimity-scroll-drift-length 5)
+(sublimity-mode 1)
 
 ;;--------------[ AucTex settins] -----------------------------------;
 ;; locating latex executables
 ;;(getenv "PATH")
-;(setenv "PATH"
-        ;(concat
-          ;"/Library/TeX/texbin/" ":"
-          ;"/usr/local/bin" ":"
-          ;(getenv "PATH")))
+(setenv "PATH"
+        (concat
+          "/Library/TeX/texbin/" ":"
+          "/usr/local/bin" ":"
+          (getenv "PATH")))
 
-;(require 'preview)
-;(require 'latex-pretty-symbols)
-;(setq TeX-auto-save t)
-;(setq TeX-parse-self t)
-;(setq TeX-save-query nil)
-;(setq TeX-PDF-mode t)
-;(setq preview-gs-command "/usr/local/bin/gs")
+(require 'preview)
+(require 'latex-pretty-symbols)
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq TeX-save-query nil)
+(setq TeX-PDF-mode t)
+(setq preview-gs-command "/usr/local/bin/gs")
 
-;(require 'flymake)
-;(defun flymake-get-tex-args (file-name)
-;(list "pdflatex"
-;(list "-file-line-error" "-draftmode" "-interaction=nonstopmode" file-name)))
+(require 'flymake)
+(defun flymake-get-tex-args (file-name)
+(list "pdflatex"
+(list "-file-line-error" "-draftmode" "-interaction=nonstopmode" file-name)))
 
-;(add-hook 'LaTeX-mode-hook 'flymake-mode)
-;(setq ispell-program-name "aspell") ; could be ispell as well, depending on your preferences
-;(setq ispell-dictionary "english") ; this can obviously be set to any language your spell-checking program supports
+(add-hook 'LaTeX-mode-hook 'flymake-mode)
+(setq ispell-program-name "aspell") ; could be ispell as well, depending on your preferences
+(setq ispell-dictionary "english") ; this can obviously be set to any language your spell-checking program supports
 
-;(add-hook 'LaTeX-mode-hook 'flyspell-mode)
-;(add-hook 'LaTeX-mode-hook 'flyspell-buffer)
-;(defun turn-on-outline-minor-mode ()
-;(outline-minor-mode 1))
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-buffer)
+(defun turn-on-outline-minor-mode ()
+(outline-minor-mode 1))
 
-;(add-hook 'LaTeX-mode-hook 'turn-on-outline-minor-mode)
-;(add-hook 'latex-mode-hook 'turn-on-outline-minor-mode)
-;(setq outline-minor-mode-prefix "\C-c \C-o") ; Or something else
+(add-hook 'LaTeX-mode-hook 'turn-on-outline-minor-mode)
+(add-hook 'latex-mode-hook 'turn-on-outline-minor-mode)
+(setq outline-minor-mode-prefix "\C-c \C-o") ; Or something else
 
-;(require 'tex-site)
-;(autoload 'reftex-mode "reftex" "RefTeX Minor Mode" t)
-;(autoload 'turn-on-reftex "reftex" "RefTeX Minor Mode" nil)
-;(autoload 'reftex-citation "reftex-cite" "Make citation" nil)
-;(autoload 'reftex-index-phrase-mode "reftex-index" "Phrase Mode" t)
-;(add-hook 'latex-mode-hook 'turn-on-reftex) ; with Emacs latex mode
-;;; (add-hook 'reftex-load-hook 'imenu-add-menubar-index)
-;(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+(require 'tex-site)
+(autoload 'reftex-mode "reftex" "RefTeX Minor Mode" t)
+(autoload 'turn-on-reftex "reftex" "RefTeX Minor Mode" nil)
+(autoload 'reftex-citation "reftex-cite" "Make citation" nil)
+(autoload 'reftex-index-phrase-mode "reftex-index" "Phrase Mode" t)
+(add-hook 'latex-mode-hook 'turn-on-reftex) ; with Emacs latex mode
+(add-hook 'reftex-load-hook 'imenu-add-menubar-index)
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 
-;(setq LaTeX-eqnarray-label "eq"
-;LaTeX-equation-label "eq"
-;LaTeX-figure-label "fig"
-;LaTeX-table-label "tab"
-;LaTeX-myChapter-label "chap"
-;TeX-auto-save t
-;TeX-newline-function 'reindent-then-newline-and-indent
-;TeX-parse-self t
-;TeX-style-path
-;'("style/" "auto/"
-;"/usr/share/emacs21/site-lisp/auctex/style/"
-;"/var/lib/auctex/emacs21/"
-;"/usr/local/share/emacs/site-lisp/auctex/style/")
-;LaTeX-section-hook
-;'(LaTeX-section-heading
-;LaTeX-section-title
-;LaTeX-section-toc
-;LaTeX-section-section
-;LaTeX-section-label))
+(setq LaTeX-eqnarray-label "eq"
+LaTeX-equation-label "eq"
+LaTeX-figure-label "fig"
+LaTeX-table-label "tab"
+LaTeX-myChapter-label "chap"
+TeX-auto-save t
+TeX-newline-function 'reindent-then-newline-and-indent
+TeX-parse-self t
+TeX-style-path
+'("style/" "auto/"
+"/usr/share/emacs21/site-lisp/auctex/style/"
+"/var/lib/auctex/emacs21/"
+"/usr/local/share/emacs/site-lisp/auctex/style/")
+LaTeX-section-hook
+'(LaTeX-section-heading
+LaTeX-section-title
+LaTeX-section-toc
+LaTeX-section-section
+LaTeX-section-label))
 
 
 ;-------------[auto-complete seetings]---------------------------;
@@ -234,5 +237,13 @@
 ;;(add-hook 'c++-mode-hook 'my:irony-enable)
 ;;(add-hook 'c-mode-hook 'my:irony-enable)
 
+;----------------[Markdown settings]------------------------------;
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+(autoload 'gfm-mode "markdown-mode"
+   "Major mode for editing GitHub Flavored Markdown files" t)
+(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+(setq markdown-split-window-direction 'right)
 
 (provide 'config-others)
