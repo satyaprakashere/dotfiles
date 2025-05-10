@@ -23,11 +23,11 @@ Plug 'honza/vim-snippets'                               " Snippets for vaious pr
 Plug 'itchyny/lightline.vim'                            " light-weight powerline
 Plug 'jiangmiao/auto-pairs'                             " Auto pairs
 Plug 'jreybert/vimagit'
-Plug 'ctrlpvim/ctrlp.vim'                                   " Fast fuzzy search for opening projects files
+Plug 'ctrlpvim/ctrlp.vim'                              " Fast fuzzy search for opening projects files
 Plug 'octol/vim-cpp-enhanced-highlight'                 " Syntax highlighting for cpp language
 Plug 'scrooloose/nerdcommenter'                         " Shortcut for commenting lines and blocks.
 Plug 'scrooloose/syntastic'                             " Syntax checking plugin for 50+ languages
-Plug 'sheerun/vim-polyglot'                             " Syntax highlighting for 50+ languages.
+"Plug 'sheerun/vim-polyglot'                             " Syntax highlighting for 50+ languages.
 Plug 'terryma/vim-multiple-cursors'                     " Sublime multiple cursor.
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'                               " git plugin
@@ -45,11 +45,11 @@ Plug 'scrooloose/nerdtree'
 Plug 'FelikZ/ctrlp-py-matcher'
 Plug 'JazzCore/ctrlp-cmatcher'
 Plug 'junegunn/goyo.vim'
-Plug 'reedes/vim-colors-pencil'
+"Plug 'reedes/vim-colors-pencil'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'ervandew/supertab'
 Plug 'neomake/neomake'
-Plug 'Shougo/vimproc.vim'
+Plug 'Shougo/vimproc.vim' , {'do' : 'make'}
 Plug 'artur-shaik/vim-javacomplete2'
 Plug 'Shougo/deoplete.nvim'
 Plug 'godlygeek/tabular'
@@ -63,16 +63,25 @@ Plug 'szw/vim-g'
 
 " Haskell plugins
 Plug 'dag/vim2hs'
-Plug 'eagletmt/ghcmod-vim'
-Plug 'eagletmt/neco-ghc'
+"Plug 'eagletmt/ghcmod-vim'
+Plug 'neoclide/coc.nvim',  {'branch': 'release'}
+"Plug 'eagletmt/neco-ghc'
+"Plug 'autozimu/LanguageClient-neovim', {
+    "\ 'branch': 'next',
+    "\ 'do': 'bash install.sh'
+    "\ }
 
 Plug 'derekelkins/agda-vim'
 Plug 'idris-hackers/idris-vim'
 
+Plug 'preservim/vim-colors-pencil'
+Plug 'rakr/vim-one'
+Plug 'cocopon/iceberg.vim'
+Plug 'ayu-theme/ayu-vim'
+
 
 " Unused plugins
-"Plug 'junegunn/fzf'                                 ",{'dir' : '~/dotfiles/fzf', 'do' : './install -all'}
-"Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf' ,{'dir' : '~/dotfiles/fzf', 'do' : './install -all'}
 "Plug 'koron/minimap-vim'
 "Plug 'Shougo/neomru.vim'
 "Plug 'Shougo/neosnippet-snippets'
@@ -91,7 +100,7 @@ Plug 'idris-hackers/idris-vim'
 "Plug 'mkarmona/materialbox'
 "Plug 'nathanaelkane/vim-indent-guides'
 "Plug 'sollidsnake/vterm'
-"Plug 'tpope/vim-fireplace'
+Plug 'tpope/vim-fireplace'
 "Plug 'wincent/command-t'
 "Plug 'tpope/vim-vinegar'
 " Disabling YCM in VimR (doesn't work due to conflict in python bindings)

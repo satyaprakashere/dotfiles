@@ -3,6 +3,7 @@ let mapleader="\<Space>"    " Use space instead of backslash as my leader key
 
 let g:solarized_termcolors=256
 let &t_Co=256
+
 set background=light
 colorscheme solarized
 
@@ -149,7 +150,9 @@ if v:version >= 704
     set relativenumber
 endif
 
-let $PATH .= ':' . "/Users/Satya/.cabal/bin"
+let $PATH .= ':' . "/Users/Satya/.ghcup/bin"
+"let $PATH .= ':' . "/usr/homebrew/bin"
+"let $PATH .= ':' . "/opt/homebrew/bin"
 autocmd filetype haskell set shiftwidth=2
 au BufRead,BufNewFile *.px set filetype=phoenix
 au BufRead,BufNewFile *.pxl set filetype=phoenixl
@@ -169,3 +172,6 @@ autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 let &path.="/src/include,./"
+
+let g:LanguageClient_serverCommands = { 'haskell': ['haskell-language-server-wrapper', '--lsp'] }
+

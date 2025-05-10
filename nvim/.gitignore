@@ -1,4 +1,8 @@
-.DS_Store
-viminfo*
-undo/**
-plugged/**
+tt.*
+.tests
+doc/tags
+debug
+.repro
+foo.*
+*.log
+data
