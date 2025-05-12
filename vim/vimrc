@@ -64,7 +64,7 @@ Plug 'szw/vim-g'
 " Haskell plugins
 Plug 'dag/vim2hs'
 "Plug 'eagletmt/ghcmod-vim'
-Plug 'neoclide/coc.nvim',  {'branch': 'release'}
+"Plug 'neoclide/coc.nvim',  {'branch': 'release'}
 "Plug 'eagletmt/neco-ghc'
 "Plug 'autozimu/LanguageClient-neovim', {
     "\ 'branch': 'next',

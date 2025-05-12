@@ -1,3 +1,6 @@
 .DS_Store
 gitconfig
-backup/
+backup
+LazyVim
+zprezto
+doomemacs
