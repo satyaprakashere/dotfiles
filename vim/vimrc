@@ -14,6 +14,8 @@ endif
 call plug#begin('~/.vim/plugged')
 
 " Generic/C++ plugins
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
+Plug 'ghifarit53/tokyonight-vim'
 Plug 'airblade/vim-gitgutter'                           " shows git diff in editor
 Plug 'altercation/vim-colors-solarized'                 " Solarized color scheme.
 Plug 'christoomey/vim-sort-motion'

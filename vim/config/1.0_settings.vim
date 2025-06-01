@@ -1,11 +1,11 @@
 " ---------------------- Basic configuration settings ------------------------
 let mapleader="\<Space>"    " Use space instead of backslash as my leader key
 
-let g:solarized_termcolors=256
-let &t_Co=256
+"let &t_Co=256
+set termguicolors
 
-set background=light
-colorscheme solarized
+let g:lightline = {'colorscheme': 'catppuccin_macchiato'}
+colorscheme catppuccin_macchiato
 
 " ------------------------- [Editing] ----------------------------------------
 filetype plugin indent on           " filetype detection on

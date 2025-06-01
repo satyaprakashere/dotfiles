@@ -1,7 +1,8 @@
 macmenu &Tools.Make key=<nop>
 macmenu &Tools.List\ Errors key=<nop>
-set background=dark
-colorscheme ayu
+"set background=dark
+"colorscheme ayu
+colorscheme catppuccin_mocha
 set guifont=Monaco\ for\ Powerline:h16
 
 highlight Pmenu ctermbg=238 gui=bold    "alter the look and feel of the drop-down menu

@@ -1,5 +1,10 @@
 #custom_cursor_colors = true
 
+[general]
+import = [
+    "~/.config/alacritty/themes/themes/catppuccin_frappe.toml"
+]
+
 [bell]
 animation = "EaseOutExpo"
 color = "0xffffff"
@@ -13,7 +18,10 @@ style = "Block"
 unfocused_hollow = true
 
 [font]
-#family = "Monaco For Powerline"
+normal = { family = "Hack Nerd Font Mono", style = "Regular"  }
+bold = { family = "Hack Nerd Font Mono", style = "Bold"  }
+italic = { family = "Hack Nerd Font Mono", style = "Italic"  }
+bold_italic = { family = "Hack Nerd Font Mono", style = "Bold Italic"  }
 size = 20.0
 
 [font.glyph_offset]
@@ -331,8 +339,8 @@ mouse = "Middle"
 #threshold = 300
 
 [scrolling]
-history = 0
-multiplier = 3
+#history = 0
+#multiplier = 3
 
 [selection]
 save_to_clipboard = true
@@ -343,9 +351,12 @@ semantic_escape_chars = ",│`|:\"' ()[]{}<>"
 dynamic_padding = false
 opacity = 1.0
 startup_mode = "Windowed"
-dimensions = { columns = 100, lines = 30 }
-position = { x = 700, y = 400 }
+#dimensions = { columns = 100, lines = 30 }
+#position = { x = 700, y = 400 }
 
 [window.padding]
 x = 0
 y = 0
+
+[env]
+TERMINAL_EMULATOR = "alacritty"
