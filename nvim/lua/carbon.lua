@@ -1,0 +1,1 @@
+/Users/satya/github/carbon-lang/utils/nvim/carbon.lua

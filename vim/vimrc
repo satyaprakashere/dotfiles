@@ -3,7 +3,7 @@ let plug_plugin = expand('~/.vim/autoload/plug.vim')
 if !filereadable(plug_plugin)
     echo "Installing plug..."
     echo ""
-    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    silent !curl -fLo ~/.config/vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
     echo "Installing plugins..."
@@ -13,58 +13,63 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
-" Generic/C++ plugins
+" Generic plugins
+let g:polyglot_disabled = []
+Plug 'sheerun/vim-polyglot'                             " Syntax highlighting for 50+ languages.
+Plug 'dense-analysis/ale'
+
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
-Plug 'ghifarit53/tokyonight-vim'
+Plug 'itchyny/lightline.vim'                            " light-weight powerline
+
 Plug 'airblade/vim-gitgutter'                           " shows git diff in editor
-Plug 'altercation/vim-colors-solarized'                 " Solarized color scheme.
-Plug 'christoomey/vim-sort-motion'
 Plug 'easymotion/vim-easymotion'                        " Various Shortcuts to improve motion controls
+Plug 'christoomey/vim-sort-motion'
+Plug 'scrooloose/nerdcommenter'                         " Shortcut for commenting lines and blocks.
 Plug 'gcmt/wildfire.vim'                                " expand visual-selection region
 Plug 'honza/vim-snippets'                               " Snippets for vaious programming languages
-Plug 'itchyny/lightline.vim'                            " light-weight powerline
 Plug 'jiangmiao/auto-pairs'                             " Auto pairs
 Plug 'jreybert/vimagit'
-Plug 'ctrlpvim/ctrlp.vim'                              " Fast fuzzy search for opening projects files
-Plug 'octol/vim-cpp-enhanced-highlight'                 " Syntax highlighting for cpp language
-Plug 'scrooloose/nerdcommenter'                         " Shortcut for commenting lines and blocks.
-Plug 'scrooloose/syntastic'                             " Syntax checking plugin for 50+ languages
-"Plug 'sheerun/vim-polyglot'                             " Syntax highlighting for 50+ languages.
-Plug 'terryma/vim-multiple-cursors'                     " Sublime multiple cursor.
+Plug 'preservim/vim-markdown'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'                               " git plugin
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-dispatch'
+
 Plug 'xuhdev/SingleCompile'                             " Single file compilation
 Plug 'wikitopian/hardmode'
 Plug 'xolox/vim-misc'
-Plug 'tfnico/vim-gradle'
 Plug 'vim-scripts/GreedyBackspace.vim'
 Plug 'vim-scripts/Wombat'
 Plug 'johnsyweb/vim-makeshift'
 Plug 'scrooloose/nerdtree'
-Plug 'FelikZ/ctrlp-py-matcher'
-Plug 'JazzCore/ctrlp-cmatcher'
-Plug 'junegunn/goyo.vim'
-"Plug 'reedes/vim-colors-pencil'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'ervandew/supertab'
-Plug 'neomake/neomake'
-Plug 'Shougo/vimproc.vim' , {'do' : 'make'}
-Plug 'artur-shaik/vim-javacomplete2'
-Plug 'Shougo/deoplete.nvim'
 Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
-Plug 'szw/vim-g'
+Plug 'terryma/vim-smooth-scroll'
+Plug 'mg979/vim-visual-multi'
+Plug 'ctrlpvim/ctrlp.vim'                              " Fast fuzzy search for opening projects files
+Plug 'JazzCore/ctrlp-cmatcher'
 
-"Plug 'xolox/vim-easytags'
-"Plug 'rking/ag.vim'                                     " Fast searching/substitution in multiple files
-"Plug 'Shougo/unite.vim'
-"Plug 'vim-scripts/LaTeX-Suite-aka-Vim-LaTeX'            " Latex all-in-one plugin
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+Plug 'junegunn/goyo.vim'
+Plug 'preservim/vim-colors-pencil'
+
+" Language plugins
+Plug 'dag/vim2hs'
+Plug 'derekelkins/agda-vim'
+Plug 'idris-hackers/idris-vim'
+Plug 'elixir-editors/vim-elixir'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'ziglang/zig.vim'
+"Plug 'artur-shaik/vim-javacomplete2'
+"Plug 'tfnico/vim-gradle'
 
 " Haskell plugins
-Plug 'dag/vim2hs'
 "Plug 'eagletmt/ghcmod-vim'
 "Plug 'neoclide/coc.nvim',  {'branch': 'release'}
 "Plug 'eagletmt/neco-ghc'
@@ -73,17 +78,9 @@ Plug 'dag/vim2hs'
     "\ 'do': 'bash install.sh'
     "\ }
 
-Plug 'derekelkins/agda-vim'
-Plug 'idris-hackers/idris-vim'
-
-Plug 'preservim/vim-colors-pencil'
-Plug 'rakr/vim-one'
-Plug 'cocopon/iceberg.vim'
-Plug 'ayu-theme/ayu-vim'
 
 
 " Unused plugins
-Plug 'junegunn/fzf' ,{'dir' : '~/dotfiles/fzf', 'do' : './install -all'}
 "Plug 'koron/minimap-vim'
 "Plug 'Shougo/neomru.vim'
 "Plug 'Shougo/neosnippet-snippets'
@@ -102,18 +99,36 @@ Plug 'junegunn/fzf' ,{'dir' : '~/dotfiles/fzf', 'do' : './install -all'}
 "Plug 'mkarmona/materialbox'
 "Plug 'nathanaelkane/vim-indent-guides'
 "Plug 'sollidsnake/vterm'
-Plug 'tpope/vim-fireplace'
+"Plug 'tpope/vim-fireplace'
 "Plug 'wincent/command-t'
 "Plug 'tpope/vim-vinegar'
-" Disabling YCM in VimR (doesn't work due to conflict in python bindings)
-"if !has('gui_vimr')
-    "Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --system-libclang' }
-"endif
+
+"Plug 'reedes/vim-colors-pencil'
+"Plug 'ghifarit53/tokyonight-vim'
+"Plug 'altercation/vim-colors-solarized'                 " Solarized color scheme.
+"Plug 'ayu-theme/ayu-vim'
+
+"Plug 'rakr/vim-one'
+"Plug 'cocopon/iceberg.vim'
+"Plug 'FelikZ/ctrlp-py-matcher'
+"Plug 'neomake/neomake'
+"Plug 'Shougo/vimproc.vim' , {'do' : 'make'}
+"Plug 'Shougo/ddc.nvim'
+"Plug 'szw/vim-g'
+"Plug 'vim-fish'
+"Plug 'xolox/vim-easytags'
+"Plug 'rking/ag.vim'                                     " Fast searching/substitution in multiple files
+"Plug 'Shougo/unite.vim'
+"Plug 'vim-scripts/LaTeX-Suite-aka-Vim-LaTeX'            " Latex all-in-one plugin
+"Plug 'octol/vim-cpp-enhanced-highlight'                 " Syntax highlighting for cpp language
 
 if has('lua')
-    "Plug 'Shougo/neocomplete.vim'
-    "Plug 'SirVer/ultisnips'
 endif
+
+"if has('rust')
+    "Plug 'eraserhd/parinfer-rust', {'do':
+        "\ 'nix-shell --run \"cargo build --release \"'}
+"end
 
 
 " All of Plugins must be added before the following line

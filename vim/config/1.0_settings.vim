@@ -4,8 +4,8 @@ let mapleader="\<Space>"    " Use space instead of backslash as my leader key
 "let &t_Co=256
 set termguicolors
 
-let g:lightline = {'colorscheme': 'catppuccin_macchiato'}
-colorscheme catppuccin_macchiato
+let g:lightline = {'colorscheme': 'catppuccin_mocha'}
+colorscheme catppuccin_mocha
 
 " ------------------------- [Editing] ----------------------------------------
 filetype plugin indent on           " filetype detection on
@@ -150,9 +150,9 @@ if v:version >= 704
     set relativenumber
 endif
 
-let $PATH .= ':' . "/Users/Satya/.ghcup/bin"
-"let $PATH .= ':' . "/usr/homebrew/bin"
-"let $PATH .= ':' . "/opt/homebrew/bin"
+let $PATH .= ':' . "~/.ghcup/bin"
+"let $PATH .= ':' . "/usr/local/bin"
+let $PATH .= ':' . "/opt/homebrew/bin"
 autocmd filetype haskell set shiftwidth=2
 au BufRead,BufNewFile *.px set filetype=phoenix
 au BufRead,BufNewFile *.pxl set filetype=phoenixl
@@ -174,4 +174,7 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 let &path.="/src/include,./"
 
 let g:LanguageClient_serverCommands = { 'haskell': ['haskell-language-server-wrapper', '--lsp'] }
+
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
+
 

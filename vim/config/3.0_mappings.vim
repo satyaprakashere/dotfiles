@@ -4,8 +4,8 @@ noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
 
-"inoremap <C-c> <ESC>
-"cnoremap <C-c> <ESC>
+inoremap <C-c> <ESC>
+cnoremap <C-c> <ESC>
 
 nnoremap q :q<CR>
 nnoremap ; :
@@ -18,7 +18,7 @@ inoremap jk <ESC>
 vnoremap < <gv
 vnoremap > >gv
 
-"make Y consistent with C and D
+"make Y consistent wfth C and D
 nmap Y y$
 
 "move through display lines with j and k (Vim's default is semantic jump)
@@ -26,20 +26,19 @@ nnoremap j gj
 nnoremap k gk
 nnoremap gj j
 nnoremap gk k
-nnoremap <C-j> <C-d>
-nnoremap <C-k> <C-u>
+"nnoremap <C-j> <C-d>
+"nnoremap <C-k> <C-u>
 nnoremap <C-h> :nohls<CR>
 nnoremap cm gc
 
 "----------leader mappings----------------------------------------------------
-"nnoremap <leader>b :SCCompile<CR>
+nnoremap <leader>b :SCCompile<CR>
 nnoremap <leader>r :SCCompileRun<CR>
 nnoremap <leader>q :bd<CR>
 nnoremap <Leader>. :!open .<CR>
 nnoremap <leader>o :CtrlP<CR>
 nnoremap <leader>vp :vsp<CR>
 nnoremap <leader>sp :sp<CR>
-nnoremap <leader>gc :w \| SyntasticCheck cpplint<CR>
 nnoremap <leader>bn :bn<CR>
 nnoremap <leader>bp :bp<CR>
 nnoremap <leader>bl :buffers<CR>
@@ -49,6 +48,11 @@ nnoremap <leader>wt :silent! %s/\s\+$// \| retab <CR>
 nnoremap <leader>s :w<CR>
 nnoremap <leader><CR> <Plug>(wildfire-quick-select)
 
+nnoremap <leader>fr :History<CR>
+nnoremap <leader>ff :Files<CR>
+
+
+nnoremap <leader>gc :w \| SyntasticCheck cpplint<CR>
 "autocmd filetype cpp nnoremap <leader>b :SCCompileAF -w -std=c++14<CR>
 "autocmd filetype cpp nnoremap <leader>r :SCCompileRunAF -std=c++14
 "autocmd filetype cpp nnoremap <leader>d :SCCompileAF -std=c++14 \| !lldb %:r <CR>
@@ -99,3 +103,13 @@ map <Leader>lf :call LanguageClient#textDocument_formatting()<CR>
 map <Leader>lb :call LanguageClient#textDocument_references()<CR>
 map <Leader>la :call LanguageClient#textDocument_codeAction()<CR>
 map <Leader>ls :call LanguageClient#textDocument_documentSymbol()<CR>
+
+"------------------------------------------------------------------------------------
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
+
+"-----------------------------------------------------------------------------------
+
+let g:fzf_vim = {}

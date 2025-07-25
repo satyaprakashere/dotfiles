@@ -1,6 +1,10 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
+SETUVAR --export --path PATH:/Users/satya/\x2ejenv/bin\x1e/usr/local/opt/expat/bin\x1e/usr/local/opt/llvm/bin\x1e/Users/satya/\x2eghcup/bin\x1e/usr/local/bin\x1e/System/Cryptexes/App/usr/bin\x1e/usr/bin\x1e/bin\x1e/usr/sbin\x1e/sbin\x1e/var/run/com\x2eapple\x2esecurity\x2ecryptexd/codex\x2esystem/bootstrap/usr/local/bin\x1e/var/run/com\x2eapple\x2esecurity\x2ecryptexd/codex\x2esystem/bootstrap/usr/bin\x1e/var/run/com\x2eapple\x2esecurity\x2ecryptexd/codex\x2esystem/bootstrap/usr/appleinternal/bin\x1e/Applications/Little\x20Snitch\x2eapp/Contents/Components\x1e/Applications/VMware\x20Fusion\x2eapp/Contents/Public\x1e/usr/local/go/bin\x1e/usr/local/zfs/bin\x1e/Applications/Ghostty\x2eapp/Contents/MacOS\x1e/Users/Satya/\x2eghcup/bin
 SETUVAR __fish_initialized:3800
+SETUVAR _fisher_plugins:reitzig/sdkman\x2dfor\x2dfish\x40v2\x2e1\x2e0
+SETUVAR _fisher_reitzig_2F_sdkman_2D_for_2D_fish_40_v2_2E_31_2E_30__files:\x7e/\x2econfig/fish/functions/sdk\x2efish\x1e\x7e/\x2econfig/fish/conf\x2ed/sdk\x2efish\x1e\x7e/\x2econfig/fish/completions/sdk\x2efish
+SETUVAR _fisher_upgraded_to_4_4:\x1d
 SETUVAR fish_color_autosuggestion:brblack
 SETUVAR fish_color_cancel:\x2dr
 SETUVAR fish_color_command:normal
@@ -23,10 +27,10 @@ SETUVAR fish_color_selection:white\x1e\x2d\x2dbold\x1e\x2d\x2dbackground\x3dbrbl
 SETUVAR fish_color_status:red
 SETUVAR fish_color_user:brgreen
 SETUVAR fish_color_valid_path:\x2d\x2dunderline
-SETUVAR fish_key_bindings:fish_default_key_bindings
+SETUVAR fish_key_bindings:fish_vi_key_bindings
 SETUVAR fish_pager_color_completion:normal
 SETUVAR fish_pager_color_description:yellow\x1e\x2di
 SETUVAR fish_pager_color_prefix:normal\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
 SETUVAR fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
 SETUVAR fish_pager_color_selected_background:\x2dr
-SETUVAR fish_user_paths:/opt/homebrew/bin
+SETUVAR fish_user_paths:/Users/prakash/github/zig\x1e/usr/local/opt/openjdk/bin\x1e/Users/prakash/\x2econfig/emacs/bin\x1e/Users/prakash/\x2esdkman/bin\x1e/Users/prakash/\x2erustup/toolchains/stable\x2dx86_64\x2dapple\x2ddarwin/bin\x1e/Users/satya/dotfiles/doomemacs/bin\x1e/Users/satya/\x2ebun/bin\x1e/usr/local/sbin\x1e/usr/local/Gambit/bin\x1e/Users/satya/\x2esdkman/bin\x1e/Users/satya/\x2esdkman\x1e/Users/satya/\x2ecargo/bin\x1e/usr/local/opt/expat/bin\x1e/usr/local/opt/llvm/bin\x1e/Users/satya/\x2eghcup/bin

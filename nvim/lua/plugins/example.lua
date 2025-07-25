@@ -1,6 +1,28 @@
 -- since this is just an example spec, don't actually load anything here and return an empty spec
 -- stylua: ignore
-if true then return {} end
+if true then return {
+  -- parinfer-rust for clojur
+  { "eraserhd/parinfer-rust", build = "cargo build --release" },
+    { -- This plugin
+    "Zeioth/compiler.nvim",
+    cmd = {"CompilerOpen", "CompilerToggleResults", "CompilerRedo"},
+    dependencies = { "stevearc/overseer.nvim", "nvim-telescope/telescope.nvim" },
+    opts = {},
+    },
+    { -- The task runner we use
+    "stevearc/overseer.nvim",
+    commit = "6271cab7ccc4ca840faa93f54440ffae3a3918bd",
+    cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
+    opts = {
+        task_list = {
+        direction = "bottom",
+        min_height = 25,
+        max_height = 25,
+        default_detail = 1
+        },
+    },
+  },
+} end
 
 -- every spec file under the "plugins" directory will be loaded automatically by lazy.nvim
 --
@@ -9,6 +31,8 @@ if true then return {} end
 -- * disable/enabled LazyVim plugins
 -- * override the configuration of LazyVim plugins
 return {
+  -- parinfer-rust for clojur
+  { "eraserhd/parinfer-rust", build = "cargo build --release" },
   -- add gruvbox
   { "ellisonleao/gruvbox.nvim" },
 
@@ -64,56 +88,56 @@ return {
   },
 
   -- add pyright to lspconfig
-  {
-    "neovim/nvim-lspconfig",
-    ---@class PluginLspOpts
-    opts = {
-      ---@type lspconfig.options
-      servers = {
-        -- pyright will be automatically installed with mason and loaded with lspconfig
-        pyright = {},
-      },
-    },
-  },
+  --{
+  --"neovim/nvim-lspconfig",
+  -----@class PluginLspOpts
+  --opts = {
+  -----@type lspconfig.options
+  --servers = {
+  ---- pyright will be automatically installed with mason and loaded with lspconfig
+  --pyright = {},
+  --},
+  --},
+  --},
 
   -- add tsserver and setup with typescript.nvim instead of lspconfig
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      "jose-elias-alvarez/typescript.nvim",
-      init = function()
-        require("lazyvim.util").lsp.on_attach(function(_, buffer)
-          -- stylua: ignore
-          vim.keymap.set( "n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
-          vim.keymap.set("n", "<leader>cR", "TypescriptRenameFile", { desc = "Rename File", buffer = buffer })
-        end)
-      end,
-    },
-    ---@class PluginLspOpts
-    opts = {
-      ---@type lspconfig.options
-      servers = {
-        -- tsserver will be automatically installed with mason and loaded with lspconfig
-        tsserver = {},
-      },
-      -- you can do any additional lsp server setup here
-      -- return true if you don't want this server to be setup with lspconfig
-      ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
-      setup = {
-        -- example to setup with typescript.nvim
-        tsserver = function(_, opts)
-          require("typescript").setup({ server = opts })
-          return true
-        end,
-        -- Specify * to use this function as a fallback for any server
-        -- ["*"] = function(server, opts) end,
-      },
-    },
-  },
+  --{
+  --"neovim/nvim-lspconfig",
+  --dependencies = {
+  --"jose-elias-alvarez/typescript.nvim",
+  --init = function()
+  --require("lazyvim.util").lsp.on_attach(function(_, buffer)
+  ---- stylua: ignore
+  --vim.keymap.set( "n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
+  --vim.keymap.set("n", "<leader>cR", "TypescriptRenameFile", { desc = "Rename File", buffer = buffer })
+  --end)
+  --end,
+  --},
+  -----@class PluginLspOpts
+  --opts = {
+  -----@type lspconfig.options
+  --servers = {
+  ---- tsserver will be automatically installed with mason and loaded with lspconfig
+  --tsserver = {},
+  --},
+  ---- you can do any additional lsp server setup here
+  ---- return true if you don't want this server to be setup with lspconfig
+  -----@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
+  --setup = {
+  ---- example to setup with typescript.nvim
+  --tsserver = function(_, opts)
+  --require("typescript").setup({ server = opts })
+  --return true
+  --end,
+  ---- Specify * to use this function as a fallback for any server
+  ---- ["*"] = function(server, opts) end,
+  --},
+  --},
+  --},
 
   -- for typescript, LazyVim also includes extra specs to properly setup lspconfig,
   -- treesitter, mason and typescript.nvim. So instead of the above, you can use:
-  { import = "lazyvim.plugins.extras.lang.typescript" },
+  --{ import = "lazyvim.plugins.extras.lang.typescript" },
 
   -- add more treesitter parsers
   {
@@ -195,15 +219,19 @@ return {
     },
   },
   {
-    'nvim-orgmode/orgmode',
-    event = 'VeryLazy',
-    ft = { 'org' },
+    "nvim-orgmode/orgmode",
+    event = "VeryLazy",
+    ft = { "org" },
     config = function()
-        -- Setup orgmode
-        require('orgmode').setup({
-        org_agenda_files = '~/orgfiles/**/*',
-        org_default_notes_file = '~/orgfiles/refile.org',
-        })
+      -- Setup orgmode
+      require("orgmode").setup({
+        org_agenda_files = "~/orgfiles/**/*",
+        org_default_notes_file = "~/orgfiles/refile.org",
+      })
     end,
-    },
+  },
+  "nvim-telescope/telescope.nvim",
+  tag = "0.1.8",
+  -- or                              , branch = '0.1.x',
+  dependencies = { "nvim-lua/plenary.nvim" },
 }

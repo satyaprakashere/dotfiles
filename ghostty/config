@@ -47,7 +47,10 @@ confirm-close-surface = false
 font-size = 22
 maximize = true
 window-save-state = always
+window-height=1800
+window-width=2800
 
+theme="catppuccin-mocha"
 
 # Emacs like splits and Windmove navigation
 #keybind = ctrl+x>2=new_split:right

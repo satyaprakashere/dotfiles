@@ -1,0 +1,33 @@
+theme = "catppuccin_mocha"
+
+[editor]
+line-number = "relative"
+mouse = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.file-picker]
+hidden = false
+
+[keys.normal]
+q = ":wq"
+Q = ":q!"
+C-q = ":wq"
+A-q = ":q!"
+p = ":clipboard-paste-after"
+P = ":clipboard-paste-before"
+# y = ":clipboard-yank-join"
+# Y = ":clipboard-yank"
+# R = ":clipboard-paste-replace"
+# d = [":clipboard-yank-join", "delete_selection"]
+
+[keys.select]
+p = ":clipboard-paste-after"
+P = ":clipboard-paste-before"
+# y = ":clipboard-yank-join"
+# Y = ":clipboard-yank"
+# R = ":clipboard-paste-replace"
+# d = [":clipboard-yank-join", "delete_selection"]
