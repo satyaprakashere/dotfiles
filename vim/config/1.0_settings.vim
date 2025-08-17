@@ -4,12 +4,14 @@ let mapleader="\<Space>"    " Use space instead of backslash as my leader key
 "let &t_Co=256
 set termguicolors
 
-let g:lightline = {'colorscheme': 'catppuccin_mocha'}
+let g:lightline = {'colorscheme': 'OceanicNext'}
+"colorscheme  OceanicNext "catppuccin_mocha  ghdark
 colorscheme catppuccin_mocha
 
 " ------------------------- [Editing] ----------------------------------------
 filetype plugin indent on           " filetype detection on
 syntax on                           " switch on syntax highlighting
+set omnifunc=syntaxcomplete#Complete
 set encoding=utf-8                  " set file encoding
 set autoindent                      " Maintain indent levels automatically.
 set antialias                       " set antialising on
@@ -149,28 +151,24 @@ set relativenumber
 let $PATH .= ':' . "~/.ghcup/bin"
 "let $PATH .= ':' . "/usr/local/bin"
 let $PATH .= ':' . "/opt/homebrew/bin"
-autocmd filetype haskell set shiftwidth=2
+
+"autocmd VimEnter * NERDTree | wincmd p
+
+autocmd VimEnter * cd ~/Documents
 au BufRead,BufNewFile *.px set filetype=phoenix
 au BufRead,BufNewFile *.pxl set filetype=phoenixl
-autocmd filetype phoenix set shiftwidth=2
+
+autocmd filetype rekursion set shiftwidth=2
+
 autocmd filetype sh set shiftwidth=2
+autocmd filetype haskell set shiftwidth=2
 autocmd filetype python set shiftwidth=2
 autocmd FileType swift setlocal shiftwidth=2 tabstop=2 expandtab
 
-function! s:goyo_enter()
-    colorscheme pencil
-endfunction
-
-function! s:goyo_leave()
-    colorscheme solarized
-endfunction
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 let &path.="/src/include,./"
-
-let g:LanguageClient_serverCommands = { 'haskell': ['haskell-language-server-wrapper', '--lsp'] }
-
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
 

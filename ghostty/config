@@ -53,6 +53,12 @@ window-width=2800
 #theme= Catppuccin mocha
 theme= Github Dark Default
 
+window-height=2048
+window-width=4096
+
+background-opacity=.95
+background-blur=true
+
 # Emacs like splits and Windmove navigation
 #keybind = ctrl+x>2=new_split:right
 #keybind = ctrl+x>3=new_split:up
@@ -70,3 +76,4 @@ theme= Github Dark Default
 #keybind = super+r=reload_config
 
 keybind = global:cmd+backquote=toggle_quick_terminal
+#keybind = shift+enter=text:\x1b\r

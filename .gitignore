@@ -1,4 +1,5 @@
 .DS_Store
+.quarkus
 gitconfig
 backup
 LazyVim
@@ -6,3 +7,17 @@ zprezto
 doomemacs
 lazy-lock.json
 alacritty/themes
+plugged
+.cache
+undo
+viminfo
+zed
+raycast
+coc
+darktable
+btop
+htop
+cabal
+gh
+kraftkit
+

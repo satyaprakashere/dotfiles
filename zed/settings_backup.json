@@ -7,30 +7,12 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
-  "tab_size": 4,
-  "hard_tabs": false,
-  "autosave": "on_focus_change",
-  "disable_ai": true,
-  "title_bar": {
-    // "show_user_menu": false,
-    // "show_user_picture": false,
-    // "show_branch_name": false,
-    // "show_project_items": false
-  },
-  "project_panel": {
-    "button": false
-  },
-  "icon_theme": {
-    "mode": "system",
-    "light": "Zed (Default)",
-    "dark": "Zed (Default)"
-  },
-  "session": {
-    "trust_all_worktrees": true
-  },
-  "buffer_font_family": "Monaco for Powerline",
+  "buffer_font_family": ".ZedMono",
   "base_keymap": "VSCode",
   "auto_update": false,
+  "features": {
+    "edit_prediction_provider": "none"
+  },
   "outline_panel": {
     "dock": "right"
   },
@@ -67,12 +49,11 @@
     }
   },
   "agent": {
-    "enable_feedback": false,
     "default_profile": "ask",
     "model_parameters": [],
     "default_model": {
       "provider": "google",
-      "model": "gemini-2.5-pro"
+      "model": "gemini-3-pro-preview"
     }
   },
   "file_scan_exclusions": [
@@ -87,7 +68,6 @@
     "**/.*"
   ],
   "edit_predictions": {
-    "provider": "none",
     "mode": "subtle",
     "copilot": {
       "proxy": null,
@@ -95,7 +75,7 @@
     },
     "enabled_in_text_threads": false
   },
-  "theme": "GitHub Dark Dimmed",
+  "theme": "Sublime Mariana",
   "vim_mode": true,
   "telemetry": {
     "diagnostics": false,
@@ -105,50 +85,32 @@
   "buffer_font_size": 18.0,
   "format_on_save": "off",
   "lsp": {
-    "clangd": {
-          "binary": {
-            "path": "clangd",
-            "arguments": [
-              "--background-index",
-              "--clang-tidy",
-              "--all-scopes-completion",
-              "--completion-style=detailed",
-              "--header-insertion=never"
-            ]
-          }
-    },
-    "jdtls": {
-      // "initialization_options": {
-      //   "arguments": [
-      //     "--enable-preview"
-      //   ]
-      // },
-      "binary": {
-        "path" : "/opt/homebrew/bin/jdtls",
-        "arguments": [ "--enable-preview" ]
-      },
-      "settings": {
-        "check_updates": "always",
-      }
-    },
-    // "hls": {
-    //   "initialization_options": {
-    //     "haskell": {
-    //       "formattingProvider": "fourmolu"
-    //     }
+    // "jdtls": {
+    //   "binary": {
+    //     "path" : "/opt/homebrew/bin/jdtls",
+    //     "arguments": [
+    //       "--enable-preview --release 25"
+    //     ]
     //   }
     // },
+    "hls": {
+      "initialization_options": {
+        "haskell": {
+          "formattingProvider": "fourmolu"
+        }
+      }
+    },
     // "kotlin-lsp": {
     //   "binary": {
     //     "path": "/usr/local/bin/kotlin-lsp",
     //     "arguments": [ "--stdio" ]
     //   }
     // },
-    // "zls": {
-    //   "binary": {
-    //     "path": "/opt/homebrew/bin/zls"
-    //   }
-    // },
+    "zls": {
+      "binary": {
+        "path": "/opt/homebrew/bin/zls"
+      }
+    },
     "rust-analyzer": {
       "enable_lsp_tasks": false,
       "binary": {
@@ -172,12 +134,12 @@
         // "!pylsp"
       ]
     },
-    "Rust": {
-      "enable_language_server": false
-    },
-    "JSON": {
-      "enable_language_server": false
-    },
+    // "Rust": {
+    //   "enable_language_server": false
+    // },
+    // "JSON": {
+    //   "enable_language_server": false
+    // },
     "TypeScript": {
       "enable_language_server": false
     },

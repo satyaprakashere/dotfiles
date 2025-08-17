@@ -48,8 +48,8 @@ nnoremap <leader>wt :silent! %s/\s\+$// \| retab <CR>
 nnoremap <leader>s :w<CR>
 nnoremap <leader><CR> <Plug>(wildfire-quick-select)
 
-nnoremap <leader>fr :History<CR>
-nnoremap <leader>ff :Files<CR>
+nnoremap <leader>fr :CtrlPMRU<CR>
+nnoremap <leader>ff :CtrlPMixed<CR>
 
 
 nnoremap <leader>gc :w \| SyntasticCheck cpplint<CR>
@@ -95,14 +95,6 @@ endif
 
 
 "------------------------------------------------------------------------------------------------
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-map <Leader>lk :call LanguageClient#textDocument_hover()<CR>
-map <Leader>lg :call LanguageClient#textDocument_definition()<CR>
-map <Leader>lr :call LanguageClient#textDocument_rename()<CR>
-map <Leader>lf :call LanguageClient#textDocument_formatting()<CR>
-map <Leader>lb :call LanguageClient#textDocument_references()<CR>
-map <Leader>la :call LanguageClient#textDocument_codeAction()<CR>
-map <Leader>ls :call LanguageClient#textDocument_documentSymbol()<CR>
 
 "------------------------------------------------------------------------------------
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
@@ -113,3 +105,6 @@ noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 "-----------------------------------------------------------------------------------
 
 let g:fzf_vim = {}
+
+"-----------------------------------------------------------------------------------
+noremap <D-B> :NERDTreeToggle<CR>

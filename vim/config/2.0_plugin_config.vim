@@ -8,10 +8,10 @@ let g:gyntastic_enable_signs=1
 let g:hyntastic_auto_loc_list = 1
 let g:kyntastic_check_on_wq = 1
 let g:kyntastic_check_on_open = 1
-let g:lyntastic_cpp_mri_args = "-std=c++14"
-let g:qyntastic_cpp_cpplint_exec = '/Users/Satya/Library/Python/2.7/bin/cpplint'
-let g:wyntastic_cpp_cpplint_exec = '~/.vim/eyntax_checker/cpplint.py'
-"let g:ryntastic_cpp_cpplint_exec = '/Users/Satya/Library/Python/2.7/bin/cclint'
+let g:lyntastic_cpp_mri_args = "-std=c++23"
+let g:qyntastic_cpp_cpplint_exec = '~/Library/Python/2.7/bin/cpplint'
+let g:wyntastic_cpp_cpplint_exec = '~/.config/vim/syntax_checker/cpplint.py'
+"let g:ryntastic_cpp_cpplint_exec = '~/Library/Python/2.7/bin/cclint'
 
 "------[polyglot settings]-----------------------------------
 let g:polyglot_disabled = ['c++', 'c++11', 'c']
@@ -53,7 +53,7 @@ let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_working_path_mode = 'ra'
 "let g:ctrlp_match_func = { 'match': 'matcher#cmatch' }
 
-let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
+let g:ctrlp_cache_dir = $HOME . '/.config/vim/.cache/ctrlp'
 if executable('ag')
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
@@ -131,8 +131,8 @@ let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 " Define dictionary.
 let g:neocomplete#sources#dictionary#dictionaries = {
     \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
+    \ 'vimshell' : $HOME.'/.config/vim/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.config/vim/.gosh_completions'
         \ }
 
 " Define keyword.
@@ -271,3 +271,26 @@ map <Leader>lf :call LanguageClient#textDocument_formatting()<CR>
 map <Leader>lb :call LanguageClient#textDocument_references()<CR>
 map <Leader>la :call LanguageClient#textDocument_codeAction()<CR>
 map <Leader>ls :call LanguageClient#textDocument_documentSymbol()<CR>
+
+"---------------------[Language server]----------------------------------------------
+"{
+	""languageserver": {
+		""odin": {
+			""command": "ols",
+			""filetypes": ["odin"],
+			""rootPatterns": ["ols.json"]
+		"}
+	"}
+"}
+"---------------------[Language server]----------------------------------------------
+
+function! s:goyo_enter()
+    colorscheme pencil
+endfunction
+
+function! s:goyo_leave()
+    colorscheme Github Dark Dimmed
+endfunction
+
+
+"let g:LanguageClient_serverCommands = { 'haskell': ['haskell-language-server-wrapper', '--lsp'] }

@@ -17,5 +17,17 @@
     "bindings": {
       "j k": ["workspace::SendKeystrokes", "escape"]
     }
+  },
+  {
+    "context": "(Workspace && !Terminal)",
+    "bindings": {
+      "cmd-r": "task::Rerun"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "alt-cmd-r": "workspace::ToggleRightDock"
+    }
   }
 ]
