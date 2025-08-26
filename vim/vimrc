@@ -59,6 +59,11 @@ Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'preservim/vim-colors-pencil'
 
+
+Plug 'Shougo/deoplete.nvim'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+
 " Language plugins
 Plug 'dag/vim2hs'
 Plug 'derekelkins/agda-vim'

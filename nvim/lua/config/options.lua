@@ -4,4 +4,4 @@
 
 vim.cmd("cd ~/Documents")
 
-vim.o.guifont = "Hack Nerd Font Mono:h18"
+vim.o.guifont = "Hack Nerd Font Mono:h20"

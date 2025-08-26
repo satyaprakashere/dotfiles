@@ -137,18 +137,14 @@ if has('unnamedplus')
 endif
 
 " ------------------------- Version-specific options -------------------------
-if v:version > 702
-    set undofile
-    set undolevels=1000
-    set undoreload=10000
-    au BufWritePre /tmp/* setlocal noundofile
-    au BufWritePre /private/tmp/* setlocal noundofile
-endif
+set undofile
+set undolevels=1000
+set undoreload=10000
+au BufWritePre /tmp/* setlocal noundofile
+au BufWritePre /private/tmp/* setlocal noundofile
 
-if v:version >= 704
-     "With Vim 7.4, relativenumber is definitely the way to go.
-    set relativenumber
-endif
+    "With Vim 7.4, relativenumber is definitely the way to go.
+set relativenumber
 
 let $PATH .= ':' . "~/.ghcup/bin"
 "let $PATH .= ':' . "/usr/local/bin"
@@ -159,6 +155,7 @@ au BufRead,BufNewFile *.pxl set filetype=phoenixl
 autocmd filetype phoenix set shiftwidth=2
 autocmd filetype sh set shiftwidth=2
 autocmd filetype python set shiftwidth=2
+autocmd FileType swift setlocal shiftwidth=2 tabstop=2 expandtab
 
 function! s:goyo_enter()
     colorscheme pencil

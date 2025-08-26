@@ -3,6 +3,7 @@ fish_vi_key_bindings
 fzf --fish | source
 
 fish_add_path ~/.sdkman/bin
+fish_add_path ~/.ghcup/bin
 fish_add_path ~/.rustup/toolchains/stable-x86_64-apple-darwin/bin/
 fish_add_path /usr/local/sbin
 fish_add_path ~/.config/emacs/bin
@@ -50,14 +51,15 @@ function cdf
     end
 end
 
-#starship init fish | source
+starship init fish | source
 
 set -x MallocNanoZone 0
 set -x HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK true
 set -x HOMEBREW_NO_AUTO_UPDATE true
 
+
 # >>> coursier install directory >>>
-#set -gx PATH "$PATH:/Users/satya/Library/Application Support/Coursier/bin"
+set -gx PATH "$PATH:/Users/prakash/Library/Application Support/Coursier/bin"
 # <<< coursier install directory <<<
 #fish_add_path /usr/local/opt/llvm/bin
 #fish_add_path /usr/local/opt/expat/bin
