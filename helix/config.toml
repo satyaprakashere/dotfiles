@@ -23,6 +23,7 @@ P = ":clipboard-paste-before"
 # Y = ":clipboard-yank"
 # R = ":clipboard-paste-replace"
 # d = [":clipboard-yank-join", "delete_selection"]
+S-d = ["evil_characterwise_select_mode", "goto_line_end", "evil_delete"]
 
 [keys.select]
 p = ":clipboard-paste-after"
@@ -31,3 +32,5 @@ P = ":clipboard-paste-before"
 # Y = ":clipboard-yank"
 # R = ":clipboard-paste-replace"
 # d = [":clipboard-yank-join", "delete_selection"]
+S-d = "evil_delete"
+

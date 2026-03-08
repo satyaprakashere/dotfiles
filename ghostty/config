@@ -50,7 +50,8 @@ window-save-state = always
 window-height=1800
 window-width=2800
 
-theme="catppuccin-mocha"
+#theme= Catppuccin mocha
+theme= Github Dark Default
 
 # Emacs like splits and Windmove navigation
 #keybind = ctrl+x>2=new_split:right
@@ -67,3 +68,5 @@ theme="catppuccin-mocha"
 #keybind = super+shift+right=next_tab
 
 #keybind = super+r=reload_config
+
+keybind = global:cmd+backquote=toggle_quick_terminal

@@ -174,4 +174,3 @@ let g:LanguageClient_serverCommands = { 'haskell': ['haskell-language-server-wra
 
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
 
-

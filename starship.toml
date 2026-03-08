@@ -1,0 +1,36 @@
+# ~/.config/starship.toml
+
+# Minimal left prompt
+format = "$character"
+
+# Move additional info to the right prompt
+right_format = """
+$username\
+$hostname\
+$localip\
+$shlvl\
+$singularity\
+$directory\
+$vcsh\
+$fossil_branch\
+$fossil_metrics\
+$git_branch\
+$git_commit\
+$git_status\
+$memory_usage\
+$custom\
+$sudo\
+$cmd_duration\
+$line_break\
+$jobs\
+$battery\
+$time\
+$status\
+$os\
+$netns\
+$shell\
+$character"""
+
+[cmd_duration]
+min_time = 1
+show_milliseconds = true

@@ -11,7 +11,8 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     vim.fn.getchar()
     os.exit(1)
   end
-end vim.opt.rtp:prepend(lazypath)
+end
+vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   root = vim.fn.stdpath("data") .. "~/Documents/", -- Change this path
@@ -40,15 +41,15 @@ require("lazy").setup({
       -- disable some rtp plugins
       disabled_plugins = {
         "gzip",
-        "matchit",
-        "matchparen",
-        "netrwPlugin",
+        -- "matchit",
+        -- "matchparen",
+        -- "netrwPlugin",
         "tarPlugin",
         "tohtml",
         "tutor",
         "zipPlugin",
-        "mason",
-        "mason-lspconfig"
+        -- "mason",
+        -- "mason-lspconfig",
       },
     },
   },
