@@ -42,10 +42,10 @@ if true then return {
                 -- ...
             })
 
-            vim.cmd("colorscheme github_dark_default")
+            vim.cmd("colorscheme github_dark_colorblind")
         end,
         opts = {
-            colorscheme = "github_dark_default",
+            -- colorscheme = "github_dark_default",
         },
     },
     -- Configure LazyVim to load gruvbox

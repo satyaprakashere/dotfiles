@@ -12,3 +12,6 @@ defaults write com.apple.LaunchServices/com.apple.launchservices.secure LSHandle
 -- setup editors
 
 -- setup build scripts
+-- modern rust cli tools
+brwe install eza ripgrep dust nushell dua-cli gitui xh bat zoxide uutils-coreutils yazi hyperfine evil-helix fselect ripgrep-all tokei presenterm
+

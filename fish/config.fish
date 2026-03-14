@@ -1,6 +1,4 @@
-if status is-interactive
-    # Commands to run in interactive sessions can go here
-end
+set RUSTFLAGS "-C opt-level=0 -C debuginfo=0 -C link-arg=-si -C link-arg=-fuse-ld=/usr/local/bin/mold"
 
 zoxide init fish | source
 starship init fish | source
@@ -25,11 +23,15 @@ set --export BUN_INSTALL "$HOME/.bun"
 #set -gx LDFLAGS "-L/opt/homebrew/opt/llvm/lib/unwind -lunwind"
 #set -gx LDFLAGS "-L/opt/homebrew/opt/llvm/lib/c++ -L/opt/homebrew/opt/llvm/lib/unwind -lunwind"
 
-alias j=z
-alias e=vim
-alias ls=eza
-alias python=python3
-alias lone=~/github/lone/build/aarch64/lone
+alias j="z"
+alias e="vim"
+alias ls="eza"
+alias cat="bat"
+alias grep="rg"
+alias find="fd"
+alias python="python3"
+alias mem="~/dotfiles/shell/psm.sh"
+alias lone="~/github/lone/build/aarch64/lone"
 #alias npm=bun
 #alias node=bun
 #alias gcc=gcc-15
@@ -58,24 +60,4 @@ fish_add_path /opt/homebrew/sbin
 
 # Added by Antigravity
 #fish_add_path /Users/prakash/.antigravity/antigravity/bin
-
-# Homebrew Config
-set -x HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK true
-set -x HOMEBREW_NO_AUTO_UPDATE true
-
-# >>> coursier install directory >>>
-#set -gx PATH "$PATH:/Users/prakash/Library/Application Support/Coursier/bin"
-# <<< coursier install directory <<<
-
-# BEGIN opam configuration
-# This is useful if you're using opam as it adds:
-#   - the correct directories to the PATH
-#   - auto-completion for the opam binary
-# This section can be safely removed at any time if needed.
-#test -r '/Users/prakash/.opam/opam-init/init.fish' && source '/Users/prakash/.opam/opam-init/init.fish' > /dev/null 2> /dev/null; or true
-# END opam configuration
-
-# Added by OrbStack: command-line tools and integration
-# This won't be added again if you remove it.
-#source ~/.orbstack/shell/init2.fish 2>/dev/null || :
 
