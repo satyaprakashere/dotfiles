@@ -75,5 +75,5 @@ background-blur=true
 
 #keybind = super+r=reload_config
 
-keybind = global:cmd+backquote=toggle_quick_terminal
+keybind = global:backquote=toggle_quick_terminal
 #keybind = shift+enter=text:\x1b\r

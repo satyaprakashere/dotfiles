@@ -32,6 +32,7 @@ alias find="fd"
 alias python="python3"
 alias mem="~/dotfiles/shell/psm.sh"
 alias lone="~/github/lone/build/aarch64/lone"
+alias run="bash $HOME/dotfiles/shell/build-scripts/build_run.sh"
 #alias npm=bun
 #alias node=bun
 #alias gcc=gcc-15

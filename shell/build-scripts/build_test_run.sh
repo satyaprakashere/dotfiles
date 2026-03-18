@@ -54,7 +54,14 @@ if [ $BUILD_STATUS -eq 0 ]; then
     OUTPUT_FILE=$(echo "$BUILD_OUTPUT" | tail -n 1)
 
     if [ -n "$OUTPUT_FILE" ] && [ -f "$OUTPUT_FILE" ]; then
-        echo "Build successful. Running: $OUTPUT_FILE"
+        echo "Build successful"
+        echo "----------------------------------------------------------------------"
+        chmod +x "$OUTPUT_FILE"
+        "$OUTPUT_FILE"
+        EXIT_STATUS=$?
+        echo "----------------------------------------------------------------------"
+        echo "Program exited with status $EXIT_STATUS"
+        exit $EXIT_STATUS
     else
         echo "Build successful, but output file '$OUTPUT_FILE' not found."
         exit 1

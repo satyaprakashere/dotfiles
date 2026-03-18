@@ -32,8 +32,10 @@ nnoremap <C-h> :nohls<CR>
 nnoremap cm gc
 
 "----------leader mappings----------------------------------------------------
-nnoremap <leader>b :SCCompile<CR>
-nnoremap <leader>r :SCCompileRun<CR>
+"nnoremap <leader>b :SCCompile<CR>
+"nnoremap <leader>r :SCCompileRun<CR>
+nnoremap <leader>b :!bash ~/dotfiles/shell/build-scripts/build.sh %<CR>
+nnoremap <leader>r :!bash ~/dotfiles/shell/build-scripts/build_run.sh %<CR>
 nnoremap <leader>q :bd<CR>
 nnoremap <Leader>. :!open .<CR>
 nnoremap <leader>o :CtrlP<CR>
@@ -79,11 +81,13 @@ if has('macunix')
     noremap <D-l> :buffers<CR>
     noremap <D-j> <C-w>l
     noremap <D-k> <C-w>h
-    noremap <D-b> :SCCompile<CR>
-    noremap <D-r> :SCCompileRun<CR>
+    "noremap <D-b> :SCCompile<CR>
+    "noremap <D-r> :SCCompileRun<CR>
+    nnoremap <D-b> :!bash ~/dotfiles/shell/build-scripts/build.sh %<CR>
+    nnoremap <D-r> :!bash ~/dotfiles/shell/build-scripts/build_run.sh %<CR>
 
-    autocmd filetype cpp nnoremap<D-b> :SCCompileAF -std=c++14<CR>
-    autocmd filetype cpp nnoremap<D-r> :SCCompileRunAF -std=c++14<CR>
+    "autocmd filetype cpp nnoremap<D-b> :SCCompileAF -std=c++14<CR>
+    "autocmd filetype cpp nnoremap<D-r> :SCCompileRunAF -std=c++14<CR>
     "autocmd filetype haskell nnoremap <D-r> :!runhaskell %<CR>
     "autocmd filetype haskell nnoremap <D-b> :!ghc -o $:r %<CR>
 endif

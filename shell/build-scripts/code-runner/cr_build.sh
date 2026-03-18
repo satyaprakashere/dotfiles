@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # This is a CodeRunner compile script. Compile scripts are used to compile
 # code before being run using the run command specified in CodeRunner
 # preferences. This script is invoked with the following properties:
@@ -26,7 +25,11 @@
 
 init_cr() {
     # [ -z "$CR_FILENAME" ] && CR_FILENAME="$1"
-    [ -z "$CR_SUGGESTED_OUTPUT_FILE" ] && CR_SUGGESTED_OUTPUT_FILE="$PWD/${CR_FILENAME//./_}"
+    if [[ "$CR_FILENAME" = /* ]]; then
+        [ -z "$CR_SUGGESTED_OUTPUT_FILE" ] && CR_SUGGESTED_OUTPUT_FILE="${CR_FILENAME//./_}"
+    else
+        [ -z "$CR_SUGGESTED_OUTPUT_FILE" ] && CR_SUGGESTED_OUTPUT_FILE="$PWD/${CR_FILENAME//./_}"
+    fi
     [ -z "$CR_UNSAVED_DIR" ] && CR_UNSAVED_DIR="$CR_TMPDIR"
     [ -z "$LANGUAGE" ] && LANGUAGE="${CR_FILENAME##*.}"
 
@@ -51,7 +54,7 @@ check_checksum() {
     if [ -f "$CHECKSUM_FILE" ]; then
         # Check if file matches checksum
         sha256sum -c "$CHECKSUM_FILE" --status
-        
+
         if [ $? -eq 0 ] && [ -f "$CR_SUGGESTED_OUTPUT_FILE" ]; then
             echo "$CR_SUGGESTED_OUTPUT_FILE"
             exit 0
@@ -72,3 +75,4 @@ post_build() {
     fi
     exit $status
 }
+

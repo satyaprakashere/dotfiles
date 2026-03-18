@@ -11,7 +11,7 @@ fi
 
 # Get the directory where the current script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
-export BUILD_SCRIPT="$SCRIPT_DIR/code-runner/general_cr_build_test.sh"
+export BUILD_SCRIPT="$SCRIPT_DIR/code-runner/general_cr_build_release.sh"
 
 if [ ! -f "$BUILD_SCRIPT" ]; then
     echo "Error: General build script '$BUILD_SCRIPT' not found."
@@ -54,7 +54,7 @@ if [ $BUILD_STATUS -eq 0 ]; then
     OUTPUT_FILE=$(echo "$BUILD_OUTPUT" | tail -n 1)
 
     if [ -n "$OUTPUT_FILE" ] && [ -f "$OUTPUT_FILE" ]; then
-        echo "Build successful. Running: $OUTPUT_FILE"
+        echo "Build successful"
     else
         echo "Build successful, but output file '$OUTPUT_FILE' not found."
         exit 1
