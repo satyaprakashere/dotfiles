@@ -1,0 +1,5 @@
+{
+	"shell_cmd": "mvn package",
+	"selector": "source.java",
+	"quiet": true
+}

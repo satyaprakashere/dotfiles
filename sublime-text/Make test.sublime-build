@@ -1,0 +1,5 @@
+{
+	"shell_cmd": "make test",
+    "selector": "source.odin",
+    "quiet": true
+}

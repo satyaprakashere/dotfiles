@@ -1,0 +1,4 @@
+[
+	{ "keys": ["super+."], "command": "cancel_build" },
+	{ "keys": ["super+j"], "command": "hide_panel", "args": {"panel": "output.exec", "toggle": true} },
+]

@@ -1,0 +1,8 @@
+{
+	"shell_cmd": "bash ~/dotfiles/shell/build-scripts/build_run.sh $file",
+	"selector": "source.odin",
+	"quiet": true,
+    "env": {
+        "SUBLIME_QUIET_BUILD": "1"
+    }
+}

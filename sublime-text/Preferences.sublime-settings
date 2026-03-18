@@ -1,0 +1,10 @@
+{
+	"ignored_packages":
+	[
+		"Vintage",
+	],
+	"index_files": true,
+	"font_size": 22,
+	"theme": "Adaptive.sublime-theme",
+	"color_scheme": "GitHub Dimmed.sublime-color-scheme",
+}

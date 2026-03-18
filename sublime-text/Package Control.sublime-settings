@@ -1,0 +1,26 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"Code Runner",
+		"Elixir",
+		"Github Color Theme",
+		"GitHub Theme",
+		"Golang",
+		"Kotlin",
+		"LSP",
+		"Maven",
+		"ModernFortran",
+		"Odin",
+		"Package Control",
+		"Racket",
+		"Swift",
+		"Typst",
+		"WebAssembly Text Syntax",
+		"WGSL",
+		"Zig Language",
+	],
+}
