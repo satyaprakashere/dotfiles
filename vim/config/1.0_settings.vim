@@ -172,3 +172,8 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 let &path.="/src/include,./"
 
+let g:go_gopls_enabled = 1
+set completeopt=menu,menuone,noselect,preview
+
+au filetype go inoremap <buffer> . .<C-x><C-o>
+

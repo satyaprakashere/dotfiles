@@ -5,3 +5,4 @@
 vim.cmd("cd ~/Documents")
 
 vim.o.guifont = "Hack Nerd Font Mono:h22"
+vim.g.snacks_animate = false

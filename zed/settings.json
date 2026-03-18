@@ -17,12 +17,12 @@
     // "show_project_items": false
   },
   "project_panel": {
-    "button": false
+    // "button": false
   },
   "icon_theme": {
     "mode": "system",
     "light": "Zed (Default)",
-    "dark": "Zed (Default)"
+    "dark": "Colored Zed Icons Theme Dark"
   },
   "session": {
     "trust_all_worktrees": true
@@ -38,6 +38,7 @@
     "kotlin": false
   },
   "terminal": {
+    // "button": false,
     "alternate_scroll": "off",
     "blinking": "terminal_controlled",
     "copy_on_select": true,
@@ -55,7 +56,6 @@
     "font_size": null,
     "line_height": "comfortable",
     "option_as_meta": false,
-    "button": true,
     "shell": "system",
     "toolbar": {
       "breadcrumbs": true,

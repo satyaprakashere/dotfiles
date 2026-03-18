@@ -31,6 +31,13 @@ nnoremap gk k
 nnoremap <C-h> :nohls<CR>
 nnoremap cm gc
 
+" Map 'gb' to Go Back in the jump list (Ctrl + O)
+nnoremap gb <C-o>
+
+" Optional: Map 'gf' to Go Forward in the jump list (Ctrl + I)
+" NOTE: This overrides the default 'Go to File' command
+" nnoremap gf <C-i>
+
 "----------leader mappings----------------------------------------------------
 "nnoremap <leader>b :SCCompile<CR>
 "nnoremap <leader>r :SCCompileRun<CR>

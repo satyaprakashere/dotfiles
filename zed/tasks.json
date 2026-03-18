@@ -3,9 +3,9 @@
 // Example:
 [
   {
-    "label": "Go Run",
-    "command": "go",
-    "args": ["run", "{$file}"],
+    "label": "Code Runner",
+    "command": "bash $HOME/dotfiles/shell/build-scripts/build_run.sh $ZED_FILE",
+    // "args": ["$HOME/dotfiles/shell/build-scripts/build_run.sh", "{$file}"],
     // Env overrides for the command, will be appended to the terminal's environment from the settings.
     // "env": { "foo": "bar" },
     // Current working directory to spawn the command into, defaults to current project root.

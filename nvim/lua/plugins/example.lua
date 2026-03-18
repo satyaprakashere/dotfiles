@@ -42,7 +42,7 @@ if true then return {
                 -- ...
             })
 
-            vim.cmd("colorscheme github_dark_colorblind")
+            vim.cmd("colorscheme github_dark_dimmed")
         end,
         opts = {
             -- colorscheme = "github_dark_default",

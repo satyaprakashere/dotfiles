@@ -19,7 +19,7 @@
     }
   },
   {
-    "context": "(Workspace && !Terminal)",
+    "context": "((Workspace || Editor) || Terminal)",
     "bindings": {
       "cmd-r": "task::Rerun"
     }
@@ -28,6 +28,41 @@
     "context": "Workspace",
     "bindings": {
       "alt-cmd-r": "workspace::ToggleRightDock"
+    }
+  },
+  {
+    "bindings": {
+      "alt-shift-h": "zed::Hide"
+    }
+  },
+  {
+    "context": "((Workspace || Editor) || Terminal)",
+    "bindings": {
+      "cmd-h": "workspace::ToggleLeftDock"
+    }
+  },
+  {
+    "context": "((Workspace || Editor) || Terminal)",
+    "bindings": {
+      "cmd-b": ["task::Spawn", { "task_name": "Code Runner" }]
+    }
+  },
+  // {
+  //   "context": "((Workspace || Editor) || Terminal)",
+  //   "bindings": {
+  //     "cmd-.": ["task::Terminate", { "task_name": "Code Runner" }]
+  //   }
+  // },
+  {
+    "context": "((Workspace || Editor) || Terminal)",
+    "bindings": {
+      "cmd-shift-b": "task::Spawn"
+    }
+  },
+  {
+    "context": "((Workspace || Editor) || Terminal)",
+    "bindings": {
+      "cmd-l": "workspace::ToggleRightDock"
     }
   }
 ]
