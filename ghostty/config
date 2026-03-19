@@ -60,6 +60,7 @@ background-opacity=.95
 background-blur=true
 
 # Emacs like splits and Windmove navigation
+# Emacs like splits and Windmove navigation
 #keybind = ctrl+x>2=new_split:right
 #keybind = ctrl+x>3=new_split:up
 #keybind = super+left=goto_split:left

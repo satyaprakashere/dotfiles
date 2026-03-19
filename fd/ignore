@@ -1,0 +1,7 @@
+*.app/
+*.dmg
+*.iso
+*.pkg
+.git/
+node_modules/
+Library/

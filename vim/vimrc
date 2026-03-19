@@ -1,3 +1,4 @@
+set nocompatible
 let plug_plugin = expand('~/.config/vim/autoload/plug.vim')
 
 if !filereadable(plug_plugin)
@@ -12,143 +13,59 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
-" Generic plugins
-let g:polyglot_disabled = []
-Plug 'sheerun/vim-polyglot'                             " Syntax highlighting for 50+ languages.
-Plug 'dense-analysis/ale'
-Plug 'vimwiki/vimwiki'
-
+" Appearance
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'mhartington/oceanic-next'
-Plug 'itchyny/lightline.vim'                            " light-weight powerline
+Plug 'itchyny/lightline.vim'
 Plug 'wojciechkepka/vim-github-dark'
 
-Plug 'airblade/vim-gitgutter'                           " shows git diff in editor
-Plug 'eraserhd/parinfer-rust', {'do':
-        \  'cargo build --release'}
-Plug 'easymotion/vim-easymotion'                        " Various Shortcuts to improve motion controls
-Plug 'christoomey/vim-sort-motion'
-Plug 'scrooloose/nerdcommenter'                         " Shortcut for commenting lines and blocks.
-Plug 'gcmt/wildfire.vim'                                " expand visual-selection region
-Plug 'honza/vim-snippets'                               " Snippets for vaious programming languages
-Plug 'jiangmiao/auto-pairs'                             " Auto pairs
-Plug 'jreybert/vimagit'
-Plug 'preservim/vim-markdown'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'                               " git plugin
-Plug 'tpope/vim-sleuth'
+" LSP and Completion
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'honza/vim-snippets'
+Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-dispatch'
 
-Plug 'xuhdev/SingleCompile'                             " Single file compilation
-Plug 'wikitopian/hardmode'
-Plug 'xolox/vim-misc'
-Plug 'vim-scripts/GreedyBackspace.vim'
-Plug 'vim-scripts/Wombat'
-Plug 'johnsyweb/vim-makeshift'
-Plug 'scrooloose/nerdtree'
-Plug 'preservim/nerdtree'
-Plug 'junegunn/goyo.vim'
-Plug 'nathanaelkane/vim-indent-guides'
-Plug 'ervandew/supertab'
-Plug 'godlygeek/tabular'
-Plug 'terryma/vim-smooth-scroll'
-Plug 'mg979/vim-visual-multi'
-Plug 'ctrlpvim/ctrlp.vim'                              " Fast fuzzy search for opening projects files
-Plug 'JazzCore/ctrlp-cmatcher'
-
+" Search and Navigation
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'easymotion/vim-easymotion'
+Plug 'christoomey/vim-sort-motion'
+Plug 'gcmt/wildfire.vim'
+Plug 'mg979/vim-visual-multi'
 
-Plug 'junegunn/goyo.vim'
-Plug 'preservim/vim-colors-pencil'
+" Git Integration
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'jreybert/vimagit'
 
+" Editing Utilities
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-dispatch'
+Plug 'scrooloose/nerdcommenter'
+Plug 'godlygeek/tabular'
+Plug 'terryma/vim-smooth-scroll'
+Plug 'eraserhd/parinfer-rust', {'do': 'cargo build --release'}
 
-Plug 'Shougo/deoplete.nvim'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
-
-" Language plugins
+" Syntax and Language Support
+let g:polyglot_disabled = ['ftdetect']
+Plug 'sheerun/vim-polyglot'
+Plug 'preservim/vim-markdown'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'ziglang/zig.vim'
 Plug 'dag/vim2hs'
 Plug 'derekelkins/agda-vim'
 Plug 'idris-hackers/idris-vim'
 Plug 'elixir-editors/vim-elixir'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'ziglang/zig.vim'
-"Plug 'billhaller/odin.vim'       " Odin Syntax
-Plug 'prabirshrestha/vim-lsp'     " LSP Client for Vim
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-"Plug 'artur-shaik/vim-javacomplete2'
-"Plug 'tfnico/vim-gradle'
 
-" Haskell plugins
-"Plug 'eagletmt/ghcmod-vim'
-"Plug 'neoclide/coc.nvim',  {'branch': 'release'}
-"Plug 'eagletmt/neco-ghc'
-"Plug 'autozimu/LanguageClient-neovim', {
-    "\ 'branch': 'next',
-    "\ 'do': 'bash install.sh'
-    "\ }
+" Misc
+Plug 'vimwiki/vimwiki'
+Plug 'preservim/nerdtree'
+Plug 'junegunn/goyo.vim'
+Plug 'preservim/vim-colors-pencil'
 
-
-
-" Unused plugins
-"Plug 'junegunn/fzf' ,{'do' : './install -all'}
-"Plug 'koron/minimap-vim'
-"Plug 'Shougo/neomru.vim'
-"Plug 'Shougo/neosnippet-snippets'
-"Plug 'Shougo/neosnippet.vim'
-"Plug 'Shougo/vimfiler.vim'
-"Plug 'Shougo/vimshell.vim'
-"Plug 'bling/vim-airline'
-"Plug 'koron/nyancat-vim'
-"Plug 'osyo-manga/vim-snowdrop'
-"Plug 'sjl/gundo.vim'
-"Plug 'xolox/vim-notes'
-"Plug 'Raimondi/delimitMate'
-"Plug 'jordwalke/VimCompleteLikeAModernEditor'
-"Plug 'majutsushi/tagbar'
-"Plug 'mileszs/ack.vim'
-"Plug 'mkarmona/materialbox'
-"Plug 'nathanaelkane/vim-indent-guides'
-"Plug 'sollidsnake/vterm'
-"Plug 'tpope/vim-fireplace'
-"Plug 'wincent/command-t'
-"Plug 'tpope/vim-vinegar'
-
-"Plug 'reedes/vim-colors-pencil'
-"Plug 'ghifarit53/tokyonight-vim'
-"Plug 'altercation/vim-colors-solarized'                 " Solarized color scheme.
-"Plug 'ayu-theme/ayu-vim'
-
-"Plug 'rakr/vim-one'
-"Plug 'cocopon/iceberg.vim'
-"Plug 'FelikZ/ctrlp-py-matcher'
-"Plug 'neomake/neomake'
-"Plug 'Shougo/vimproc.vim' , {'do' : 'make'}
-"Plug 'Shougo/ddc.nvim'
-"Plug 'szw/vim-g'
-"Plug 'vim-fish'
-"Plug 'xolox/vim-easytags'
-"Plug 'rking/ag.vim'                                     " Fast searching/substitution in multiple files
-"Plug 'Shougo/unite.vim'
-"Plug 'vim-scripts/LaTeX-Suite-aka-Vim-LaTeX'            " Latex all-in-one plugin
-"Plug 'octol/vim-cpp-enhanced-highlight'                 " Syntax highlighting for cpp language
-
-if has('lua')
-endif
-
-"if has('rust')
-    "Plug 'eraserhd/parinfer-rust', {'do':
-        "\ 'nix-shell --run \"cargo build --release \"'}
-"end
-
-
-" All of Plugins must be added before the following line
 call plug#end()
 
 " Now process all of the configuration files that I have stored in my 'config'

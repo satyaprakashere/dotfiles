@@ -16,6 +16,22 @@
           }
         }
       }
+    },
+    "go": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod", ".git/"],
+      "filetypes": ["go"]
+    },
+    "python": {
+      "command": "pyright-langserver",
+      "args": ["--stdio"],
+      "filetypes": ["python"],
+      "rootPatterns": ["pyrightconfig.json", "setup.py", ".git/"]
     }
-  }
+  },
+  "coc.preferences.formatOnSaveFiletypes": ["go", "python", "haskell"],
+  "suggest.noselect": true,
+  "suggest.enablePreview": true,
+  "diagnostic.errorSign": ">>",
+  "diagnostic.warningSign": "!!"
 }

@@ -2,9 +2,9 @@ set RUSTFLAGS "-C opt-level=0 -C debuginfo=0 -C link-arg=-si -C link-arg=-fuse-l
 
 zoxide init fish | source
 starship init fish | source
-#fzf --fish | source
+fzf --fish | source
 #fish_vi_key_bindings
-#[ -f /opt/homebrew/share/autojump/autojump.fish ]; and source /opt/homebrew/share/autojump/autojump.fish
+# [ -f /opt/homebrew/share/autojump/autojump.fish ]; and source /opt/homebrew/share/autojump/autojump.fish
 
 set -Ux EDITOR vim
 set -x MallocNanoZone 0
@@ -25,7 +25,10 @@ set --export BUN_INSTALL "$HOME/.bun"
 
 alias j="z"
 alias e="vim"
-alias ls="eza"
+alias ls="eza --icons --group-directories-first --git"
+alias ll="ls -l"
+alias la="ls -a"
+alias lT="ls --tree"
 alias cat="bat"
 alias grep="rg"
 alias find="fd"
@@ -33,9 +36,19 @@ alias python="python3"
 alias mem="~/dotfiles/shell/psm.sh"
 alias lone="~/github/lone/build/aarch64/lone"
 alias run="bash $HOME/dotfiles/shell/build-scripts/build_run.sh"
-#alias npm=bun
-#alias node=bun
-#alias gcc=gcc-15
+
+# Git aliases
+alias gs="git status"
+alias gd="git diff"
+alias gl="git log --oneline --graph --decorate --all"
+alias ga="git add"
+alias gc="git commit"
+alias gp="git push"
+
+# Navigation aliases
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
 
 fish_add_path ~/go/bin
 fish_add_path ~/.bun/bin
@@ -62,3 +75,13 @@ fish_add_path /opt/homebrew/sbin
 # Added by Antigravity
 #fish_add_path /Users/prakash/.antigravity/antigravity/bin
 
+# Use fd instead of find for fzf (much faster)
+# Updated fzf command to ignore large packages and hidden app folders
+set -x FZF_DEFAULT_COMMAND 'fd --type f --strip-cwd-prefix --follow \
+    --exclude .git \
+    --exclude "*.app" \
+    --exclude "*.dmg" \
+    --exclude "*.iso" \
+    --exclude "*.pkg"'
+
+set -x FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"

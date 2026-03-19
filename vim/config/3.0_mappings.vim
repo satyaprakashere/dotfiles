@@ -1,4 +1,4 @@
-"----------overrriding existing mappings--------------------------------------
+" ----[ Overriding existing mappings ]----------
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
@@ -9,113 +9,115 @@ cnoremap <C-c> <ESC>
 
 nnoremap q :q<CR>
 nnoremap ; :
-cnoremap jk <ESC>
-"vnoremap jk <ESC>
 inoremap jk <ESC>
+cnoremap jk <ESC>
 
-"----------update existing mappings--------------------------------------------
+" ----[ Update existing mappings ]----------
 " do not leave visual mode after visually shifting text
 vnoremap < <gv
 vnoremap > >gv
 
-"make Y consistent wfth C and D
-nmap Y y$
+" make Y consistent with C and D
+nnoremap Y y$
 
-"move through display lines with j and k (Vim's default is semantic jump)
+" move through display lines with j and k
 nnoremap j gj
 nnoremap k gk
 nnoremap gj j
 nnoremap gk k
-"nnoremap <C-j> <C-d>
-"nnoremap <C-k> <C-u>
+
 nnoremap <C-h> :nohls<CR>
-nnoremap cm gc
 
 " Map 'gb' to Go Back in the jump list (Ctrl + O)
 nnoremap gb <C-o>
 
-" Optional: Map 'gf' to Go Forward in the jump list (Ctrl + I)
-" NOTE: This overrides the default 'Go to File' command
-" nnoremap gf <C-i>
+" ----[ Leader mappings ]----------
+let mapleader="\<Space>"
 
-"----------leader mappings----------------------------------------------------
-"nnoremap <leader>b :SCCompile<CR>
-"nnoremap <leader>r :SCCompileRun<CR>
+" Build and Build/Run (using dotfiles scripts)
 nnoremap <leader>b :!bash ~/dotfiles/shell/build-scripts/build.sh %<CR>
 nnoremap <leader>r :!bash ~/dotfiles/shell/build-scripts/build_run.sh %<CR>
+
 nnoremap <leader>q :bd<CR>
 nnoremap <Leader>. :!open .<CR>
-nnoremap <leader>o :CtrlP<CR>
 nnoremap <leader>vp :vsp<CR>
 nnoremap <leader>sp :sp<CR>
 nnoremap <leader>bn :bn<CR>
 nnoremap <leader>bp :bp<CR>
 nnoremap <leader>bl :buffers<CR>
-nnoremap <leader>gv `[v`]                       "re-select text block that was just pasted/edited
-nnoremap <leader>gq gqip                        "re-format paragraphs of text
-nnoremap <leader>wt :silent! %s/\s\+$// \| retab <CR>
+nnoremap <leader>gv `[v`]                       " re-select text block that was just pasted/edited
+nnoremap <leader>gq gqip                        " re-format paragraphs of text
+nnoremap <leader>wt :silent! %s/\s\+$// <Bar> retab <CR>
 nnoremap <leader>s :w<CR>
+
+" ----[ Plugin Mappings ]----------
+
+" fzf.vim
+nnoremap <C-p> :ProjectFiles<CR>
+nnoremap <leader>o :ProjectFiles<CR>
+nnoremap <leader>ff :ProjectFiles<CR>
+nnoremap <leader>fr :History<CR>
+nnoremap <leader>fb :Buffers<CR>
+nnoremap <leader>fg :GFiles<CR>
+nnoremap <leader>ft :Tags<CR>
+
+" NERDTree
+nnoremap <leader>n :NERDTreeToggle<CR>
+nnoremap <leader>h :NERDTreeToggle<CR>
+
+" coc.nvim
+" coc.nvim
+" Use tab for trigger completion with characters ahead and navigate
+inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#next(1) : CheckBackspace() ? "\<Tab>" : coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" GoTo code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+" Symbol renaming
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+" Multi-cursor (using wildfire)
 nnoremap <leader><CR> <Plug>(wildfire-quick-select)
 
-nnoremap <leader>fr :CtrlPMRU<CR>
-nnoremap <leader>ff :CtrlPMixed<CR>
+" Smooth scroll
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
 
-
-nnoremap <leader>gc :w \| SyntasticCheck cpplint<CR>
-"autocmd filetype cpp nnoremap <leader>b :SCCompileAF -w -std=c++14<CR>
-"autocmd filetype cpp nnoremap <leader>r :SCCompileRunAF -std=c++14
-"autocmd filetype cpp nnoremap <leader>d :SCCompileAF -std=c++14 \| !lldb %:r <CR>
-
-autocmd filetype idris nnoremap <leader>b :!idris % -o %:r<CR>
-autocmd filetype idris nnoremap <leader>r :!./%:r<CR>
-
-"autocmd filetype haskell nnoremap <leader>b :!ghc -o $:r %<CR>
-"autocmd filetype haskell nnoremap <leader>r :!runhaskell %<CR>
-
-"autocmd filetype latex,tex nnoremap <leader>b :call Tex_PartCompile()<CR>
-"autocmd filetype latex,tex nnoremap <leader>v :call ViewLaTeX()<CR>
-
-" Up down movements in command mode
+" Command Mode navigation
 cnoremap <C-k> <Up>
 cnoremap <C-j> <Down>
 
-" File browsing
-map <C-l> :CtrlPMRU<CR>
-map <C-f> :CtrlPMixed<CR>
-
+" GUI (usually MacVim) specific
 if has('macunix')
     noremap <D-d> :vsp<CR>
     noremap <D-l> :buffers<CR>
     noremap <D-j> <C-w>l
     noremap <D-k> <C-w>h
-    "noremap <D-b> :SCCompile<CR>
-    "noremap <D-r> :SCCompileRun<CR>
     nnoremap <D-b> :!bash ~/dotfiles/shell/build-scripts/build.sh %<CR>
     nnoremap <D-r> :!bash ~/dotfiles/shell/build-scripts/build_run.sh %<CR>
-
-    "autocmd filetype cpp nnoremap<D-b> :SCCompileAF -std=c++14<CR>
-    "autocmd filetype cpp nnoremap<D-r> :SCCompileRunAF -std=c++14<CR>
-    "autocmd filetype haskell nnoremap <D-r> :!runhaskell %<CR>
-    "autocmd filetype haskell nnoremap <D-b> :!ghc -o $:r %<CR>
+    nnoremap <D-h> :NERDTreeToggle<CR>
 endif
-
-"augroup myvimrc
-    "au!
-    "au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
-"augroup END
-
-
-"------------------------------------------------------------------------------------------------
-
-"------------------------------------------------------------------------------------
-noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
-noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
-noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
-noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
-
-"-----------------------------------------------------------------------------------
-
-let g:fzf_vim = {}
-
-"-----------------------------------------------------------------------------------
-noremap <D-B> :NERDTreeToggle<CR>
