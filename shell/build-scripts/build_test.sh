@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# build-cli.sh
 # A CLI wrapper for CodeRunner build scripts
 
 if [ $# -lt 1 ]; then

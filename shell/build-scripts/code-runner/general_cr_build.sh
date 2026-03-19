@@ -9,9 +9,29 @@ export GOEXPERIMENT=arenas
 
 build_command() {
     case "$CR_FILENAME" in
-        *.go)   go build -o "$CR_SUGGESTED_OUTPUT_FILE" "$CR_FILENAME" "$@" ${CR_DEBUGGING:+-gcflags "-N -l"} ;;
+        *.go)   
+            project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "go.mod")
+            if [ -n "$project_root" ]; then
+                (cd "$project_root" && go build -o "$CR_SUGGESTED_OUTPUT_FILE" .)
+            else
+                go build -o "$CR_SUGGESTED_OUTPUT_FILE" "$CR_FILENAME" "$@" ${CR_DEBUGGING:+-gcflags "-N -l"}
+            fi
+            ;;
 
-        *.odin) odin build "$CR_FILENAME" -file "$@" -out="$CR_SUGGESTED_OUTPUT_FILE" ;;
+        *.odin) 
+            project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "Makefile ols.json")
+            if [ -n "$project_root" ]; then
+                if [ -f "$project_root/Makefile" ]; then
+                    (cd "$project_root" && make)
+                else
+                    odin build "$project_root" -out="$CR_SUGGESTED_OUTPUT_FILE" "$@"
+                fi
+            else
+                odin build "$CR_FILENAME" -file "$@" -out="$CR_SUGGESTED_OUTPUT_FILE"
+            fi
+            # Ensure the output file exists for build_run.sh check
+            touch "$CR_SUGGESTED_OUTPUT_FILE"
+            ;;
 
         *.rs)   cratename="$(basename "$CR_SUGGESTED_OUTPUT_FILE" | sed 's/[[:blank:]]/_/g')"
                 rustc -o "$CR_SUGGESTED_OUTPUT_FILE" --crate-name "$cratename" "$CR_FILENAME" "$@" ${CR_DEBUGGING:+-g} ;;
@@ -26,19 +46,75 @@ build_command() {
 
         *.zig)  zig build-exe "$CR_FILENAME" -femit-bin="$CR_SUGGESTED_OUTPUT_FILE" "$@" ;;
 
-        *.java) javac "$CR_FILENAME" -d "$CR_TMPDIR" --enable-preview --release 25 -encoding ${enc[$CR_ENCODING]} "$@" ${CR_DEBUGGING:+-g} ;;
+        # Java: handles both single-file and project-based (Maven/Gradle) builds
+        *.java) 
+            project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "pom.xml build.gradle build.gradle.kts")
+            if [ -n "$project_root" ]; then
+                local encoding_flag=""
+                [ -n "${enc[$CR_ENCODING]}" ] && encoding_flag="-Dproject.build.sourceEncoding=${enc[$CR_ENCODING]}"
 
-        *.hs)   ghc -o "$CR_SUGGESTED_OUTPUT_FILE" -hidir="$CR_TMPDIR" -odir="$CR_TMPDIR" "$CR_FILENAME" "$@" ;;
+                if [ -f "$project_root/pom.xml" ]; then
+                    (cd "$project_root" && mvn compile $encoding_flag)
+                elif [ -f "$project_root/build.gradle" ] || [ -f "$project_root/build.gradle.kts" ]; then
+                    if [ -f "$project_root/gradlew" ]; then
+                        (cd "$project_root" && ./gradlew classes)
+                    else
+                        (cd "$project_root" && gradle classes)
+                    fi
+                fi
+                touch "$CR_SUGGESTED_OUTPUT_FILE"
+                # Output classpath:mainclassname for build_run.sh
+                echo "$(cd "$project_root" && pwd)/target/classes:$(cd "$project_root" && pwd)/build/classes/java/main:$(basename "$CR_FILENAME" .java)"
+                exit 0
+            else
+                # Single-file javac with preview features and specific encoding
+                javac "$CR_FILENAME" -d "$(dirname "$CR_SUGGESTED_OUTPUT_FILE")" --enable-preview --release 25 -encoding "${enc[$CR_ENCODING]:-UTF-8}" "$@" ${CR_DEBUGGING:+-g}
+                echo "$(dirname "$CR_SUGGESTED_OUTPUT_FILE"):$(basename "$CR_FILENAME" .java)"
+                exit 0
+            fi
+            ;;
 
-        *.f90)  gfortran $CR_FILENAME "$@" -o "$CR_SUGGESTED_OUTPUT_FILE" ;;
+        # Kotlin: similar to Java, handles Maven/Gradle projects
+        *.kt)   
+            project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "pom.xml build.gradle build.gradle.kts")
+            if [ -n "$project_root" ]; then
+                local encoding_flag=""
+                [ -n "${enc[$CR_ENCODING]}" ] && encoding_flag="-Dproject.build.sourceEncoding=${enc[$CR_ENCODING]}"
 
-        *.scm)  gsc -o "$CR_SUGGESTED_OUTPUT_FILE" -exe "$CR_FILENAME" "$@" ;;
-        
-        *.kt)   export CR_SUGGESTED_OUTPUT_FILE="$CR_SUGGESTED_OUTPUT_FILE.jar"
-                kotlinc "$CR_FILENAME" -include-runtime -d "$CR_SUGGESTED_OUTPUT_FILE" "$@" ;;
+                if [ -f "$project_root/pom.xml" ]; then
+                    (cd "$project_root" && mvn compile $encoding_flag)
+                elif [ -f "$project_root/build.gradle" ] || [ -f "$project_root/build.gradle.kts" ]; then
+                    if [ -f "$project_root/gradlew" ]; then
+                        (cd "$project_root" && ./gradlew classes)
+                    else
+                        (cd "$project_root" && gradle classes)
+                    fi
+                fi
+                touch "$CR_SUGGESTED_OUTPUT_FILE"
+                # Output classpath:mainclassname for build_run.sh
+                # Kotlin capitalizes the first letter of the filename for the class facade
+                local base_name=$(basename "$CR_FILENAME" .kt)
+                local first_letter=$(echo "${base_name:0:1}" | tr '[:lower:]' '[:upper:]')
+                local class_name="${first_letter}${base_name:1}Kt"
+                echo "$(cd "$project_root" && pwd)/target/classes:$(cd "$project_root" && pwd)/build/classes/kotlin/main:$class_name"
+                exit 0
+            else
+                # Single-file kotlinc with runtime included
+                export CR_SUGGESTED_OUTPUT_FILE="$CR_SUGGESTED_OUTPUT_FILE.jar"
+                kotlinc "$CR_FILENAME" -include-runtime -d "$CR_SUGGESTED_OUTPUT_FILE" "$@"
+                # Kotlin capitalizes the first letter of the filename for the class facade
+                local base_name=$(basename "$CR_FILENAME" .kt)
+                local first_letter=$(echo "${base_name:0:1}" | tr '[:lower:]' '[:upper:]')
+                local class_name="${first_letter}${base_name:1}Kt"
+                echo "$CR_SUGGESTED_OUTPUT_FILE:$class_name"
+                exit 0
+            fi
+            ;;
 
-        *.scala) scalac "$CR_FILENAME" -d "$CR_TMPDIR" "$@" && touch "$CR_SUGGESTED_OUTPUT_FILE" ;;
+        # Scala: single-file compilation with scalac
+        *.scala) scalac "$CR_FILENAME" -d "$(dirname "$CR_SUGGESTED_OUTPUT_FILE")" "$@" && touch "$CR_SUGGESTED_OUTPUT_FILE" ;;
 
+        # Objective-C: compiled with ARC and Foundation framework
         *.m)    xcrun clang -o "$CR_SUGGESTED_OUTPUT_FILE" -fobjc-arc -framework Foundation "$CR_FILENAME" "$@" ;;
 
         #*.py)   python "$CR_FILENAME" "$@" ;;
@@ -46,15 +122,23 @@ build_command() {
         #*.ts)   ts-node "$CR_FILENAME" "$@" ;;
         #*.sh)   bash "$CR_FILENAME" "$@" ;;
         #*.rb)   ruby "$CR_FILENAME" "$@" ;;
+        # Default: unknown file type
         *)      echo "No build command defined for this file type: $CR_FILENAME\n"; exit 1 ;;
     esac
 }
 
+# 1. Initialize CodeRunner environment and output paths
 init_cr
+
+# 2. Handle unsaved files (copy to temp if needed)
 handle_unsaved
+
+# 3. Check if the file matches a previous successful build (checksum)
 check_checksum
 
+# 4. Run the language-specific build command
 build_command "$@"
 status=$?
 
+# 5. Post-build cleanup and output the result path for build_run.sh
 post_build $status
