@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CompilerFlags</key>
+	<string></string>
+	<key>CompilerScript</key>
+	<true/>
+	<key>ConsoleType</key>
+	<integer>2</integer>
+	<key>CustomTabMode</key>
+	<false/>
+	<key>Diagnostics</key>
+	<array>
+		<dict>
+			<key>Command</key>
+			<string></string>
+			<key>KeyEquivalent</key>
+			<string></string>
+			<key>Name</key>
+			<string>Console Text</string>
+			<key>OutputMode</key>
+			<integer>1</integer>
+			<key>OutputRegex</key>
+			<string>^(?&lt;file&gt;[^\s].*?)\((?&lt;line&gt;\d+),(?&lt;column&gt;\d+)\): (((?&lt;error&gt;error)|(?&lt;warning&gt;warning)|(?&lt;note&gt;note|notice)) ((?&lt;messageID&gt;TS\w+): )?)?(?&lt;message&gt;.*)$</string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>Type</key>
+			<integer>2</integer>
+			<key>UpdateMode</key>
+			<integer>2</integer>
+			<key>uuid</key>
+			<string>82477F02-5545-4075-845A-4BFC25C14458</string>
+		</dict>
+		<dict>
+			<key>Command</key>
+			<string></string>
+			<key>KeyEquivalent</key>
+			<string></string>
+			<key>Name</key>
+			<string>Compile Script</string>
+			<key>Options</key>
+			<integer>4</integer>
+			<key>OutputMode</key>
+			<integer>1</integer>
+			<key>OutputRegex</key>
+			<string>^(?&lt;file&gt;[^\s].*?)\((?&lt;line&gt;\d+),(?&lt;column&gt;\d+)\): (((?&lt;error&gt;error)|(?&lt;warning&gt;warning)|(?&lt;note&gt;note|notice)) ((?&lt;messageID&gt;TS\w+): )?)?(?&lt;message&gt;.*)$</string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>Type</key>
+			<integer>0</integer>
+			<key>UpdateMode</key>
+			<integer>3</integer>
+			<key>uuid</key>
+			<string>C24B26BB-5A8F-493B-BBC8-5AE7320D2F70</string>
+		</dict>
+	</array>
+	<key>Docs</key>
+	<array>
+		<dict>
+			<key>Enabled</key>
+			<true/>
+			<key>Name</key>
+			<string>TypeScript Tutorial</string>
+			<key>POST</key>
+			<string></string>
+			<key>Type</key>
+			<integer>1</integer>
+			<key>URL</key>
+			<string>https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html</string>
+			<key>uuid</key>
+			<string>3D3C3522-0B3F-4BC3-A26E-8769E21AB7AA</string>
+		</dict>
+		<dict>
+			<key>Enabled</key>
+			<true/>
+			<key>Name</key>
+			<string>TypeScript Handbook</string>
+			<key>POST</key>
+			<string></string>
+			<key>Type</key>
+			<integer>1</integer>
+			<key>URL</key>
+			<string>https://www.typescriptlang.org/docs/handbook/basic-types.html</string>
+			<key>uuid</key>
+			<string>E6784788-E8AF-46AA-95DE-4CFF69B84FDB</string>
+		</dict>
+	</array>
+	<key>Enabled</key>
+	<true/>
+	<key>FileExtensions</key>
+	<array>
+		<string>ts</string>
+	</array>
+	<key>Grammar</key>
+	<string>source.ts</string>
+	<key>Name</key>
+	<string>TypeScript (Browser)</string>
+	<key>OutputEncoding</key>
+	<integer>0</integer>
+	<key>RequiresExternalComponents</key>
+	<true/>
+	<key>RunCommand</key>
+	<string>echo "&lt;script src=\"file://$compiler\"&gt;&lt;/script&gt;"</string>
+	<key>SoftTabs</key>
+	<false/>
+	<key>TabWidth</key>
+	<integer>4</integer>
+	<key>Templates</key>
+	<array/>
+	<key>uuid</key>
+	<string>01AE4478-7C08-46DC-9369-946EEE11083C</string>
+</dict>
+</plist>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CompilerScript</key>
+	<true/>
+	<key>ConsoleType</key>
+	<integer>0</integer>
+	<key>Debugger</key>
+	<string>lldb</string>
+	<key>Diagnostics</key>
+	<array>
+		<dict>
+			<key>Command</key>
+			<string></string>
+			<key>KeyEquivalent</key>
+			<string></string>
+			<key>Name</key>
+			<string>Clang</string>
+			<key>Options</key>
+			<integer>4</integer>
+			<key>OutputMode</key>
+			<integer>0</integer>
+			<key>OutputRegex</key>
+			<string>^(?&lt;file&gt;[^\s].*?):(?&lt;line&gt;\d+):(?&lt;column&gt;\d+):? (?&lt;message&gt;.*)$</string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>Type</key>
+			<integer>100</integer>
+			<key>UpdateMode</key>
+			<integer>3</integer>
+			<key>uuid</key>
+			<string>5553580B-F2D1-4647-9265-2939FCC4753D</string>
+		</dict>
+		<dict>
+			<key>Command</key>
+			<string></string>
+			<key>KeyEquivalent</key>
+			<string></string>
+			<key>Name</key>
+			<string>Console Text</string>
+			<key>OutputMode</key>
+			<integer>0</integer>
+			<key>OutputRegex</key>
+			<string></string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>Type</key>
+			<integer>2</integer>
+			<key>UpdateMode</key>
+			<integer>2</integer>
+			<key>uuid</key>
+			<string>3DCAF242-5FFD-4EDD-8389-BA7468288DCC</string>
+		</dict>
+	</array>
+	<key>Docs</key>
+	<array/>
+	<key>Enabled</key>
+	<true/>
+	<key>FileExtensions</key>
+	<array>
+		<string>c</string>
+		<string>h</string>
+	</array>
+	<key>Grammar</key>
+	<string>source.c</string>
+	<key>LanguageBundleVersion</key>
+	<integer>1</integer>
+	<key>LastUsed</key>
+	<date>2026-03-07T10:01:27Z</date>
+	<key>Name</key>
+	<string>C</string>
+	<key>OutputEncoding</key>
+	<integer>0</integer>
+	<key>RunCommand</key>
+	<string>$compiler</string>
+	<key>SoftTabs</key>
+	<false/>
+	<key>TabWidth</key>
+	<integer>4</integer>
+	<key>Templates</key>
+	<array>
+		<dict>
+			<key>Default</key>
+			<true/>
+			<key>Extension</key>
+			<string>c</string>
+			<key>Name</key>
+			<string>Main File</string>
+			<key>NameOnCreation</key>
+			<false/>
+			<key>Template</key>
+			<string>#include &lt;stdio.h&gt;
+
+int main(int argc, char *argv[]) {
+	&lt;##&gt;
+}</string>
+			<key>TemplateModified</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Extension</key>
+			<string>h</string>
+			<key>Name</key>
+			<string>Header</string>
+			<key>NameOnCreation</key>
+			<false/>
+			<key>Template</key>
+			<string></string>
+			<key>TemplateModified</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Extension</key>
+			<string>h</string>
+			<key>Name</key>
+			<string>Header-C Pair</string>
+			<key>NameOnCreation</key>
+			<true/>
+			<key>Template</key>
+			<string>//
+// ___FILENAME___
+// Created by ___FULLUSERNAME___ on ___DATE___.
+
+#ifndef ____FILEBASENAME_______FILEEXTENSION____
+#define ____FILEBASENAME_______FILEEXTENSION____
+
+&lt;##&gt;
+
+#endif</string>
+			<key>TemplateModified</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Extension</key>
+			<string>c</string>
+			<key>Name</key>
+			<string>Header-C Pair</string>
+			<key>NameOnCreation</key>
+			<true/>
+			<key>Template</key>
+			<string>//
+// ___FILENAME___
+// Created by ___FULLUSERNAME___ on ___DATE___.
+
+#include "___FILEBASENAME___.h"
+
+&lt;##&gt;</string>
+			<key>TemplateModified</key>
+			<true/>
+		</dict>
+	</array>
+	<key>UseCount</key>
+	<integer>15</integer>
+	<key>uuid</key>
+	<string>F158B03F-4059-4FBE-95FB-F101FC3C2097</string>
+</dict>
+</plist>

@@ -1,0 +1,18 @@
+set confirm off
+set startup-with-shell off
+set height 0
+set width 0
+set $_exitcode = -999
+set filename-display absolute
+define cr_where
+	if $_exitcode != -999
+		quit $_exitcode
+	end
+	frame
+	thread apply all backtrace
+end
+define cr_vars
+	info args
+	echo -\n
+	info locals
+end

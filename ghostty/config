@@ -51,7 +51,7 @@ window-height=1800
 window-width=2800
 
 #theme= Catppuccin mocha
-theme= Github Dark Default
+theme= Github Dark Colorblind
 
 window-height=2048
 window-width=4096
@@ -81,6 +81,5 @@ macos-option-as-alt = true
 #macos-command-key-modifier = "super"
 
 keybind = super+r=reload_config
-
 keybind = global:cmd+backquote=toggle_quick_terminal
 #keybind = shift+enter=text:\x1b\r

@@ -3,6 +3,7 @@
 
 -- set macvim as default editor for all files
 defaults write com.apple.LaunchServices/com.apple.launchservices.secure LSHandlers -array-add '{LSHandlerContentType=public.plain-text;LSHandlerRoleAll=org.vim.MacVim;}'
+defaults write com.sublimetext.4 ApplePressAndHoldEnabled -bool false
 
 
 -- download fonts

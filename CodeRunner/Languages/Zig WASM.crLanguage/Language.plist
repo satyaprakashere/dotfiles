@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CompilerScript</key>
+	<true/>
+	<key>ConsoleType</key>
+	<integer>0</integer>
+	<key>CustomTabMode</key>
+	<true/>
+	<key>Debugger</key>
+	<string>lldb</string>
+	<key>Diagnostics</key>
+	<array>
+		<dict>
+			<key>Command</key>
+			<string></string>
+			<key>KeyEquivalent</key>
+			<string></string>
+			<key>Name</key>
+			<string>Console Text</string>
+			<key>OutputMode</key>
+			<integer>0</integer>
+			<key>OutputRegex</key>
+			<string>^(?&lt;file&gt;[^\s].*?):(?&lt;line&gt;\d+):(?&lt;column&gt;\d+)?:? (?&lt;message&gt;.*)$</string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>Type</key>
+			<integer>2</integer>
+			<key>UpdateMode</key>
+			<integer>2</integer>
+			<key>uuid</key>
+			<string>7A36A84C-0537-413C-B5F7-A4DF9F1C1A4F</string>
+		</dict>
+		<dict>
+			<key>Command</key>
+			<string></string>
+			<key>KeyEquivalent</key>
+			<string></string>
+			<key>Name</key>
+			<string>Compile Script</string>
+			<key>Options</key>
+			<integer>4</integer>
+			<key>OutputMode</key>
+			<integer>0</integer>
+			<key>OutputRegex</key>
+			<string>^(?&lt;file&gt;[^\s].*?):(?&lt;line&gt;\d+):(?&lt;column&gt;\d+)?:? (?&lt;message&gt;.*)$</string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>UpdateMode</key>
+			<integer>1</integer>
+			<key>uuid</key>
+			<string>DC9D301A-D9D6-4F8A-8EFD-31D09C4D2A5B</string>
+		</dict>
+	</array>
+	<key>Docs</key>
+	<array/>
+	<key>Enabled</key>
+	<true/>
+	<key>FileExtensions</key>
+	<array>
+		<string>zig</string>
+	</array>
+	<key>Grammar</key>
+	<string>source.zig</string>
+	<key>LanguageBundleVersion</key>
+	<integer>1</integer>
+	<key>LastUsed</key>
+	<date>2025-12-02T09:05:41Z</date>
+	<key>Name</key>
+	<string>Zig WASM</string>
+	<key>OutputEncoding</key>
+	<integer>0</integer>
+	<key>RunCommand</key>
+	<string>wasm3 $compiler</string>
+	<key>SoftTabs</key>
+	<false/>
+	<key>TabWidth</key>
+	<integer>2</integer>
+	<key>Templates</key>
+	<array/>
+	<key>UseCount</key>
+	<integer>51</integer>
+	<key>uuid</key>
+	<string>13C16EF6-66FD-48B4-83F7-5AD7666AFAE9</string>
+</dict>
+</plist>

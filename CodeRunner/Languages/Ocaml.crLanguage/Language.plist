@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CompilerFlags</key>
+	<string></string>
+	<key>CompilerScript</key>
+	<true/>
+	<key>ConsoleType</key>
+	<integer>0</integer>
+	<key>CustomTabMode</key>
+	<true/>
+	<key>Diagnostics</key>
+	<array>
+		<dict>
+			<key>Command</key>
+			<string></string>
+			<key>KeyEquivalent</key>
+			<string></string>
+			<key>Name</key>
+			<string>Console Text</string>
+			<key>OutputMode</key>
+			<integer>0</integer>
+			<key>OutputRegex</key>
+			<string>^(?&lt;file&gt;[^\s].*?):(?&lt;line&gt;\d+):(?&lt;column&gt;\d+)?:? (?&lt;message&gt;.*)$</string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>Type</key>
+			<integer>2</integer>
+			<key>UpdateMode</key>
+			<integer>2</integer>
+			<key>uuid</key>
+			<string>B66EB17D-DF50-485C-B0B8-6E4A15284794</string>
+		</dict>
+		<dict>
+			<key>Command</key>
+			<string></string>
+			<key>KeyEquivalent</key>
+			<string></string>
+			<key>Name</key>
+			<string>Compile Script</string>
+			<key>Options</key>
+			<integer>4</integer>
+			<key>OutputMode</key>
+			<integer>0</integer>
+			<key>OutputRegex</key>
+			<string>^(?&lt;file&gt;[^\s].*?):(?&lt;line&gt;\d+):(?&lt;column&gt;\d+)?:? (?&lt;message&gt;.*)$</string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>UpdateMode</key>
+			<integer>1</integer>
+			<key>uuid</key>
+			<string>DC274AEB-2607-4F43-B709-E22A46C219FC</string>
+		</dict>
+	</array>
+	<key>Docs</key>
+	<array/>
+	<key>Enabled</key>
+	<true/>
+	<key>FileExtensions</key>
+	<array>
+		<string>ml</string>
+		<string>mli</string>
+	</array>
+	<key>Grammar</key>
+	<string>source.ocaml</string>
+	<key>Installer</key>
+	<array>
+		<string>haskell</string>
+		<string>Haskell</string>
+		<string>https://www.haskell.org/</string>
+	</array>
+	<key>LanguageBundleVersion</key>
+	<integer>1</integer>
+	<key>LastUsed</key>
+	<date>2025-12-11T06:30:20Z</date>
+	<key>Name</key>
+	<string>Ocaml</string>
+	<key>OutputEncoding</key>
+	<integer>0</integer>
+	<key>RequiresExternalComponents</key>
+	<true/>
+	<key>RunCommand</key>
+	<string>$compiler</string>
+	<key>SoftTabs</key>
+	<integer>1</integer>
+	<key>TabWidth</key>
+	<integer>4</integer>
+	<key>Templates</key>
+	<array>
+		<dict>
+			<key>Default</key>
+			<integer>1</integer>
+			<key>Extension</key>
+			<string>hs</string>
+			<key>Name</key>
+			<string>Main File</string>
+			<key>NameOnCreation</key>
+			<false/>
+			<key>Template</key>
+			<string>module Main where
+
+main :: IO ()
+main = putStrLn "Hello World"&lt;##&gt;</string>
+			<key>TemplateModified</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>Default</key>
+			<integer>0</integer>
+			<key>Extension</key>
+			<string>hs</string>
+			<key>Name</key>
+			<string>Module</string>
+			<key>NameOnCreation</key>
+			<true/>
+			<key>Template</key>
+			<string>module ___FILEBASENAME___ where
+
+&lt;##&gt;</string>
+		</dict>
+	</array>
+	<key>UseCount</key>
+	<integer>16</integer>
+	<key>uuid</key>
+	<string>6AC8D204-F9A9-4202-987C-877E485C3C81</string>
+</dict>
+</plist>

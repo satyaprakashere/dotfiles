@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CompilerFlags</key>
+	<string>-file-line-error</string>
+	<key>CompilerScript</key>
+	<true/>
+	<key>ConsoleType</key>
+	<integer>3</integer>
+	<key>Enabled</key>
+	<true/>
+	<key>FileExtensions</key>
+	<array>
+		<string>tex</string>
+	</array>
+	<key>Grammar</key>
+	<string>text.tex.latex</string>
+	<key>Installer</key>
+	<array>
+		<string>latex</string>
+		<string>MacTeX</string>
+		<string>http://tug.org/mactex/</string>
+	</array>
+	<key>LanguageBundleVersion</key>
+	<integer>1</integer>
+	<key>LastUsed</key>
+	<date>2025-09-10T08:17:39Z</date>
+	<key>Name</key>
+	<string>LaTeX</string>
+	<key>OutputEncoding</key>
+	<integer>0</integer>
+	<key>RequiresExternalComponents</key>
+	<true/>
+	<key>RunCommand</key>
+	<string>echo $compiler</string>
+	<key>SoftTabs</key>
+	<false/>
+	<key>TabWidth</key>
+	<integer>4</integer>
+	<key>Templates</key>
+	<array>
+		<dict>
+			<key>Default</key>
+			<integer>1</integer>
+			<key>Extension</key>
+			<string>tex</string>
+			<key>Name</key>
+			<string>LaTeX Document</string>
+			<key>NameOnCreation</key>
+			<false/>
+			<key>Template</key>
+			<string>\documentclass[12pt]{article}
+\begin{document}
+	&lt;##&gt;
+\end{document}</string>
+		</dict>
+	</array>
+	<key>UseCount</key>
+	<integer>1</integer>
+	<key>uuid</key>
+	<string>1D9475F2-F52D-4F8B-AD10-257A00223011</string>
+</dict>
+</plist>

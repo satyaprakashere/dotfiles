@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CompilerFlags</key>
+	<string></string>
+	<key>CompilerScript</key>
+	<false/>
+	<key>ConsoleType</key>
+	<integer>0</integer>
+	<key>Debugger</key>
+	<string>bashdb</string>
+	<key>Diagnostics</key>
+	<array>
+		<dict>
+			<key>Command</key>
+			<string>shellcheck -f gcc $filename</string>
+			<key>Name</key>
+			<string>ShellCheck</string>
+			<key>OutputMode</key>
+			<integer>1</integer>
+			<key>OutputRegex</key>
+			<string>(?xm)^(?&lt;file&gt;[^\s].*?):[\t ]*((line[\t ])?(?&lt;line&gt;\d+)[:,\t ]*)((col(umn)?\s)?(?&lt;column&gt;\d+)[:,\t ]*)?(((\w+[\t ]+)?((?i)(?&lt;warning&gt;warning)|(?&lt;error&gt;error)|(?&lt;note&gt;note|notice)))?[:,]+[\t ]*)?(?&lt;message&gt;.+?)(\sFix\s[^\n]+)?$|^[^\n]*\b(?&lt;error&gt;error):[^\n]*$</string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>Type</key>
+			<integer>1</integer>
+			<key>UpdateMode</key>
+			<integer>4</integer>
+			<key>uuid</key>
+			<string>1B2FF518-248F-425C-9EB8-B88946E90712</string>
+		</dict>
+		<dict>
+			<key>Command</key>
+			<string></string>
+			<key>KeyEquivalent</key>
+			<string></string>
+			<key>Name</key>
+			<string>Console Text</string>
+			<key>OutputMode</key>
+			<integer>0</integer>
+			<key>OutputRegex</key>
+			<string>^(?&lt;file&gt;[^\s].*?):(?&lt;line&gt;\d+):(?&lt;column&gt;\d+):? (?&lt;message&gt;.*)$</string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>Type</key>
+			<integer>2</integer>
+			<key>UpdateMode</key>
+			<integer>2</integer>
+			<key>uuid</key>
+			<string>FA556D1B-C6AD-4DA2-A36A-77C76E42419A</string>
+		</dict>
+		<dict>
+			<key>Command</key>
+			<string>bash -n $filename</string>
+			<key>KeyEquivalent</key>
+			<string></string>
+			<key>Name</key>
+			<string>Shell Script Syntax</string>
+			<key>Options</key>
+			<integer>4</integer>
+			<key>OutputMode</key>
+			<integer>0</integer>
+			<key>OutputRegex</key>
+			<string>^(?&lt;file&gt;[^\s].*?):(?&lt;line&gt;\d+):(?&lt;column&gt;\d+):? (?&lt;message&gt;.*)$</string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>Type</key>
+			<integer>1</integer>
+			<key>UpdateMode</key>
+			<integer>3</integer>
+			<key>uuid</key>
+			<string>F1613FD8-E179-4118-A01C-FDDB2C72B1D1</string>
+		</dict>
+	</array>
+	<key>Docs</key>
+	<array/>
+	<key>Enabled</key>
+	<true/>
+	<key>FileExtensions</key>
+	<array>
+		<string>sh</string>
+	</array>
+	<key>Grammar</key>
+	<string>source.shell</string>
+	<key>LanguageBundleVersion</key>
+	<integer>1</integer>
+	<key>LastUsed</key>
+	<date>2026-03-18T17:51:38Z</date>
+	<key>Name</key>
+	<string>Shell Script</string>
+	<key>OutputEncoding</key>
+	<integer>0</integer>
+	<key>RunCommand</key>
+	<string>bash $filename</string>
+	<key>SoftTabs</key>
+	<false/>
+	<key>TabWidth</key>
+	<integer>4</integer>
+	<key>Templates</key>
+	<array>
+		<dict>
+			<key>Default</key>
+			<true/>
+			<key>Extension</key>
+			<string>sh</string>
+			<key>Name</key>
+			<string>Shell Script</string>
+			<key>NameOnCreation</key>
+			<false/>
+			<key>Template</key>
+			<string>#!/bin/bash
+
+&lt;##&gt;</string>
+		</dict>
+	</array>
+	<key>UseCount</key>
+	<integer>113</integer>
+	<key>uuid</key>
+	<string>673C976D-FCA5-4110-A78F-5751A98CC481</string>
+</dict>
+</plist>

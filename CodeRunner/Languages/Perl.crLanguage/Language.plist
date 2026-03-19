@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CompilerFlags</key>
+	<string></string>
+	<key>CompilerScript</key>
+	<false/>
+	<key>ConsoleType</key>
+	<integer>0</integer>
+	<key>Debugger</key>
+	<string>perldebug</string>
+	<key>Diagnostics</key>
+	<array>
+		<dict>
+			<key>Command</key>
+			<string></string>
+			<key>KeyEquivalent</key>
+			<string></string>
+			<key>Name</key>
+			<string>Console Text</string>
+			<key>OutputMode</key>
+			<integer>1</integer>
+			<key>OutputRegex</key>
+			<string>^(?&lt;message&gt;.*?) at (?&lt;file&gt;.*?) line (?&lt;line&gt;\d+).*( near "(?&lt;code&gt;.*)").*$</string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>Type</key>
+			<integer>2</integer>
+			<key>UpdateMode</key>
+			<integer>2</integer>
+			<key>uuid</key>
+			<string>4937002A-AFBE-4F50-907E-398DA4D6E960</string>
+		</dict>
+		<dict>
+			<key>Command</key>
+			<string>perl -c $filename</string>
+			<key>KeyEquivalent</key>
+			<string></string>
+			<key>Name</key>
+			<string>Perl Syntax</string>
+			<key>Options</key>
+			<integer>4</integer>
+			<key>OutputMode</key>
+			<integer>1</integer>
+			<key>OutputRegex</key>
+			<string>^(?&lt;message&gt;.*?) at (?&lt;file&gt;.*?) line (?&lt;line&gt;\d+).*( near "(?&lt;code&gt;.*)").*$</string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>Type</key>
+			<integer>1</integer>
+			<key>UpdateMode</key>
+			<integer>3</integer>
+			<key>uuid</key>
+			<string>F92C8214-4A3D-4B6F-8E72-662531DFF898</string>
+		</dict>
+	</array>
+	<key>Docs</key>
+	<array/>
+	<key>Enabled</key>
+	<true/>
+	<key>FileExtensions</key>
+	<array>
+		<string>pl</string>
+	</array>
+	<key>Grammar</key>
+	<string>source.perl</string>
+	<key>LanguageBundleVersion</key>
+	<integer>1</integer>
+	<key>Name</key>
+	<string>Perl</string>
+	<key>OutputEncoding</key>
+	<integer>0</integer>
+	<key>RunCommand</key>
+	<string>perl $filename</string>
+	<key>SoftTabs</key>
+	<false/>
+	<key>TabWidth</key>
+	<integer>4</integer>
+	<key>Templates</key>
+	<array>
+		<dict>
+			<key>Default</key>
+			<true/>
+			<key>Extension</key>
+			<string>pl</string>
+			<key>Name</key>
+			<string>Perl Script</string>
+			<key>NameOnCreation</key>
+			<false/>
+			<key>Template</key>
+			<string>#!/usr/bin/perl
+
+&lt;##&gt;</string>
+		</dict>
+	</array>
+	<key>uuid</key>
+	<string>64A50F8B-F915-49CE-BD6A-0E5305190918</string>
+</dict>
+</plist>

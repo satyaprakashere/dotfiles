@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CompilerFlags</key>
+	<string></string>
+	<key>CompilerScript</key>
+	<false/>
+	<key>ConsoleType</key>
+	<integer>0</integer>
+	<key>CustomTabMode</key>
+	<false/>
+	<key>Diagnostics</key>
+	<array>
+		<dict>
+			<key>Command</key>
+			<string></string>
+			<key>KeyEquivalent</key>
+			<string></string>
+			<key>Name</key>
+			<string>Console Text</string>
+			<key>OutputMode</key>
+			<integer>1</integer>
+			<key>OutputRegex</key>
+			<string>^(?&lt;file&gt;[^\s].*?)\((?&lt;line&gt;\d+),(?&lt;column&gt;\d+)\): (((?&lt;error&gt;error)|(?&lt;warning&gt;warning)|(?&lt;note&gt;note|notice)) ((?&lt;messageID&gt;TS\w+): )?)?(?&lt;message&gt;.*)$</string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>Type</key>
+			<integer>2</integer>
+			<key>UpdateMode</key>
+			<integer>2</integer>
+			<key>uuid</key>
+			<string>D15013EB-91BA-4D59-8978-1D7828D7CBE0</string>
+		</dict>
+		<dict>
+			<key>Command</key>
+			<string></string>
+			<key>KeyEquivalent</key>
+			<string></string>
+			<key>Name</key>
+			<string>Compile Script</string>
+			<key>Options</key>
+			<integer>4</integer>
+			<key>OutputMode</key>
+			<integer>1</integer>
+			<key>OutputRegex</key>
+			<string>^(?&lt;file&gt;[^\s].*?)\((?&lt;line&gt;\d+),(?&lt;column&gt;\d+)\): (((?&lt;error&gt;error)|(?&lt;warning&gt;warning)|(?&lt;note&gt;note|notice)) ((?&lt;messageID&gt;TS\w+): )?)?(?&lt;message&gt;.*)$</string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>Type</key>
+			<integer>0</integer>
+			<key>UpdateMode</key>
+			<integer>3</integer>
+			<key>uuid</key>
+			<string>F2A0F3AD-C3EA-40C5-A135-8F4F9AEB0B15</string>
+		</dict>
+	</array>
+	<key>Docs</key>
+	<array/>
+	<key>Enabled</key>
+	<true/>
+	<key>FileExtensions</key>
+	<array>
+		<string>ts</string>
+	</array>
+	<key>Grammar</key>
+	<string>source.ts</string>
+	<key>LanguageBundleVersion</key>
+	<integer>1</integer>
+	<key>LastUsed</key>
+	<date>2026-02-26T12:40:51Z</date>
+	<key>Name</key>
+	<string>TypeScript (Bun) </string>
+	<key>OutputEncoding</key>
+	<integer>0</integer>
+	<key>RequiresExternalComponents</key>
+	<true/>
+	<key>RunCommand</key>
+	<string>bun run $filename</string>
+	<key>SoftTabs</key>
+	<false/>
+	<key>TabWidth</key>
+	<integer>4</integer>
+	<key>Templates</key>
+	<array/>
+	<key>UseCount</key>
+	<integer>21</integer>
+	<key>uuid</key>
+	<string>97828B6E-6EA2-4149-AE0C-763218F1E4D7</string>
+</dict>
+</plist>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CompilerFlags</key>
+	<string></string>
+	<key>CompilerScript</key>
+	<true/>
+	<key>ConsoleType</key>
+	<integer>0</integer>
+	<key>Diagnostics</key>
+	<array>
+		<dict>
+			<key>Command</key>
+			<string></string>
+			<key>KeyEquivalent</key>
+			<string></string>
+			<key>Name</key>
+			<string>Console Text</string>
+			<key>OutputMode</key>
+			<integer>1</integer>
+			<key>OutputRegex</key>
+			<string>^(?&lt;file&gt;[^\s].*?)\((?&lt;line&gt;\d+),(?&lt;column&gt;\d+)\): (((?&lt;error&gt;error)|(?&lt;warning&gt;warning)|(?&lt;note&gt;note|notice)) (?&lt;messageID&gt;\w+\d+): ?)?(?&lt;message&gt;.*)$</string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>Type</key>
+			<integer>2</integer>
+			<key>UpdateMode</key>
+			<integer>2</integer>
+			<key>uuid</key>
+			<string>4D013164-D144-4CA3-BC92-B8CA8A830E74</string>
+		</dict>
+		<dict>
+			<key>Command</key>
+			<string></string>
+			<key>CompilerFlags</key>
+			<string>--no-restore</string>
+			<key>KeyEquivalent</key>
+			<string></string>
+			<key>Name</key>
+			<string>C# Syntax</string>
+			<key>Options</key>
+			<integer>7</integer>
+			<key>OutputMode</key>
+			<integer>1</integer>
+			<key>OutputRegex</key>
+			<string>^(?&lt;file&gt;[^\s].*?)\((?&lt;line&gt;\d+),(?&lt;column&gt;\d+)\): (((?&lt;error&gt;error)|(?&lt;warning&gt;warning)|(?&lt;note&gt;note|notice)) (?&lt;messageID&gt;\w+\d+): ?)?(?&lt;message&gt;.*)$</string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>Type</key>
+			<integer>0</integer>
+			<key>UpdateMode</key>
+			<integer>3</integer>
+			<key>uuid</key>
+			<string>9214BBFD-AAD9-44F1-A00C-F57A4675D228</string>
+		</dict>
+	</array>
+	<key>Docs</key>
+	<array/>
+	<key>Enabled</key>
+	<true/>
+	<key>FileExtensions</key>
+	<array>
+		<string>cs</string>
+	</array>
+	<key>Grammar</key>
+	<string>source.cs</string>
+	<key>Name</key>
+	<string>C# (.NET)</string>
+	<key>OutputEncoding</key>
+	<integer>0</integer>
+	<key>RequiresExternalComponents</key>
+	<true/>
+	<key>RunCommand</key>
+	<string>dotnet run --no-restore</string>
+	<key>SoftTabs</key>
+	<false/>
+	<key>TabWidth</key>
+	<integer>4</integer>
+	<key>Templates</key>
+	<array>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Extension</key>
+			<string>cs</string>
+			<key>Name</key>
+			<string>Main File</string>
+			<key>NameOnCreation</key>
+			<false/>
+			<key>Template</key>
+			<string>using System;
+
+class Untitled
+{
+	static void Main(string[] args)
+	{
+		&lt;##&gt;
+	}
+}</string>
+		</dict>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Extension</key>
+			<string>cs</string>
+			<key>Name</key>
+			<string>Class</string>
+			<key>NameOnCreation</key>
+			<true/>
+			<key>Template</key>
+			<string>//
+// ___FILENAME___
+// Created by ___FULLUSERNAME___ on ___DATE___.
+
+public class ___FILEBASENAME___
+{
+	&lt;##&gt;
+}</string>
+		</dict>
+	</array>
+	<key>uuid</key>
+	<string>E141E12A-2879-4253-B8B5-5FB47C3DBC8F</string>
+</dict>
+</plist>

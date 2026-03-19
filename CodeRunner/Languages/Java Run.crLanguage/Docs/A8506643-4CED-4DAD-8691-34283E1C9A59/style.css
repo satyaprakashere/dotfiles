@@ -1,0 +1,40 @@
+dl:not(.visibleItems) {
+	display: none;
+}
+
+li.blockList, ul.blockList {
+	padding: 0 !important;
+	margin: 0 !important;
+	background-color: transparent !important;
+	border: none !important;
+}
+
+h2.nothingfound {
+	font-size: 120%;
+	font-weight: normal;
+	margin-top: 20px;
+}
+
+.fixedNav {
+	position: initial !important;
+}
+
+.topNav, .bottomNav {
+	height: auto;
+}
+
+a[id]:before {
+	display: none;
+}
+
+.navListSearch, #search {
+	display: none;
+}
+
+nav[role="navigation"] {
+	display: none;
+}
+
+pre {
+	white-space: normal;
+}

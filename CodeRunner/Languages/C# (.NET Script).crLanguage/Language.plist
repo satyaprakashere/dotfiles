@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CompilerFlags</key>
+	<string></string>
+	<key>CompilerScript</key>
+	<false/>
+	<key>ConsoleType</key>
+	<integer>0</integer>
+	<key>Diagnostics</key>
+	<array>
+		<dict>
+			<key>Command</key>
+			<string></string>
+			<key>KeyEquivalent</key>
+			<string></string>
+			<key>Name</key>
+			<string>Console Text</string>
+			<key>OutputMode</key>
+			<integer>1</integer>
+			<key>OutputRegex</key>
+			<string>^(?&lt;file&gt;[^\s].*?)\((?&lt;line&gt;\d+),(?&lt;column&gt;\d+)\): (((?&lt;error&gt;error)|(?&lt;warning&gt;warning)|(?&lt;note&gt;note|notice)) (?&lt;messageID&gt;\w+\d+): ?)?(?&lt;message&gt;.*)$</string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>Type</key>
+			<integer>2</integer>
+			<key>UpdateMode</key>
+			<integer>2</integer>
+			<key>uuid</key>
+			<string>4D013164-D144-4CA3-BC92-B8CA8A830E74</string>
+		</dict>
+	</array>
+	<key>Docs</key>
+	<array/>
+	<key>Enabled</key>
+	<true/>
+	<key>Errors</key>
+	<dict>
+		<key>127</key>
+		<string>To run code in this language, you need to have .NET and dotnet-script installed. To install .NET, download it from https://dotnet.microsoft.com/. Once installed, you can install the dotnet-script tool by running the following terminal command: dotnet tool install -g dotnet-script</string>
+	</dict>
+	<key>FileExtensions</key>
+	<array>
+		<string>csx</string>
+	</array>
+	<key>Grammar</key>
+	<string>source.cs</string>
+	<key>Name</key>
+	<string>C# (.NET Script)</string>
+	<key>OutputEncoding</key>
+	<integer>0</integer>
+	<key>RequiresExternalComponents</key>
+	<true/>
+	<key>RunCommand</key>
+	<string>PATH="$PATH:$HOME/.dotnet/tools" dotnet-script $filename</string>
+	<key>SoftTabs</key>
+	<false/>
+	<key>TabWidth</key>
+	<integer>4</integer>
+	<key>Templates</key>
+	<array>
+		<dict>
+			<key>Default</key>
+			<true/>
+			<key>Extension</key>
+			<string>csx</string>
+			<key>Name</key>
+			<string>.NET Script</string>
+			<key>NameOnCreation</key>
+			<false/>
+			<key>Template</key>
+			<string>#!/usr/bin/env dotnet-script
+
+&lt;##&gt;</string>
+		</dict>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Extension</key>
+			<string>csx</string>
+			<key>Name</key>
+			<string>Class</string>
+			<key>NameOnCreation</key>
+			<true/>
+			<key>Template</key>
+			<string>//
+// ___FILENAME___
+// Created by ___FULLUSERNAME___ on ___DATE___.
+
+public class ___FILEBASENAME___
+{
+	&lt;##&gt;
+}</string>
+		</dict>
+	</array>
+	<key>uuid</key>
+	<string>A65D203A-FC0C-4F0C-A080-41863424566E</string>
+</dict>
+</plist>

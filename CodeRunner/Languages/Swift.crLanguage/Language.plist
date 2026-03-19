@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CompilerFlags</key>
+	<string></string>
+	<key>CompilerScript</key>
+	<true/>
+	<key>ConsoleType</key>
+	<integer>0</integer>
+	<key>CustomTabMode</key>
+	<true/>
+	<key>Debugger</key>
+	<string>lldb</string>
+	<key>Diagnostics</key>
+	<array>
+		<dict>
+			<key>Command</key>
+			<string></string>
+			<key>CompilerFlags</key>
+			<string>-typecheck</string>
+			<key>KeyEquivalent</key>
+			<string></string>
+			<key>Name</key>
+			<string>Compile Script</string>
+			<key>Options</key>
+			<integer>7</integer>
+			<key>OutputMode</key>
+			<integer>0</integer>
+			<key>OutputRegex</key>
+			<string>^(?&lt;file&gt;[^\s].*?):(?&lt;line&gt;\d+):(?&lt;column&gt;\d+)?:? (?&lt;message&gt;.*)$</string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>Type</key>
+			<integer>0</integer>
+			<key>UpdateMode</key>
+			<integer>3</integer>
+			<key>uuid</key>
+			<string>E70B0FE5-5455-4F52-83F8-9670BF4399AC</string>
+		</dict>
+		<dict>
+			<key>Command</key>
+			<string></string>
+			<key>KeyEquivalent</key>
+			<string></string>
+			<key>Name</key>
+			<string>Console Text</string>
+			<key>OutputMode</key>
+			<integer>0</integer>
+			<key>OutputRegex</key>
+			<string>^(?&lt;file&gt;[^\s].*?):(?&lt;line&gt;\d+):(?&lt;column&gt;\d+):? (?&lt;message&gt;.*)$</string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>Type</key>
+			<integer>2</integer>
+			<key>UpdateMode</key>
+			<integer>2</integer>
+			<key>uuid</key>
+			<string>447818FA-6231-4824-9E8E-DE9CDF8962BF</string>
+		</dict>
+	</array>
+	<key>Docs</key>
+	<array>
+		<dict>
+			<key>Enabled</key>
+			<true/>
+			<key>Name</key>
+			<string>Apple</string>
+			<key>POST</key>
+			<string></string>
+			<key>Type</key>
+			<integer>0</integer>
+			<key>URL</key>
+			<string>https://developer.apple.com/search/?type=Reference&amp;q={query}</string>
+			<key>uuid</key>
+			<string>63D92703-0194-45AB-A653-367C5C682D75</string>
+		</dict>
+		<dict>
+			<key>Enabled</key>
+			<true/>
+			<key>Name</key>
+			<string>Swift Basics</string>
+			<key>POST</key>
+			<string></string>
+			<key>Type</key>
+			<integer>1</integer>
+			<key>URL</key>
+			<string>https://docs.swift.org/swift-book/LanguageGuide/TheBasics.html</string>
+			<key>uuid</key>
+			<string>57FC0530-1784-41F0-8A5E-E14E023A5A8E</string>
+		</dict>
+	</array>
+	<key>Enabled</key>
+	<true/>
+	<key>FileExtensions</key>
+	<array>
+		<string>swift</string>
+	</array>
+	<key>Grammar</key>
+	<string>source.swift</string>
+	<key>LanguageBundleVersion</key>
+	<integer>1</integer>
+	<key>LastUsed</key>
+	<date>2026-02-17T14:22:36Z</date>
+	<key>Name</key>
+	<string>Swift</string>
+	<key>OutputEncoding</key>
+	<integer>0</integer>
+	<key>RequiresExternalComponents</key>
+	<true/>
+	<key>RunCommand</key>
+	<string>$compiler</string>
+	<key>SoftTabs</key>
+	<true/>
+	<key>TabWidth</key>
+	<integer>2</integer>
+	<key>Templates</key>
+	<array>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Extension</key>
+			<string>swift</string>
+			<key>Name</key>
+			<string>Class</string>
+			<key>NameOnCreation</key>
+			<true/>
+			<key>Template</key>
+			<string>//
+// ___FILENAME___
+// Created by ___FULLUSERNAME___ on ___DATE___.
+
+class ___FILEBASENAME___ {
+	&lt;##&gt;
+}</string>
+		</dict>
+		<dict>
+			<key>Default</key>
+			<false/>
+			<key>Extension</key>
+			<string>swift</string>
+			<key>Name</key>
+			<string>Class (NSObject)</string>
+			<key>NameOnCreation</key>
+			<true/>
+			<key>Template</key>
+			<string>//
+// ___FILENAME___
+// Created by ___FULLUSERNAME___ on ___DATE___.
+
+import Foundation
+
+class ___FILEBASENAME___: NSObject {
+	&lt;##&gt;
+}</string>
+		</dict>
+	</array>
+	<key>UseCount</key>
+	<integer>47</integer>
+	<key>uuid</key>
+	<string>8EB61A41-AAC1-4C23-B110-2E2C8B5E1162</string>
+</dict>
+</plist>

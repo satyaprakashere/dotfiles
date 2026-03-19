@@ -1,0 +1,2 @@
+set prompt "$_Dbg_debugger_name${_Dbg_greater}$_Dbg_space"
+eval source "$CR_DEBUGGER_DIR/dbinit_script.sh"

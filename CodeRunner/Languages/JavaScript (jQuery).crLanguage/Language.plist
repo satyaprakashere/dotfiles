@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CompilerFlags</key>
+	<string></string>
+	<key>CompilerScript</key>
+	<false/>
+	<key>ConsoleType</key>
+	<integer>2</integer>
+	<key>Diagnostics</key>
+	<array>
+		<dict>
+			<key>Command</key>
+			<string>node --check $filename</string>
+			<key>KeyEquivalent</key>
+			<string></string>
+			<key>Name</key>
+			<string>JS Syntax</string>
+			<key>OutputMode</key>
+			<integer>0</integer>
+			<key>OutputRegex</key>
+			<string>^(?&lt;file&gt;[^\s].*?):(?&lt;line&gt;\d+):(?&lt;column&gt;\d+):? (?&lt;message&gt;.*)$</string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>Type</key>
+			<integer>1</integer>
+			<key>UpdateMode</key>
+			<integer>3</integer>
+			<key>uuid</key>
+			<string>374C0AC4-0978-414C-9697-FF401CFED010</string>
+		</dict>
+	</array>
+	<key>Docs</key>
+	<array>
+		<dict>
+			<key>Enabled</key>
+			<true/>
+			<key>Name</key>
+			<string>jQuery API</string>
+			<key>POST</key>
+			<string></string>
+			<key>Type</key>
+			<integer>0</integer>
+			<key>URL</key>
+			<string>https://api.jquery.com/?s={query}</string>
+			<key>uuid</key>
+			<string>F408C9CB-2FAE-4087-A710-CD109091D126</string>
+		</dict>
+		<dict>
+			<key>Enabled</key>
+			<true/>
+			<key>Name</key>
+			<string>Mozilla MDN</string>
+			<key>POST</key>
+			<string></string>
+			<key>Type</key>
+			<integer>0</integer>
+			<key>URL</key>
+			<string>https://developer.mozilla.org/en-US/search?topic=api&amp;topic=js&amp;q={query}</string>
+			<key>uuid</key>
+			<string>231B7FA5-3834-43D2-B2CF-3C84A2CA25C1</string>
+		</dict>
+	</array>
+	<key>Enabled</key>
+	<true/>
+	<key>FileExtensions</key>
+	<array>
+		<string>js</string>
+	</array>
+	<key>Grammar</key>
+	<string>source.js.jquery</string>
+	<key>LanguageBundleVersion</key>
+	<integer>1</integer>
+	<key>LiveConsole</key>
+	<false/>
+	<key>Name</key>
+	<string>JavaScript (jQuery)</string>
+	<key>OutputEncoding</key>
+	<integer>0</integer>
+	<key>RunCommand</key>
+	<string>echo "&lt;script&gt;$(cat "$CR_SCRIPTS_DIR/jquery.min.js")&lt;/script&gt;&lt;script src=\"file://$PWD/$filename\"&gt;&lt;/script&gt;"</string>
+	<key>SoftTabs</key>
+	<false/>
+	<key>TabWidth</key>
+	<integer>4</integer>
+	<key>Templates</key>
+	<array/>
+	<key>uuid</key>
+	<string>B2BAD283-A431-45E6-B53C-8FCE8081C0B3</string>
+</dict>
+</plist>

@@ -1,0 +1,47 @@
+/*
+ Use this file to add custom styles to documentation lookups in CodeRunner.
+*/
+
+.sticky {
+	background-color: #f9f9f9 !important;
+}
+
+.coderunner_style .alt-light {
+	background: transparent !important;
+}
+
+.coderunner_style_dark .code-listing,
+.coderunner_style_dark .code-source {
+	background-color: rgba(255, 255, 255, 0.15);
+}
+
+.localnav.css-sticky {
+	position: relative !important;
+}
+
+.coderunner_style .theme-dark {
+	background-color: #ddd !important;
+	color: black !important;
+}
+
+.coderunner_style .theme-dark .localnav-background {
+	background-color: #ddd !important;
+	color: black !important;
+}
+
+.coderunner_style .theme-dark .localnav-background.coderunner_inverted {
+	filter: none !important;
+}
+
+.coderunner_style .theme-dark .localnav-content .localnav-actions,
+.coderunner_style_dark .loading {
+	filter: invert(100%) hue-rotate(180deg) !important;
+}
+
+.hierarchy, .nav-menu-item:not(.language-container) {
+	display: none !important;
+}
+
+.nav-title {
+	max-width: 45%;
+}

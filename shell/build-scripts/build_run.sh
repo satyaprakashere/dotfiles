@@ -21,6 +21,37 @@ fi
 export CR_FILENAME="$1"
 shift 1
 
+run_command() {
+    local output_file="$1"
+    shift
+    case "$CR_FILENAME" in
+        *.java)
+            # For Java, we run the class from the temp directory
+            local class_name=$(basename "$CR_FILENAME" .java)
+            java -cp "$CR_TMPDIR" "$class_name" "$@"
+            ;;
+        *.kt)
+            # For Kotlin, we run the compiled JAR
+            java -jar "$output_file" "$@"
+            ;;
+        *.scala)
+            # For Scala, we run the class from the temp directory
+            local class_name=$(basename "$CR_FILENAME" .scala)
+            scala --classpath "$CR_TMPDIR" --main-class "$class_name" -- "$@"
+            ;;
+        *.m)
+            # Objective-C: run the compiled binary
+            chmod +x "$output_file"
+            "$output_file" "$@"
+            ;;
+        *)
+            # Default: run the compiled binary
+            chmod +x "$output_file"
+            "$output_file" "$@"
+            ;;
+    esac
+}
+
 setup_env() {
     # Define constants needed by cr_build.sh
     export CR_TMPDIR="${CR_TMPDIR:-/tmp}"
@@ -56,8 +87,7 @@ if [ $BUILD_STATUS -eq 0 ]; then
     if [ -n "$OUTPUT_FILE" ] && [ -f "$OUTPUT_FILE" ]; then
         echo "Build successful. Running: $OUTPUT_FILE"
         echo "----------------------------------------------------------------------"
-        chmod +x "$OUTPUT_FILE"
-        "$OUTPUT_FILE"
+        run_command "$OUTPUT_FILE" "$@"
         EXIT_STATUS=$?
         echo "----------------------------------------------------------------------"
         echo "Program exited with status $EXIT_STATUS"

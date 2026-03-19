@@ -1,0 +1,11 @@
+/*
+ Use this file to add custom styles to documentation lookups in CodeRunner.
+*/
+
+.coderunner_style ul.dropdown-menu {
+	background-color: #ccc !important;
+}
+
+nav.navbar {
+	display: none;
+}

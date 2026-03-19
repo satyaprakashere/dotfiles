@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CompilerFlags</key>
+	<string></string>
+	<key>CompilerScript</key>
+	<true/>
+	<key>ConsoleType</key>
+	<integer>0</integer>
+	<key>Debugger</key>
+	<string>node</string>
+	<key>Diagnostics</key>
+	<array>
+		<dict>
+			<key>Command</key>
+			<string>node --check $filename</string>
+			<key>KeyEquivalent</key>
+			<string></string>
+			<key>Name</key>
+			<string>Node Syntax</string>
+			<key>Options</key>
+			<integer>4</integer>
+			<key>OutputMode</key>
+			<integer>0</integer>
+			<key>OutputRegex</key>
+			<string></string>
+			<key>OutputScriptUUID</key>
+			<string></string>
+			<key>Type</key>
+			<integer>1</integer>
+			<key>UpdateMode</key>
+			<integer>3</integer>
+			<key>uuid</key>
+			<string>7E0CDE20-F808-457D-ADAD-86095FE7A91C</string>
+		</dict>
+	</array>
+	<key>Docs</key>
+	<array>
+		<dict>
+			<key>Enabled</key>
+			<true/>
+			<key>Name</key>
+			<string>Mozilla MDN</string>
+			<key>POST</key>
+			<string></string>
+			<key>Type</key>
+			<integer>0</integer>
+			<key>URL</key>
+			<string>https://developer.mozilla.org/en-US/search?topic=js&amp;q={query}</string>
+			<key>uuid</key>
+			<string>7E3D7CDC-05B8-4E5D-BF5D-50E2292AF711</string>
+		</dict>
+		<dict>
+			<key>Enabled</key>
+			<true/>
+			<key>Name</key>
+			<string>Node API</string>
+			<key>POST</key>
+			<string></string>
+			<key>Type</key>
+			<integer>2</integer>
+			<key>URL</key>
+			<string>https://google.com/search?q={query}+site:nodejs.org%2Fapi&amp;btnI=I</string>
+			<key>uuid</key>
+			<string>1FBFA2DB-173F-4C66-A4D2-8ED86D04FE37</string>
+		</dict>
+	</array>
+	<key>Enabled</key>
+	<true/>
+	<key>Errors</key>
+	<dict>
+		<key>127</key>
+		<string>Could not find Node.js on your system. You can get it at http://nodejs.org</string>
+	</dict>
+	<key>FileExtensions</key>
+	<array>
+		<string>js</string>
+	</array>
+	<key>Grammar</key>
+	<string>source.js.node</string>
+	<key>LanguageBundleVersion</key>
+	<integer>1</integer>
+	<key>LastUsed</key>
+	<date>2025-11-28T12:03:05Z</date>
+	<key>Name</key>
+	<string>JavaScript Wasm</string>
+	<key>OutputEncoding</key>
+	<integer>0</integer>
+	<key>RequiresExternalComponents</key>
+	<true/>
+	<key>RunCommand</key>
+	<string>node $filename</string>
+	<key>SoftTabs</key>
+	<false/>
+	<key>TabWidth</key>
+	<integer>4</integer>
+	<key>Templates</key>
+	<array/>
+	<key>UseCount</key>
+	<integer>5</integer>
+	<key>uuid</key>
+	<string>6D49FE36-5841-4831-B10E-99432177D480</string>
+</dict>
+</plist>
