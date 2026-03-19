@@ -36,6 +36,12 @@ alias python="python3"
 alias mem="~/dotfiles/shell/psm.sh"
 alias lone="~/github/lone/build/aarch64/lone"
 alias run="bash $HOME/dotfiles/shell/build-scripts/build_run.sh"
+# Open in a new GUI frame, start daemon if not running
+alias e='emacsclient -c -a ""'
+# Open in the terminal (no GUI window)
+alias et='emacsclient -t -a ""'
+alias ke='emacsclient -e "(kill-emacs)"'
+abbr -a edit 'emacsclient -c -a ""'
 
 # Git aliases
 alias gs="git status"
@@ -52,6 +58,7 @@ alias ....="cd ../../.."
 
 fish_add_path ~/go/bin
 fish_add_path ~/.bun/bin
+fish_add_path ~/.config/emacs/bin
 fish_add_path ~/.ghcup/bin
 fish_add_path ~/.cargo/bin
 #fish_add_path ~/.config/emacs/bin

@@ -74,7 +74,13 @@ background-blur=true
 #keybind = super+shift+left=previous_tab
 #keybind = super+shift+right=next_tab
 
-#keybind = super+r=reload_config
+# Set Option key to act as Meta (Esc)
+macos-option-as-alt = true
+# This is the most common replacement for 'as-key'
+#macos-command-as-alt = "none" # Ensure it's not mapped to Alt
+#macos-command-key-modifier = "super"
 
-keybind = global:backquote=toggle_quick_terminal
+keybind = super+r=reload_config
+
+keybind = global:cmd+backquote=toggle_quick_terminal
 #keybind = shift+enter=text:\x1b\r
