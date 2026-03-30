@@ -33,6 +33,14 @@ alias cat="bat"
 alias grep="rg"
 alias find="fd"
 alias python="python3"
+
+# Force Node-related commands to use Bun
+alias node='bun'
+alias npm='bun'
+alias npx='bunx'
+alias yarn='bun'
+
+
 alias mem="~/dotfiles/shell/psm.sh"
 alias lone="~/github/lone/build/aarch64/lone"
 alias run="bash $HOME/dotfiles/shell/build-scripts/build_run.sh"
@@ -44,12 +52,12 @@ alias ke='emacsclient -e "(kill-emacs)"'
 abbr -a edit 'emacsclient -c -a ""'
 
 # Git aliases
-alias gs="git status"
-alias gd="git diff"
-alias gl="git log --oneline --graph --decorate --all"
-alias ga="git add"
-alias gc="git commit"
-alias gp="git push"
+alias gits="git status"
+alias gitd="git diff"
+alias gitl="git log --oneline --graph --decorate --all"
+alias gita="git add"
+alias gitc="git commit"
+alias gitp="git push"
 
 # Navigation aliases
 alias ..="cd .."
@@ -59,11 +67,8 @@ alias ....="cd ../../.."
 fish_add_path ~/go/bin
 fish_add_path ~/.bun/bin
 fish_add_path ~/.config/emacs/bin
-fish_add_path ~/.ghcup/bin
-fish_add_path ~/.cargo/bin
 #fish_add_path ~/.config/emacs/bin
 #fish_add_path ~/.local/bin
-#fish_add_path ~/.sdkman/bin
 #fish_add_path ~/.config/composer/vendor/bin
 #fish_add_path ~/.rustup/toolchains/stable-x86_64-apple-darwin/bin/
 
@@ -92,3 +97,30 @@ set -x FZF_DEFAULT_COMMAND 'fd --type f --strip-cwd-prefix --follow \
     --exclude "*.pkg"'
 
 set -x FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"
+
+function openf
+    # Resolve the physical path of the alias/symlink
+    set -l target (realpath $(which $argv[1]))
+
+    # Check if the path exists, then open its parent directory
+    if test -e $target
+        open (dirname $target)
+    else
+        echo "Error: Could not resolve original file for '$argv[1]'"
+    end
+end
+
+function cf
+    # Resolve the physical path of the alias/symlink
+    set -l target (realpath $(which $argv[1]))
+
+    # Check if the path exists, then open its parent directory
+    if test -e $target
+        cd (dirname $target)
+    else
+        echo "Error: Could not resolve original file for '$argv[1]'"
+    end
+end
+
+# Save it so it's available in every new session
+#funcsave openf
