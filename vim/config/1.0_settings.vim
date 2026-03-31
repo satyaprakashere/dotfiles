@@ -39,6 +39,7 @@ set number
 set relativenumber
 set colorcolumn=85
 set laststatus=2
+set shortmess+=I
 set showcmd
 set showmatch
 set scrolloff=5
@@ -100,12 +101,3 @@ endfunction
 function! s:goyo_leave()
     colorscheme catppuccin_mocha
 endfunction
-
-" Save session on quitting
-autocmd VimLeave * mksession! ~/.vim/last_session.vim
-
-" Restore session on starting (only if no file arguments were passed)
-autocmd VimEnter * if argc() == 0 && filereadable(expand("~/.vim/last_session.vim")) 
-    \ | source ~/.vim/last_session.vim 
-    \ | endif
-

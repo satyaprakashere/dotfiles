@@ -9,7 +9,15 @@ if [ $# -lt 1 ]; then
 fi
 
 # Get the directory where the current script is located
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+# Resolve the real path of the script even if it's a symlink or an alias
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+SCRIPT_DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+
 export BUILD_SCRIPT="$SCRIPT_DIR/code-runner/general_cr_build.sh"
 
 if [ ! -f "$BUILD_SCRIPT" ]; then
@@ -25,32 +33,13 @@ run_command() {
     local output_file="$1"
     shift
     case "$CR_FILENAME" in
-        *.java)
-            # Use the user's specific command for Java run
-            # output_file contains classpath:classname
-            local classpath="${output_file%:*}"
-            local classname="${output_file##*:}"
-            java --enable-preview -cp "$classpath" "$classname" "$@"
-            ;;
-        *.kt)
-            # Use the user's specific command for Kotlin run
-            # output_file contains classpath:classname
-            local classpath="${output_file%:*}"
-            local classname="${output_file##*:}"
-            java --enable-preview -cp "$classpath" "$classname" "$@"
-            ;;
-        *.scala)
-            # For Scala, we run the class from the output directory
-            local class_name=$(basename "$CR_FILENAME" .scala)
-            scala --classpath "$(dirname "$output_file")" --main-class "$class_name" -- "$@"
-            ;;
-        *.m)
-            # Objective-C: run the compiled binary
-            chmod +x "$output_file"
-            "$output_file" "$@"
-            ;;
         *)
             # Default: run the compiled binary (ensuring it is executable)
+            if [ -d "$output_file" ]; then
+                # Fallback for older projects not yet using wrappers
+                echo "Warning: Output is a directory. Please re-build." >&2
+                exit 1
+            fi
             chmod +x "$output_file"
             "$output_file" "$@"
             ;;
@@ -92,8 +81,13 @@ if [ $BUILD_STATUS -eq 0 ]; then
     OUTPUT_FILE=$(echo "$BUILD_OUTPUT" | tail -n 1)
 
     # Verify that the output exists (either as a file or as a 'classpath:classname' string for Java/Kotlin)
-    if [ -n "$OUTPUT_FILE" ] && ([ -f "$OUTPUT_FILE" ] || [[ "$OUTPUT_FILE" == *:* ]]); then
-        echo "Build successful. Running: $OUTPUT_FILE"
+    if [ -n "$OUTPUT_FILE" ] && ([ -e "$OUTPUT_FILE" ] || [[ "$OUTPUT_FILE" == *:* ]]); then
+        local display_name=$(basename "$OUTPUT_FILE")
+        if [[ "$display_name" == *"_Project" ]]; then
+            echo "Build successful. Running $(echo "$display_name" | sed 's/_Project$//') project..."
+        else
+            echo "Build successful. Running $display_name..."
+        fi
         echo "----------------------------------------------------------------------"
         # Execute the language-specific run command
         run_command "$OUTPUT_FILE" "$@"

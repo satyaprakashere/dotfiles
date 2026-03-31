@@ -26,13 +26,16 @@ set --export BUN_INSTALL "$HOME/.bun"
 alias j="z"
 alias e="vim"
 alias ls="eza --icons --group-directories-first --git"
-alias ll="ls -l"
-alias la="ls -a"
+#alias ll="ls -l"
+#alias la="ls -a"
 alias lT="ls --tree"
 alias cat="bat"
-alias grep="rg"
-alias find="fd"
+alias man="tldr"
+#alias grep="rg"
+#alias find="fd"
 alias python="python3"
+#alias build="bash ~/dotfiles/shell/build-scripts/build.sh"
+#alias run="bash ~/dotfiles/shell/build-scripts/build_run.sh"
 
 # Force Node-related commands to use Bun
 alias node='bun'
@@ -58,11 +61,19 @@ alias gitl="git log --oneline --graph --decorate --all"
 alias gita="git add"
 alias gitc="git commit"
 alias gitp="git push"
+alias gitpra="git pull --rebase origin master --autostash"
 
 # Navigation aliases
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
+
+## Config alias
+alias vimrc="vim ~/.config/vim/vimrc"
+alias fishrc="vim ~/.config/fish/config.fish"
+alias ghostrc="vim ~/.config/ghostty/config"
+alias emrc="vim ~/.config/doom/init.el"
+alias makfile="vim Makefile"
 
 fish_add_path ~/go/bin
 fish_add_path ~/.bun/bin
@@ -124,3 +135,4 @@ end
 
 # Save it so it's available in every new session
 #funcsave openf
+

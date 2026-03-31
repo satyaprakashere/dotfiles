@@ -41,12 +41,27 @@ enc[14]="Big5"
 
 # Initialize CodeRunner environment variables
 init_cr() {
-    # Resolve absolute path for suggested output file
-    if [[ "$CR_FILENAME" = /* ]]; then
-        [ -z "$CR_SUGGESTED_OUTPUT_FILE" ] && CR_SUGGESTED_OUTPUT_FILE="${CR_FILENAME//./_}"
-    else
-        [ -z "$CR_SUGGESTED_OUTPUT_FILE" ] && CR_SUGGESTED_OUTPUT_FILE="$PWD/${CR_FILENAME//./_}"
+    # Resolve absolute path for CR_FILENAME if it's relative
+    if [[ ! "$CR_FILENAME" = /* ]]; then
+        CR_FILENAME="$(pwd)/$CR_FILENAME"
     fi
+
+    # Resolve absolute path for suggested output file
+    # Define the suggested binary path
+    local base="$(basename "$CR_FILENAME")"
+    if [[ "$base" == "pom.xml" || "$base" == "build.gradle" || "$base" == "build.gradle.kts" || \
+          "$base" == "Cargo.toml" || "$base" == "go.mod" || "$base" == "build.zig" || \
+          "$base" == "gleam.toml" || "$base" == "mix.exs" || "$base" == "package.json" || \
+          "$base" == "pyproject.toml" || "$base" == "Gemfile" || "$base" == "composer.json" || \
+          "$base" == *.csproj || "$base" == *.sln ]]; then
+        # Project-level build result
+        local dir_name="$(basename "$(dirname "$CR_FILENAME")")"
+        export CR_SUGGESTED_OUTPUT_FILE="$CR_TMPDIR/CodeRunner/${dir_name}_Project"
+    else
+        # Single-file build result
+        export CR_SUGGESTED_OUTPUT_FILE="$CR_TMPDIR/CodeRunner/$(basename "${CR_FILENAME//./_}")"
+    fi
+    
     # Set default values for unsaved dir and language
     [ -z "$CR_UNSAVED_DIR" ] && CR_UNSAVED_DIR="$CR_TMPDIR"
     [ -z "$LANGUAGE" ] && LANGUAGE="${CR_FILENAME##*.}"
@@ -61,16 +76,31 @@ find_project_root() {
     local markers=($2) # Space-separated list of markers
     local current_dir="$start_dir"
 
-    while [[ "$current_dir" != "/" ]]; do
+    while [[ -n "$current_dir" ]]; do
+        [[ "$current_dir" == "/" ]] && break
         for marker in "${markers[@]}"; do
             if [[ -f "$current_dir/$marker" ]] || [[ -d "$current_dir/$marker" ]]; then
                 echo "$current_dir"
                 return 0
             fi
         done
+        [[ "$current_dir" == "." ]] && break
         current_dir="$(dirname "$current_dir")"
     done
     return 1
+}
+
+# Discover the first class with a main method in a Maven project
+discover_maven_main() {
+    local project_root="$1"
+    # Search for first class with a main method in src/main/java
+    local main_file=$(grep -rl "public static void main" "$project_root/src/main/java" 2>/dev/null | head -n 1)
+    if [ -n "$main_file" ]; then
+        # Extract package from file
+        local package_name=$(grep -m 1 "^package " "$main_file" | sed 's/package \(.*\);/\1/' | tr -d '[:space:]')
+        local classname=$(basename "$main_file" .java)
+        echo "${package_name:+$package_name.}$classname"
+    fi
 }
 
 # Handle builds for files that haven't been saved yet (CodeRunner temp files)
@@ -102,6 +132,21 @@ check_checksum() {
         # (This line is captured by BUILD_OUTPUT in build_run.sh)
         echo "$CR_SUGGESTED_OUTPUT_FILE"
     fi
+}
+
+# Create a small executable wrapper for project-based runs.
+# This avoids "is a directory" errors in CodeRunner by providing a real script.
+create_project_wrapper() {
+    local working_dir="$1"
+    local run_cmd="$2"
+    
+    cat <<EOF > "$CR_SUGGESTED_OUTPUT_FILE"
+#!/bin/bash
+# CodeRunner Project/Interpreted Wrapper
+cd "$working_dir"
+exec $run_cmd "\$@"
+EOF
+    chmod +x "$CR_SUGGESTED_OUTPUT_FILE"
 }
 
 # Post-build cleanup and artifact management

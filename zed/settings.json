@@ -18,6 +18,7 @@
   },
   "project_panel": {
     // "button": false
+    "hide_hidden": true
   },
   "icon_theme": {
     "mode": "system",
@@ -70,8 +71,9 @@
     "default_profile": "ask",
     "model_parameters": [],
     "default_model": {
+      "enable_thinking": true,
       "provider": "google",
-      "model": "gemini-2.5-pro"
+      "model": "gemini-2.5-flash"
     }
   },
   "file_scan_exclusions": [
@@ -108,6 +110,7 @@
           "binary": {
             "path": "clangd",
             "arguments": [
+              "--compile-commands-dir=build",
               "--background-index",
               "--clang-tidy",
               "--all-scopes-completion",
@@ -165,6 +168,11 @@
     }
   },
   "languages": {
+    "C++": {
+        "format_on_save": "on",
+        // "use_setting_from_lsp": "clangd",
+        // "tab_size": 4
+    },
     "Python": {
       "language_servers": [
         "!basedpyright",

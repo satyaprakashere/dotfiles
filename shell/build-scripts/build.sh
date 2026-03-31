@@ -9,7 +9,15 @@ if [ $# -lt 1 ]; then
 fi
 
 # Get the directory where the current script is located
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+# Resolve the real path of the script even if it's a symlink or an alias
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+SCRIPT_DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+
 export BUILD_SCRIPT="$SCRIPT_DIR/code-runner/general_cr_build.sh"
 
 if [ ! -f "$BUILD_SCRIPT" ]; then
@@ -52,13 +60,14 @@ if [ $BUILD_STATUS -eq 0 ]; then
     # The last line of stdout should be the path to the binary
     OUTPUT_FILE=$(echo "$BUILD_OUTPUT" | tail -n 1)
 
-    if [ -n "$OUTPUT_FILE" ] && [ -f "$OUTPUT_FILE" ]; then
-        echo "Build successful"
+    if [ -n "$OUTPUT_FILE" ] && ([ -e "$OUTPUT_FILE" ] || [[ "$OUTPUT_FILE" == *:* ]]); then
+        echo "Build successful" >&2
+        echo "$OUTPUT_FILE"
     else
-        echo "Build successful, but output file '$OUTPUT_FILE' not found."
+        echo "Build successful, but output file '$OUTPUT_FILE' not found." >&2
         exit 1
     fi
 else
-    echo "Build failed with status $BUILD_STATUS"
+    echo "Build failed with status $BUILD_STATUS" >&2
     exit $BUILD_STATUS
 fi

@@ -56,7 +56,7 @@ theme= Github Dark Colorblind
 window-height=2048
 window-width=4096
 
-background-opacity=.95
+background-opacity=.72
 background-blur=true
 
 # Emacs like splits and Windmove navigation
