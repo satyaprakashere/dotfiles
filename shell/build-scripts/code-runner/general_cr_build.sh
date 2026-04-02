@@ -13,16 +13,13 @@ SCRIPT_DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
 source "$SCRIPT_DIR/cr_build.sh"
 
-export GOEXPERIMENT=arenas
-
 # Helper functions for each file type
 build_go() {
+    export GOEXPERIMENT=arenas
     project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "go.mod")
     if [ -n "$project_root" ]; then
         (cd "$project_root" && go build .)
         create_project_wrapper "$project_root" "go run ."
-        echo "$CR_SUGGESTED_OUTPUT_FILE"
-        exit 0
     else
         go build -o "$CR_SUGGESTED_OUTPUT_FILE" "$CR_FILENAME" "$@" ${CR_DEBUGGING:+-gcflags "-N -l"}
     fi
@@ -38,8 +35,6 @@ build_odin() {
             odin build "$project_root" -out="$CR_SUGGESTED_OUTPUT_FILE" "$@"
             create_project_wrapper "$project_root" "odin run ."
         fi
-        echo "$CR_SUGGESTED_OUTPUT_FILE"
-        exit 0
     else
         odin build "$CR_FILENAME" -file "$@" -out="$CR_SUGGESTED_OUTPUT_FILE"
         # Ensure the output file exists for build_run.sh check
@@ -52,8 +47,6 @@ build_rust() {
     if [ -n "$project_root" ]; then
         (cd "$project_root" && cargo build)
         create_project_wrapper "$project_root" "cargo run --quiet"
-        echo "$CR_SUGGESTED_OUTPUT_FILE"
-        exit 0
     else
         cratename="$(basename "$CR_SUGGESTED_OUTPUT_FILE" | sed 's/[[:blank:]]/_/g')"
         rustc -o "$CR_SUGGESTED_OUTPUT_FILE" --crate-name "$cratename" "$CR_FILENAME" "$@" ${CR_DEBUGGING:+-g}
@@ -79,8 +72,6 @@ build_zig() {
     if [ -n "$project_root" ]; then
         (cd "$project_root" && zig build "$@")
         create_project_wrapper "$project_root" "zig build run"
-        echo "$CR_SUGGESTED_OUTPUT_FILE"
-        exit 0
     else
         zig build-exe "$CR_FILENAME" -femit-bin="$CR_SUGGESTED_OUTPUT_FILE" "$@"
     fi
@@ -115,8 +106,6 @@ build_java() {
             [ ! -f "$project_root/gradlew" ] && gradlew="gradle"
             create_project_wrapper "$project_root" "$gradlew run"
         fi
-        echo "$CR_SUGGESTED_OUTPUT_FILE"
-        exit 0
     else
         # Single-file javac with preview features and specific encoding
         javac "$CR_FILENAME" -d "$(dirname "$CR_SUGGESTED_OUTPUT_FILE")" --enable-preview --release 25 -encoding "${enc[$CR_ENCODING]:-UTF-8}" "$@" ${CR_DEBUGGING:+-g}
@@ -126,8 +115,6 @@ build_java() {
         local full_classname="${package_name:+$package_name.}$classname"
         
         create_project_wrapper "$(dirname "$CR_FILENAME")" "java --enable-preview -cp \"$classpath\" \"$full_classname\""
-        echo "$CR_SUGGESTED_OUTPUT_FILE"
-        exit 0
     fi
 }
 
@@ -156,15 +143,11 @@ build_kotlin() {
             [ ! -f "$project_root/gradlew" ] && gradlew="gradle"
             create_project_wrapper "$project_root" "$gradlew run"
         fi
-        echo "$CR_SUGGESTED_OUTPUT_FILE"
-        exit 0
     else
         # Single-file kotlinc with runtime included
         local jar_file="$CR_SUGGESTED_OUTPUT_FILE.jar"
         kotlinc "$CR_FILENAME" -include-runtime -d "$jar_file" "$@"
         create_project_wrapper "$(dirname "$CR_FILENAME")" "java -jar \"$jar_file\""
-        echo "$CR_SUGGESTED_OUTPUT_FILE"
-        exit 0
     fi
 }
 
@@ -174,8 +157,6 @@ build_scala() {
     local classpath="$(dirname "$CR_SUGGESTED_OUTPUT_FILE")"
     local class_name=$(basename "$CR_FILENAME" .scala)
     create_project_wrapper "$(dirname "$CR_FILENAME")" "scala --classpath \"$classpath\" --main-class \"$class_name\" --"
-    echo "$CR_SUGGESTED_OUTPUT_FILE"
-    exit 0
 }
 
 build_objc() {
@@ -199,8 +180,6 @@ build_maven() {
             create_project_wrapper "$project_root" "mvn exec:java"
         fi
     fi
-    echo "$CR_SUGGESTED_OUTPUT_FILE"
-    exit 0
 }
 
 build_gradle() {
@@ -210,8 +189,6 @@ build_gradle() {
     [ ! -f "$project_root/gradlew" ] && gradlew="gradle"
     (cd "$project_root" && $gradlew classes)
     create_project_wrapper "$project_root" "$gradlew run"
-    echo "$CR_SUGGESTED_OUTPUT_FILE"
-    exit 0
 }
 
 build_gleam() {
@@ -220,8 +197,6 @@ build_gleam() {
     if [ -n "$project_root" ]; then
         (cd "$project_root" && gleam build)
         create_project_wrapper "$project_root" "gleam run"
-        echo "$CR_SUGGESTED_OUTPUT_FILE"
-        exit 0
     else
         echo "Error: Gleam project not found (gleam.toml missing)." >&2
         exit 1
@@ -234,16 +209,12 @@ build_elixir() {
     if [ -n "$project_root" ]; then
         (cd "$project_root" && mix compile)
         create_project_wrapper "$project_root" "mix run"
-        echo "$CR_SUGGESTED_OUTPUT_FILE"
-        exit 0
     else
         # Single-file elixirc with wrapper execution
         local out_dir="$(dirname "$CR_SUGGESTED_OUTPUT_FILE")"
         mkdir -p "$out_dir"
         elixirc -o "$out_dir" "$CR_FILENAME"
         create_project_wrapper "$(dirname "$CR_FILENAME")" "elixir -pa $out_dir $(basename "$CR_FILENAME")"
-        echo "$CR_SUGGESTED_OUTPUT_FILE"
-        exit 0
     fi
 }
 
@@ -267,18 +238,12 @@ build_haskell() {
     if [ -n "$project_root_stack" ]; then
         (cd "$project_root_stack" && stack build)
         create_project_wrapper "$project_root_stack" "stack run"
-        echo "$CR_SUGGESTED_OUTPUT_FILE"
-        exit 0
     elif [ -n "$project_root_cabal" ]; then
         (cd "$project_root_cabal" && cabal build)
         create_project_wrapper "$project_root_cabal" "cabal run"
-        echo "$CR_SUGGESTED_OUTPUT_FILE"
-        exit 0
     else
         # Standalone file: use runghc through a wrapper
         create_project_wrapper "$(dirname "$CR_FILENAME")" "runghc $(basename "$CR_FILENAME")"
-        echo "$CR_SUGGESTED_OUTPUT_FILE"
-        exit 0
     fi
 }
 
@@ -294,8 +259,6 @@ build_nodejs() {
     else
         create_project_wrapper "$(dirname "$CR_FILENAME")" "node $(basename "$CR_FILENAME")"
     fi
-    echo "$CR_SUGGESTED_OUTPUT_FILE"
-    exit 0
 }
 
 build_python() {
@@ -306,8 +269,6 @@ build_python() {
     else
         create_project_wrapper "$(dirname "$CR_FILENAME")" "python3 $(basename "$CR_FILENAME")"
     fi
-    echo "$CR_SUGGESTED_OUTPUT_FILE"
-    exit 0
 }
 
 build_dotnet() {
@@ -319,8 +280,6 @@ build_dotnet() {
     else
         create_project_wrapper "$(dirname "$CR_FILENAME")" "dotnet run"
     fi
-    echo "$CR_SUGGESTED_OUTPUT_FILE"
-    exit 0
 }
 
 build_ruby() {
@@ -331,8 +290,6 @@ build_ruby() {
     else
         create_project_wrapper "$(dirname "$CR_FILENAME")" "ruby $(basename "$CR_FILENAME")"
     fi
-    echo "$CR_SUGGESTED_OUTPUT_FILE"
-    exit 0
 }
 
 build_php() {
@@ -347,8 +304,6 @@ build_php() {
     else
         create_project_wrapper "$(dirname "$CR_FILENAME")" "php $(basename "$CR_FILENAME")"
     fi
-    echo "$CR_SUGGESTED_OUTPUT_FILE"
-    exit 0
 }
 
 build_shell() {
@@ -357,8 +312,40 @@ build_shell() {
     [[ "$CR_FILENAME" == *.fish ]] && shell="fish"
     [[ "$CR_FILENAME" == *.zsh ]] && shell="zsh"
     create_project_wrapper "$(dirname "$CR_FILENAME")" "$shell $(basename "$CR_FILENAME")"
-    echo "$CR_SUGGESTED_OUTPUT_FILE"
-    exit 0
+}
+
+build_clojure() {
+    # Clojure: handles deps.edn, project.clj, and bb.edn projects or single files
+    project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "deps.edn project.clj bb.edn")
+    if [ -n "$project_root" ]; then
+        if [ -f "$project_root/deps.edn" ]; then
+            # If the filename itself is deps.edn, just run clojure
+            if [[ "$(basename "$CR_FILENAME")" == "deps.edn" ]]; then
+                create_project_wrapper "$project_root" "clojure"
+            else
+                # Run the specific file within the project context
+                local rel_path=$(python3 -c "import os, sys; print(os.path.relpath(sys.argv[1], sys.argv[2]))" "$CR_FILENAME" "$project_root")
+                create_project_wrapper "$project_root" "clojure -M \"$rel_path\""
+            fi
+        elif [ -f "$project_root/project.clj" ]; then
+            create_project_wrapper "$project_root" "lein run"
+        elif [ -f "$project_root/bb.edn" ]; then
+            create_project_wrapper "$project_root" "bb run"
+        fi
+    else
+        # Single file
+        if [[ "$(basename "$CR_FILENAME")" == *.cljs ]]; then
+             # ClojureScript single file: use clojure -M -m cljs.main
+             create_project_wrapper "$(dirname "$CR_FILENAME")" "clojure -M -m cljs.main \"$(basename "$CR_FILENAME")\""
+        else
+             # Clojure single file (prefer bb if available, fallback to clojure)
+             if command -v bb >/dev/null 2>&1; then
+                 create_project_wrapper "$(dirname "$CR_FILENAME")" "bb \"$(basename "$CR_FILENAME")\""
+             else
+                 create_project_wrapper "$(dirname "$CR_FILENAME")" "clojure -M \"$(basename "$CR_FILENAME")\""
+             fi
+        fi
+    fi
 }
 
 build_command() {
@@ -377,6 +364,7 @@ build_command() {
         *.gleam) build_gleam "$@" ;;
         *.ex|*.exs|mix.exs|*/mix.exs) build_elixir "$@" ;;
         *.hs|*.lhs) build_haskell "$@" ;;
+        *.clj|*.cljs|*.cljc|*.edn|deps.edn|*/deps.edn|project.clj|*/project.clj|bb.edn|*/bb.edn) build_clojure "$@" ;;
         pom.xml|*/pom.xml) build_maven "$@" ;;
         build.gradle|*/build.gradle|build.gradle.kts|*/build.gradle.kts) build_gradle "$@" ;;
         *.js|*.ts|package.json|*/package.json) build_nodejs "$@" ;;

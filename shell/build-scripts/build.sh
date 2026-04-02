@@ -28,6 +28,11 @@ fi
 export CR_FILENAME="$1"
 shift 1
 
+if [ ! -e "$CR_FILENAME" ]; then
+    echo "Error: Source file '$CR_FILENAME' not found." >&2
+    exit 1
+fi
+
 setup_env() {
     # Define constants needed by cr_build.sh
     export CR_TMPDIR="${CR_TMPDIR:-/tmp}"

@@ -34,8 +34,8 @@ alias man="tldr"
 #alias grep="rg"
 #alias find="fd"
 alias python="python3"
-#alias build="bash ~/dotfiles/shell/build-scripts/build.sh"
-#alias run="bash ~/dotfiles/shell/build-scripts/build_run.sh"
+alias build="bash ~/dotfiles/shell/build-scripts/build.sh"
+alias run="bash ~/dotfiles/shell/build-scripts/build_run.sh"
 
 # Force Node-related commands to use Bun
 alias node='bun'

@@ -24,6 +24,7 @@
 # Common functions for CodeRunner build and run scripts
 
 # Encoding mapping for CodeRunner
+
 declare -a enc
 enc[4]="UTF-8"
 enc[0]="MacRoman"
@@ -46,25 +47,37 @@ init_cr() {
         CR_FILENAME="$(pwd)/$CR_FILENAME"
     fi
 
-    # Resolve absolute path for suggested output file
-    # Define the suggested binary path
-    local base="$(basename "$CR_FILENAME")"
+    # Set default values for unsaved dir and language
+    [ -z "$CR_UNSAVED_DIR" ] && CR_UNSAVED_DIR="$CR_TMPDIR"
+    [ -z "$LANGUAGE" ] && LANGUAGE="${CR_FILENAME##*.}"
+
+    # Try to find project root to determine output file name
+    case "$LANGUAGE" in
+        go|mod)  project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "go.mod") || project_root="" ;;
+        rs|toml) project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "Cargo.toml") || project_root="" ;;
+        zig)     project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "build.zig") || project_root="" ;;
+        java|kt|xml|gradle|kts) project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "pom.xml build.gradle build.gradle.kts") || project_root="" ;;
+        # ... add others if needed
+    esac
+
     if [[ "$base" == "pom.xml" || "$base" == "build.gradle" || "$base" == "build.gradle.kts" || \
           "$base" == "Cargo.toml" || "$base" == "go.mod" || "$base" == "build.zig" || \
           "$base" == "gleam.toml" || "$base" == "mix.exs" || "$base" == "package.json" || \
           "$base" == "pyproject.toml" || "$base" == "Gemfile" || "$base" == "composer.json" || \
-          "$base" == *.csproj || "$base" == *.sln ]]; then
+          "$base" == "deps.edn" || "$base" == "project.clj" || "$base" == "bb.edn" || \
+          "$base" == *.csproj || "$base" == *.sln ]] || [[ -n "$project_root" ]]; then
+        
         # Project-level build result
-        local dir_name="$(basename "$(dirname "$CR_FILENAME")")"
+        local actual_root="${project_root:-$(dirname "$CR_FILENAME")}"
+        local dir_name="$(basename "$actual_root")"
         export CR_SUGGESTED_OUTPUT_FILE="$CR_TMPDIR/CodeRunner/${dir_name}_Project"
     else
         # Single-file build result
         export CR_SUGGESTED_OUTPUT_FILE="$CR_TMPDIR/CodeRunner/$(basename "${CR_FILENAME//./_}")"
     fi
-    
-    # Set default values for unsaved dir and language
-    [ -z "$CR_UNSAVED_DIR" ] && CR_UNSAVED_DIR="$CR_TMPDIR"
-    [ -z "$LANGUAGE" ] && LANGUAGE="${CR_FILENAME##*.}"
+
+    # Ensure the output directory exists
+    mkdir -p "$(dirname "$CR_SUGGESTED_OUTPUT_FILE")"
 
     # Checksum file is used to avoid rebuilding if source hasn't changed
     CHECKSUM_FILE="$CR_SUGGESTED_OUTPUT_FILE.sha256"
@@ -111,9 +124,10 @@ handle_unsaved() {
         # If building an unsaved file, use a separate directory to avoid conflicts
         rm -rf "$CR_UNSAVED_DIR/$lang_dir/" &>/dev/null
         mkdir -p "$CR_UNSAVED_DIR/$lang_dir"
-        cp "$CR_FILENAME" "$CR_UNSAVED_DIR/$lang_dir/$CR_FILENAME"
+        local base_filename="$(basename "$CR_FILENAME")"
+        cp "$CR_FILENAME" "$CR_UNSAVED_DIR/$lang_dir/$base_filename"
         cd "$lang_dir"
-        CR_FILENAME="$lang_dir/$CR_FILENAME"
+        CR_FILENAME="$lang_dir/$base_filename"
     fi
 }
 
@@ -128,9 +142,6 @@ check_checksum() {
             echo "$CR_SUGGESTED_OUTPUT_FILE"
             exit 0
         fi
-        # Otherwise, we output the path so build_run.sh knows where to expect it
-        # (This line is captured by BUILD_OUTPUT in build_run.sh)
-        echo "$CR_SUGGESTED_OUTPUT_FILE"
     fi
 }
 

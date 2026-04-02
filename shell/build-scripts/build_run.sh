@@ -28,6 +28,11 @@ fi
 export CR_FILENAME="$1"
 shift 1
 
+if [ ! -e "$CR_FILENAME" ]; then
+    echo "Error: Source file '$CR_FILENAME' not found." >&2
+    exit 1
+fi
+
 # Run the compiled program based on its language
 run_command() {
     local output_file="$1"
