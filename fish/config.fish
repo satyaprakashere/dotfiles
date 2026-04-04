@@ -3,6 +3,8 @@ set RUSTFLAGS "-C opt-level=0 -C debuginfo=0 -C link-arg=-si -C link-arg=-fuse-l
 zoxide init fish | source
 starship init fish | source
 fzf --fish | source
+bind \cf fzf-file-widget
+bind -e \ct
 #fish_vi_key_bindings
 # [ -f /opt/homebrew/share/autojump/autojump.fish ]; and source /opt/homebrew/share/autojump/autojump.fish
 
@@ -98,16 +100,27 @@ fish_add_path /opt/homebrew/sbin
 # Added by Antigravity
 #fish_add_path /Users/prakash/.antigravity/antigravity/bin
 
-# Use fd instead of find for fzf (much faster)
-# Updated fzf command to ignore large packages and hidden app folders
-set -x FZF_DEFAULT_COMMAND 'fd --type f --strip-cwd-prefix --follow \
+# Use fd instead of find for fzf (much faster and avoids hidden files/folders by default)
+set -gx FZF_DEFAULT_COMMAND 'fd --type f --strip-cwd-prefix --follow \
     --exclude .git \
+    --exclude node_modules \
+    --exclude Downloads \
+    --exclude Library \
+    --exclude .cargo \
+    --exclude .rustup \
     --exclude "*.app" \
     --exclude "*.dmg" \
     --exclude "*.iso" \
     --exclude "*.pkg"'
 
-set -x FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"
+set -gx FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"
+set -gx FZF_ALT_C_COMMAND 'fd --type d --strip-cwd-prefix --follow \
+    --exclude .git \
+    --exclude node_modules \
+    --exclude Downloads \
+    --exclude Library \
+    --exclude .cargo \
+    --exclude .rustup'
 
 function openf
     # Resolve the physical path of the alias/symlink

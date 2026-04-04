@@ -1,0 +1,7 @@
+{
+	"shell_cmd": "bash ~/dotfiles/shell/build-scripts/build.sh $file",
+    "quiet": true,
+    "env": {
+        "SUBLIME_QUIET_BUILD": "1"
+    }
+}

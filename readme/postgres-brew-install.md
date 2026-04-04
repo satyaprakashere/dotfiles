@@ -1,3 +1,5 @@
+# PostgreSQL Homebrew Installation Hints
+
 This formula has created a default database cluster with:
   initdb --locale=C -E UTF-8 /opt/homebrew/var/postgresql@17
 
