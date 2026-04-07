@@ -101,3 +101,7 @@ endfunction
 function! s:goyo_leave()
     colorscheme catppuccin_mocha
 endfunction
+"
+" Enable vim-iced's default key mapping
+" This is recommended for newbies
+let g:iced_enable_default_key_mappings = v:true

@@ -87,7 +87,7 @@ if [ $BUILD_STATUS -eq 0 ]; then
 
     # Verify that the output exists (either as a file or as a 'classpath:classname' string for Java/Kotlin)
     if [ -n "$OUTPUT_FILE" ] && ([ -e "$OUTPUT_FILE" ] || [[ "$OUTPUT_FILE" == *:* ]]); then
-        local display_name=$(basename "$OUTPUT_FILE")
+        display_name=$(basename "$OUTPUT_FILE")
         if [[ "$display_name" == *"_Project" ]]; then
             echo "Build successful. Running $(echo "$display_name" | sed 's/_Project$//') project..."
         else

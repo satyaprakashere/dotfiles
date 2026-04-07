@@ -21,7 +21,7 @@
   {
     "context": "((Workspace || Editor) || Terminal)",
     "bindings": {
-      "cmd-r": "task::Rerun"
+      "alt-r": "task::Rerun"
     }
   },
   {
@@ -44,7 +44,18 @@
   {
     "context": "((Workspace || Editor) || Terminal)",
     "bindings": {
-      "cmd-b": ["task::Spawn", { "task_name": "Code Runner" }]
+      "cmd-b": ["task::Spawn", { "task_name": "Code Builder" }]
+    }
+  },
+  {
+    "context": "((Workspace || Editor) || Terminal)",
+    "bindings": {
+      "cmd-r": [
+        "task::Spawn",
+        {
+          "task_name": "Code Runner"
+        }
+      ]
     }
   },
   // {

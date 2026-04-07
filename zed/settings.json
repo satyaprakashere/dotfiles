@@ -7,6 +7,7 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  // "enable_language_server": false,
   "tab_size": 4,
   "hard_tabs": false,
   "autosave": "on_focus_change",
@@ -106,6 +107,14 @@
   "buffer_font_size": 18.0,
   "format_on_save": "off",
   "lsp": {
+      "gopls": {
+        "initialization_options": {
+                "buildFlags": ["-tags=goexperiment.arenas"]
+        },
+        // "env": {
+        //     "GOEXPERIMENT": "arenas"
+        // }
+      },
     "clangd": {
           "binary": {
             "path": "clangd",
@@ -118,6 +127,12 @@
               "--header-insertion=never"
             ]
           }
+    },
+    "json-language-server": {
+        "enable": false
+        // "binary": {
+        //     "path": "/dev/null"
+        // }
     },
     "jdtls": {
       // "initialization_options": {
@@ -167,6 +182,7 @@
       }
     }
   },
+
   "languages": {
     "C++": {
         "format_on_save": "on",
@@ -183,7 +199,8 @@
       "enable_language_server": false
     },
     "JSON": {
-      "enable_language_server": false
+      "enable_language_server": false,
+      "language_servers": []
     },
     "TypeScript": {
       "enable_language_server": false

@@ -31,7 +31,11 @@ Plug 'junegunn/fzf.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'christoomey/vim-sort-motion'
 Plug 'gcmt/wildfire.vim'
+Plug 'tpope/vim-fireplace'
 Plug 'mg979/vim-visual-multi'
+
+Plug 'guns/vim-sexp',    {'for': 'clojure'}
+Plug 'liquidz/vim-iced', {'for': 'clojure'}
 
 " Git Integration
 Plug 'tpope/vim-fugitive'
