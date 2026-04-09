@@ -120,4 +120,11 @@ return {
     event = "VeryLazy",
     opts = {},
   },
+
+  -- Commentary (Built-in alternative with extra features)
+  {
+    "echasnovski/mini.comment",
+    event = "VeryLazy",
+    opts = {},
+  },
 }

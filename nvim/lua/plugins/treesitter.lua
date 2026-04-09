@@ -29,10 +29,4 @@ return {
     end,
   },
 
-  -- Context (Works with the new treesitter)
-  {
-    "nvim-treesitter/nvim-treesitter-context",
-    event = "VeryLazy",
-    opts = { mode = "cursor", max_lines = 3 },
-  },
 }

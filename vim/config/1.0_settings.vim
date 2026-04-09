@@ -83,12 +83,18 @@ autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "norm
 
 " ----[ Language Specific ]----------
 let g:tex_flavor='latex'
-autocmd filetype sh,haskell,python,rekursion setlocal shiftwidth=2 softtabstop=2
+autocmd Filetype sh,haskell,python,rekursion setlocal shiftwidth=2 softtabstop=2
 autocmd FileType swift setlocal shiftwidth=2 tabstop=2 expandtab
+"autocmd FileType markdown Goyo
+
+"augroup pencil
+  "autocmd!
+  "autocmd FileType markdown,mkd call pencil#init()
+"augroup END
 
 " Path additions
 let $PATH .= ':' . expand('~/.ghcup/bin')
-let $PATH .= ':' . '/opt/homebrew/bin'
+"let $PATH .= ':' . '/opt/homebrew/bin'
 
 " Goyo enter/leave hooks
 autocmd! User GoyoEnter nested call <SID>goyo_enter()

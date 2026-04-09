@@ -1,6 +1,5 @@
+[ -f /usr/local/share/autojump/autojump.fish ]; and source /usr/local/share/autojump/autojump.fish
 set RUSTFLAGS "-C opt-level=0 -C debuginfo=0 -C link-arg=-si -C link-arg=-fuse-ld=/usr/local/bin/mold"
-
-zoxide init fish | source
 starship init fish | source
 fzf --fish | source
 bind \cf fzf-file-widget
@@ -18,33 +17,26 @@ set --export BUN_INSTALL "$HOME/.bun"
 #set --export VCPKG_ROOT="$HOME/github/vcpkg"
 #set --export JAVY_PLUGIN_WASM=/opt/javy/plugin.wasm
 
-#set -gx CPPFLAGS -I/usr/local/opt/openjdk/include
+set -gx CPPFLAGS -I/usr/local/opt/openjdk/include
 #set -gx CPPFLAGS -I/opt/homebrew/opt/llvm/include
 
-#set -gx LDFLAGS -L/opt/homebrew/opt/llvm/lib
+#set -gx LDFLAGS -L/usr/local/opt/llvm/lib
 #set -gx LDFLAGS "-L/opt/homebrew/opt/llvm/lib/unwind -lunwind"
 #set -gx LDFLAGS "-L/opt/homebrew/opt/llvm/lib/c++ -L/opt/homebrew/opt/llvm/lib/unwind -lunwind"
+set -gx LDFLAGS "-L/usr/local/opt/llvm/lib/c++ -L/usr/local/opt/llvm/lib/unwind -lunwind"
 
-alias j="z"
 alias e="vim"
-alias ls="eza --icons --group-directories-first --git"
+#alias ls="eza --icons --group-directories-first --git"
 #alias ll="ls -l"
 #alias la="ls -a"
-alias lT="ls --tree"
-alias cat="bat"
+#alias lT="ls --tree"
+#alias cat="bat"
 alias man="tldr"
 #alias grep="rg"
 #alias find="fd"
 alias python="python3"
 alias build="bash ~/dotfiles/shell/build-scripts/build.sh"
 alias run="bash ~/dotfiles/shell/build-scripts/build_run.sh"
-
-# Force Node-related commands to use Bun
-alias node='bun'
-alias npm='bun'
-alias npx='bunx'
-alias yarn='bun'
-
 
 alias mem="~/dotfiles/shell/psm.sh"
 alias lone="~/github/lone/build/aarch64/lone"
@@ -79,6 +71,7 @@ alias makfile="vim Makefile"
 
 fish_add_path ~/go/bin
 fish_add_path ~/.bun/bin
+#fish_add_path ~/.ghcup/bin
 fish_add_path ~/.config/emacs/bin
 #fish_add_path ~/.config/emacs/bin
 #fish_add_path ~/.local/bin
@@ -149,3 +142,18 @@ end
 # Save it so it's available in every new session
 #funcsave openf
 
+# Added by Antigravity IDE
+fish_add_path /Users/prakash/.antigravity-ide/antigravity-ide/bin
+
+
+# BEGIN opam configuration
+# This is useful if you're using opam as it adds:
+#   - the correct directories to the PATH
+#   - auto-completion for the opam binary
+# This section can be safely removed at any time if needed.
+test -r '/Users/prakash/.opam/opam-init/init.fish' && source '/Users/prakash/.opam/opam-init/init.fish' > /dev/null 2> /dev/null; or true
+# END opam configuration
+
+
+# Added by Antigravity CLI installer
+set -gx PATH "/Users/prakash/.local/bin" $PATH

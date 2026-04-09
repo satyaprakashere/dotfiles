@@ -49,22 +49,53 @@ init_cr() {
 
     # Set default values for unsaved dir and language
     [ -z "$CR_UNSAVED_DIR" ] && CR_UNSAVED_DIR="$CR_TMPDIR"
-    [ -z "$LANGUAGE" ] && LANGUAGE="${CR_FILENAME##*.}"
+    
+    if [ -d "$CR_FILENAME" ]; then
+        export CR_IS_DIR=true
+        # Infer language from markers in the directory
+        if [ -f "$CR_FILENAME/go.mod" ]; then LANGUAGE="go"
+        elif [ -f "$CR_FILENAME/Cargo.toml" ]; then LANGUAGE="rs"
+        elif [ -f "$CR_FILENAME/deps.edn" ] || [ -f "$CR_FILENAME/project.clj" ] || [ -f "$CR_FILENAME/shadow-cljs.edn" ] || [ -f "$CR_FILENAME/bb.edn" ]; then LANGUAGE="clj"
+        elif [ -f "$CR_FILENAME/pom.xml" ]; then LANGUAGE="maven"
+        elif [ -f "$CR_FILENAME/build.gradle" ] || [ -f "$CR_FILENAME/build.gradle.kts" ]; then LANGUAGE="gradle"
+        elif [ -f "$CR_FILENAME/package.json" ]; then LANGUAGE="js"
+        elif [ -f "$CR_FILENAME/build.zig" ]; then LANGUAGE="zig"
+        elif [ -f "$CR_FILENAME/mix.exs" ]; then LANGUAGE="ex"
+        elif [ -f "$CR_FILENAME/pyproject.toml" ] || [ -f "$CR_FILENAME/requirements.txt" ]; then LANGUAGE="py"
+        elif [ -f "$CR_FILENAME/Package.swift" ]; then LANGUAGE="swift"
+        elif [ -f "$CR_FILENAME/Makefile" ]; then LANGUAGE="odin" # Odin often uses Makefile
+        elif [ -f "$CR_FILENAME/dune-project" ] || [ -f "$CR_FILENAME/dune" ]; then LANGUAGE="ocaml"
+        fi
+    else
+        [ -z "$LANGUAGE" ] && LANGUAGE="${CR_FILENAME##*.}"
+    fi
+    local base="$(basename "$CR_FILENAME")"
 
     # Try to find project root to determine output file name
-    case "$LANGUAGE" in
-        go|mod)  project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "go.mod") || project_root="" ;;
-        rs|toml) project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "Cargo.toml") || project_root="" ;;
-        zig)     project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "build.zig") || project_root="" ;;
-        java|kt|xml|gradle|kts) project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "pom.xml build.gradle build.gradle.kts") || project_root="" ;;
-        # ... add others if needed
-    esac
+    # If it's a directory, it IS the project root
+    if [ "$CR_IS_DIR" = true ]; then
+        project_root="$CR_FILENAME"
+    else
+        case "$LANGUAGE" in
+            go|mod)  project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "go.mod") || project_root="" ;;
+            rs|toml) project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "Cargo.toml") || project_root="" ;;
+            zig)     project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "build.zig") || project_root="" ;;
+            java|kt|xml|gradle|kts) project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "pom.xml build.gradle build.gradle.kts") || project_root="" ;;
+            clj|cljs|cljc|edn) project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "deps.edn project.clj bb.edn shadow-cljs.edn nbb.edn") || project_root="" ;;
+            swift)     project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "Package.swift") || project_root="" ;;
+            ocaml|ml|mli) project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "dune-project") || project_root="" ;;
+            # ... add others if needed
+        esac
+    fi
 
     if [[ "$base" == "pom.xml" || "$base" == "build.gradle" || "$base" == "build.gradle.kts" || \
           "$base" == "Cargo.toml" || "$base" == "go.mod" || "$base" == "build.zig" || \
           "$base" == "gleam.toml" || "$base" == "mix.exs" || "$base" == "package.json" || \
           "$base" == "pyproject.toml" || "$base" == "Gemfile" || "$base" == "composer.json" || \
+          "$base" == "Package.swift" || \
           "$base" == "deps.edn" || "$base" == "project.clj" || "$base" == "bb.edn" || \
+          "$base" == "shadow-cljs.edn" || "$base" == "nbb.edn" || \
+          "$base" == "dune-project" || "$base" == "dune" || \
           "$base" == *.csproj || "$base" == *.sln ]] || [[ -n "$project_root" ]]; then
         
         # Project-level build result
@@ -169,8 +200,10 @@ post_build() {
         if [ "$is_tmp_dir" = true ]; then
             mv -f "$CR_UNSAVED_DIR/$lang_dir/"* "$CR_UNSAVED_DIR/"
         fi
-        # Create a checksum to enable build caching next time
-        sha256sum "$CR_FILENAME" > "$CHECKSUM_FILE"
+        # Create a checksum to enable build caching next time (skip for directories)
+        if [ "$CR_IS_DIR" != true ]; then
+            sha256sum "$CR_FILENAME" > "$CHECKSUM_FILE"
+        fi
         # Always output the suggest output path for CodeRunner/build_run.sh to capture
         echo "$CR_SUGGESTED_OUTPUT_FILE"
     fi

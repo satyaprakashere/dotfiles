@@ -3,10 +3,10 @@
 local map = vim.keymap.set
 
 -- Overriding existing mappings
-map({"n", "v"}, "<Up>", "<NOP>")
-map({"n", "v"}, "<Down>", "<NOP>")
-map({"n", "v"}, "<Left>", "<NOP>")
-map({"n", "v"}, "<Right>", "<NOP>")
+map({ "n", "v" }, "<Up>", "<NOP>")
+map({ "n", "v" }, "<Down>", "<NOP>")
+map({ "n", "v" }, "<Left>", "<NOP>")
+map({ "n", "v" }, "<Right>", "<NOP>")
 
 map("i", "<C-c>", "<ESC>")
 map("c", "<C-c>", "<ESC>")
@@ -61,13 +61,17 @@ map("c", "<C-k>", "<Up>")
 map("c", "<C-j>", "<Down>")
 
 -- GUI Specific (using D- for Command key)
-map({"n", "v", "i"}, "<D-d>", "<cmd>vsp<CR>")
-map({"n", "v", "i"}, "<D-l>", "<cmd>buffers<CR>")
-map({"n", "v", "i"}, "<D-j>", "<C-w>l")
-map({"n", "v", "i"}, "<D-k>", "<C-w>h")
+map({ "n", "v", "i" }, "<D-d>", "<cmd>vsp<CR>")
+map({ "n", "v", "i" }, "<D-l>", "<cmd>buffers<CR>")
+map({ "n", "v", "i" }, "<D-j>", "<C-w>l")
+map({ "n", "v", "i" }, "<D-k>", "<C-w>h")
 map("n", "<D-b>", ":!bash ~/dotfiles/shell/build-scripts/build.sh %<CR>")
 map("n", "<D-r>", ":!bash ~/dotfiles/shell/build-scripts/build_run.sh %<CR>")
 map("n", "<D-h>", "<cmd>Neotree toggle<CR>") -- Will setup Neotree as NERDTree replacement
+
+-- GUI Specific (using M- for Meta key)
+map("n", "<M-b>", ":!bash ~/dotfiles/shell/build-scripts/build.sh %<CR>")
+map("n", "<M-r>", ":!bash ~/dotfiles/shell/build-scripts/build_run.sh %<CR>")
 
 -- Plugin mappings will be defined inside plugin configs, but let's keep core ones here
 -- <C-p> for Files will be handled by fzf-lua in Phase 2

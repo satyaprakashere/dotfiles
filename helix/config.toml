@@ -1,6 +1,4 @@
-#theme = "catppuccin_mocha"
 theme = "github_dark"
-
 
 [editor]
 line-number = "relative"
@@ -15,25 +13,25 @@ select = "underline"
 hidden = false
 
 [keys.normal]
-q = ":wq"
-Q = ":q!"
-C-q = ":wq"
+q = ":write-quit"
+Q = ":quit!"
+C-q = ":write-quit"
 C-l = "file_picker"
-A-q = ":q!"
+A-q = ":quit!"
 p = ":clipboard-paste-after"
 P = ":clipboard-paste-before"
-# y = ":clipboard-yank-join"
-# Y = ":clipboard-yank"
-# R = ":clipboard-paste-replace"
-# d = [":clipboard-yank-join", "delete_selection"]
-S-d = ["evil_characterwise_select_mode", "goto_line_end", "evil_delete"]
+y = ":clipboard-yank-join"
+Y = ":clipboard-yank"
+R = ":clipboard-paste-replace"
+d = [":clipboard-yank-join", "delete_selection"]
+#S-d = ["evil_characterwise_select_mode", "goto_line_end", "evil_delete"]
 
 [keys.select]
 p = ":clipboard-paste-after"
 P = ":clipboard-paste-before"
-# y = ":clipboard-yank-join"
-# Y = ":clipboard-yank"
-# R = ":clipboard-paste-replace"
-# d = [":clipboard-yank-join", "delete_selection"]
-S-d = "evil_delete"
+y = ":clipboard-yank-join"
+Y = ":clipboard-yank"
+R = ":clipboard-paste-replace"
+d = [":clipboard-yank-join", "delete_selection"]
+#S-d = "evil_delete"
 

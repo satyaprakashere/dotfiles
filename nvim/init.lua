@@ -31,7 +31,7 @@ require("lazy").setup({
     lazy = false,
     version = false, -- always use the latest git commit
   },
-  install = { colorscheme = { "catppuccin" } },
+  install = { colorscheme = { "github_dark" } },
   checker = { enabled = true }, -- automatically check for plugin updates
   performance = {
     rtp = {

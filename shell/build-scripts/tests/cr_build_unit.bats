@@ -43,6 +43,14 @@ teardown() {
     [ "$status" -eq 1 ]
 }
 
+@test "find_project_root: finds root with OCaml markers" {
+    project=$(create_project "my-ocaml-app" "dune-project" "src/main.ml")
+    
+    run find_project_root "$project/src" "dune-project"
+    [ "$status" -eq 0 ]
+    [ "$output" == "$project" ]
+}
+
 @test "init_cr: sets up paths correctly for single file" {
     export CR_FILENAME="/tmp/test.go"
     export CR_TMPDIR="$TEST_TEMP_DIR"
@@ -62,6 +70,17 @@ teardown() {
     
     [ "$CR_SUGGESTED_OUTPUT_FILE" == "$TEST_TEMP_DIR/CodeRunner/my-proj_Project" ]
     [ "$CHECKSUM_FILE" == "$TEST_TEMP_DIR/CodeRunner/my-proj_Project.sha256" ]
+}
+
+@test "init_cr: sets up paths correctly for OCaml project file" {
+    project=$(create_project "my-ocaml-proj" "dune-project")
+    export CR_FILENAME="$project/dune-project"
+    export CR_TMPDIR="$TEST_TEMP_DIR"
+    
+    init_cr
+    
+    [ "$CR_SUGGESTED_OUTPUT_FILE" == "$TEST_TEMP_DIR/CodeRunner/my-ocaml-proj_Project" ]
+    [ "$CHECKSUM_FILE" == "$TEST_TEMP_DIR/CodeRunner/my-ocaml-proj_Project.sha256" ]
 }
 
 @test "handle_unsaved: correctly copies file when in CR_UNSAVED_DIR" {

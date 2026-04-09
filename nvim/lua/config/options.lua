@@ -7,10 +7,10 @@ opt.timeoutlen = 300 -- Faster mapping timeout (default is 1000ms)
 
 -- Appearance
 opt.termguicolors = true
-opt.cursorline = true
+opt.cursorline = false
 opt.number = true
 opt.relativenumber = true
-opt.colorcolumn = "85"
+opt.colorcolumn = ""
 opt.laststatus = 3 -- Neovim 0.12+ supports a global statusline
 opt.shortmess:append("I") -- No intro message
 opt.showcmd = true

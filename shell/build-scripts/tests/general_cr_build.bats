@@ -63,6 +63,44 @@ teardown() {
     [ "$last_line" == "$TEST_TEMP_DIR/CodeRunner/my-rust-app_Project" ]
 }
 
+@test "general_cr_build.sh: builds OCaml project" {
+    project=$(create_project "my-ocaml-app" "dune-project" "bin/main.ml" "bin/dune")
+    echo '(executable (name main))' > "$project/bin/dune"
+    export CR_FILENAME="$project/bin/main.ml"
+    export CR_TMPDIR="$TEST_TEMP_DIR"
+    
+    mock_command "dune" "echo 'Mock dune build successful'"
+    
+    run bash "$GENERAL_CR_BUILD_SH"
+    [ "$status" -eq 0 ]
+    
+    last_line=$(echo "$output" | tail -n 1)
+    [ "$last_line" == "$TEST_TEMP_DIR/CodeRunner/my-ocaml-app_Project" ]
+    
+    # Check that wrapper exists and points to dune exec -- ./bin/main.exe
+    [ -f "$TEST_TEMP_DIR/CodeRunner/my-ocaml-app_Project" ]
+    wrapper_content=$(cat "$TEST_TEMP_DIR/CodeRunner/my-ocaml-app_Project")
+    [[ "$wrapper_content" == *"dune exec -- ./bin/main.exe"* ]]
+}
+
+@test "general_cr_build.sh: builds OCaml single file" {
+    project_dir="$FIXTURES_DIR/single-ocaml"
+    mkdir -p "$project_dir"
+    test_file="$project_dir/hello.ml"
+    touch "$test_file"
+
+    export CR_FILENAME="$test_file"
+    export CR_TMPDIR="$TEST_TEMP_DIR"
+    
+    mock_compiler "ocamlopt"
+    
+    run bash "$GENERAL_CR_BUILD_SH"
+    [ "$status" -eq 0 ]
+    
+    last_line=$(echo "$output" | tail -n 1)
+    [ "$last_line" == "$TEST_TEMP_DIR/CodeRunner/hello_ml" ]
+}
+
 @test "general_cr_build.sh: error on unknown file type" {
     export CR_FILENAME="/tmp/test.unknown"
     export CR_TMPDIR="$TEST_TEMP_DIR"

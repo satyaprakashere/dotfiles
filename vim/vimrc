@@ -68,7 +68,10 @@ Plug 'elixir-editors/vim-elixir'
 Plug 'vimwiki/vimwiki'
 Plug 'preservim/nerdtree'
 Plug 'junegunn/goyo.vim'
+"Plug 'junegunn/limelight.vim'
 Plug 'preservim/vim-colors-pencil'
+Plug 'preservim/vim-pencil'
+"Plug 'subnut/vim-iawriter'
 
 call plug#end()
 
