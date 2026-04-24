@@ -50,7 +50,7 @@ alias mem="~/dotfiles/shell/psm.sh"
 alias lone="~/github/lone/build/aarch64/lone"
 alias run="bash $HOME/dotfiles/shell/build-scripts/build_run.sh"
 # Open in a new GUI frame, start daemon if not running
-alias e='emacsclient -c -a ""'
+alias em='emacsclient -c -a ""'
 # Open in the terminal (no GUI window)
 alias et='emacsclient -t -a ""'
 alias ke='emacsclient -e "(kill-emacs)"'

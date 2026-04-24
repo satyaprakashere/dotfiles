@@ -21,8 +21,8 @@ PS_DATA=$(mktemp /tmp/psm_ps.XXXXXX)
 TOP_DATA=$(mktemp /tmp/psm_top.XXXXXX)
 
 # Cache all process data once
-# Columns: pid, ppid, %mem, rss, vsz, comm
-ps -ax -o pid,ppid,%mem,rss,vsz,comm > "$PS_DATA"
+# Columns: pid, ppid, state, %mem, rss, vsz, comm
+ps -ax -o pid,ppid,state,%mem,rss,vsz,comm > "$PS_DATA"
 # Cache top data for private memory (rprvt, purg)
 top -l 1 -stats pid,rprvt,purg -i 1 > "$TOP_DATA" 2>/dev/null
 
@@ -61,6 +61,8 @@ CYAN="\033[36m"
 YELLOW="\033[33m"
 MAGENTA="\033[35m"
 BLUE="\033[34m"
+RED="\033[31m"
+DIM="\033[2m"
 RESET="\033[0m"
 
 # Function to format KB to a readable string (switches to MB if >=1024KB)
@@ -88,8 +90,8 @@ print_and_sum_tree() {
     [ -z "$line" ] && return
     
     # Extract fields using read
-    local _pid _ppid _pmem _rss_raw _vsz_raw _full_path
-    read _pid _ppid _pmem _rss_raw _vsz_raw _full_path <<< "$line"
+    local _pid _ppid _state _pmem _rss_raw _vsz_raw _full_path
+    read _pid _ppid _state _pmem _rss_raw _vsz_raw _full_path <<< "$line"
     
     # Get short name
     local _name=$(basename "$_full_path")
@@ -114,8 +116,13 @@ print_and_sum_tree() {
     
     # Formatting
     local colored_name="${GREEN}${_name}${RESET}"
-    # Case-insensitive comparison for highlight (Bash 3.2 portable)
-    if echo "$_name" | grep -qi "$orig_name"; then
+    local is_zombie=0
+    
+    # Handle zombie processes
+    if [[ "$_state" == "Z"* ]] || [[ "$_name" == "<defunct>" ]]; then
+        is_zombie=1
+        colored_name="${RED}[ZOMBIE] ${_name}${RESET}"
+    elif echo "$_name" | grep -qi "$orig_name"; then
         colored_name="${BOLD}${YELLOW}${_name}${RESET}"
     fi
     
@@ -123,13 +130,17 @@ print_and_sum_tree() {
     local f_priv=$(format_mem $private_kb)
     
     local visible_line="${indent}└─ [${pid}] ${_name}"
+    [ $is_zombie -eq 1 ] && visible_line="${indent}└─ [${pid}] [ZOMBIE] ${_name}"
     local visible_len=${#visible_line}
     local total_width=60
     local padding=$((total_width - visible_len))
     [ $padding -lt 0 ] && padding=0
     local spacer=$(printf "%*s" $padding "")
     
-    echo -e "${CYAN}${indent}${RESET}└─ [${MAGENTA}${pid}${RESET}] ${colored_name}${spacer} | ${_pmem}% | $(printf "%14s" $f_rss) | $(printf "%14s" $f_priv)"
+    local line_style="${CYAN}"
+    [ $is_zombie -eq 1 ] && line_style="${DIM}${RED}"
+    
+    echo -e "${line_style}${indent}${RESET}└─ [${MAGENTA}${pid}${RESET}] ${colored_name}${spacer} | ${_pmem}% | $(printf "%14s" $f_rss) | $(printf "%14s" $f_priv)"
     
     # Find children using cached PS_DATA (PPID is 2nd column)
     local children=$(awk -v ppid="$pid" '$2 == ppid {print $1}' "$PS_DATA")

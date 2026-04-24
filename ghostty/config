@@ -50,8 +50,7 @@ window-save-state = always
 window-height=1800
 window-width=2800
 
-#theme= Catppuccin mocha
-theme= Github Dark Colorblind
+theme= Github Dark Default
 
 window-height=2048
 window-width=4096

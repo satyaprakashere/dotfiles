@@ -336,13 +336,13 @@ build_clojure() {
         # Single file
         if [[ "$(basename "$CR_FILENAME")" == *.cljs ]]; then
              # ClojureScript single file: use clojure -M -m cljs.main
-             create_project_wrapper "$(dirname "$CR_FILENAME")" "clojure -M -m cljs.main \"$(basename "$CR_FILENAME")\""
+             create_project_wrapper "$(dirname "$CR_FILENAME")" "clojure -M -cp . -m cljs.main \"$(basename "$CR_FILENAME")\""
         else
              # Clojure single file (prefer bb if available, fallback to clojure)
              if command -v bb >/dev/null 2>&1; then
-                 create_project_wrapper "$(dirname "$CR_FILENAME")" "bb \"$(basename "$CR_FILENAME")\""
+                 create_project_wrapper "$(dirname "$CR_FILENAME")" "bb -cp . \"$(basename "$CR_FILENAME")\""
              else
-                 create_project_wrapper "$(dirname "$CR_FILENAME")" "clojure -M \"$(basename "$CR_FILENAME")\""
+                 create_project_wrapper "$(dirname "$CR_FILENAME")" "clojure -M -cp . \"$(basename "$CR_FILENAME")\""
              fi
         fi
     fi
