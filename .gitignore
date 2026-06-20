@@ -1,27 +1,113 @@
-.DS_Store
-.quarkus
-gitconfig
-backup
-LazyVim
-zprezto
-doomemacs
-lazy-lock.json
-alacritty/themes
-plugged
-.cache
-undo
-viminfo
-zed
-raycast
-coc
-darktable
-btop
-htop
-cabal
-gh
-kraftkit
-emacs
-aquamacs
-gocode
-vim/last_session.vim
-nvim/nvim.log
+# ==============================================================================
+# 1. ROOT LEVEL: IGNORE EVERYTHING BY DEFAULT (STRICT ALLOWLIST)
+# ==============================================================================
+/*
+
+# ==============================================================================
+# 2. ALLOW REPOSITORY META & STANDALONE ROOT CONFIGS
+# ==============================================================================
+!.gitignore
+!.gitmodules
+!README.md
+!starship.toml
+!bashrc
+!fish_ai.ini.example
+
+# ==============================================================================
+# 3. ALLOW CORE CONFIG DIRECTORIES
+# ==============================================================================
+!alacritty/
+!alacritty/**
+
+!alire/
+!alire/**
+
+!apprunner/
+!apprunner/**
+
+!cmux/
+!cmux/**
+
+!CodeRunner/
+!CodeRunner/**
+
+!doom/
+!doom/**
+
+!fd/
+!fd/**
+
+!fish/
+!fish/**
+
+!ghostty/
+!ghostty/**
+
+!helix/
+!helix/**
+
+!nix-darwin
+!nix-darwin/**
+
+!nvim/
+!nvim/**
+
+!pack/
+!pack/**
+
+!readme/
+!readme/**
+
+!shell/
+!shell/**
+
+!sublime-text/
+!sublime-text/**
+
+!tmux/
+!tmux/**
+
+!vim/
+!vim/**
+
+!vscodium/
+!vscodium/**
+
+!zed/
+!zed/**
+
+# ==============================================================================
+# 4. RE-IGNORE SECRETS, MACHINE STATE, RUNTIME CACHES & LOGS INSIDE ALLOWED DIRS
+# ==============================================================================
+# OS Metadata
+**/.DS_Store
+**/.AppleDouble
+**/.LSOverride
+**/Thumbs.db
+
+# Secrets & Machine-Specific State
+fish_ai.ini
+fish/fish_variables
+fish_variables
+
+# Editor & Plugin Caches / Lockfiles / Backups / Logs
+**/*.log
+**/*.bak
+**/*.old
+**/*backup*
+**/*_backup.json
+**/undo/
+**/plugged/
+**/.cache/
+**/viminfo
+**/last_session.vim
+**/lazy-lock.json
+
+# Tool-specific runtime/build ignores
+alacritty/themes/
+alire/indexes/community/repo/
+apprunner/scratch/
+helix/runtime*
+helix/grammars/
+zed/prompts/
+sublime-text/Package Control.user-ca-bundle

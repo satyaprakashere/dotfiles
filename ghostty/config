@@ -50,13 +50,16 @@ window-save-state = always
 window-height=1800
 window-width=2800
 
-theme= Github Dark Default
+theme= Ayu Mirage
 
 window-height=2048
 window-width=4096
 
-background-opacity=.72
-background-blur=true
+#background-opacity=.82
+#background-blur=true
+
+custom-shader-animation = true
+custom-shader = ~/.config/ghostty/shaders/noise.glsl
 
 # Emacs like splits and Windmove navigation
 # Emacs like splits and Windmove navigation

@@ -29,6 +29,7 @@ $status\
 $os\
 $netns\
 $shell\
+$nix\
 $character"""
 
 [cmd_duration]

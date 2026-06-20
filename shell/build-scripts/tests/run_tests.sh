@@ -3,6 +3,8 @@
 # Get the directory of the script
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+
 # Check if bats is installed
 if ! command -v bats >/dev/null 2>&1; then
     echo "Error: 'bats' (bats-core) is not installed." >&2

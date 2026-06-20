@@ -35,8 +35,8 @@ map("n", "<C-h>", ":nohls<CR>")
 map("n", "gb", "<C-o>")
 
 -- Leader mappings
-map("n", "<leader>b", ":!bash ~/dotfiles/shell/build-scripts/build.sh %<CR>", { desc = "Build File" })
-map("n", "<leader>r", ":!bash ~/dotfiles/shell/build-scripts/build_run.sh %<CR>", { desc = "Build and Run" })
+map("n", "<leader>b", ":!cbuild %<CR>", { desc = "Build File" })
+map("n", "<leader>r", ":!crun %<CR>", { desc = "Build and Run" })
 
 map("n", "<leader>q", ":bd<CR>", { desc = "Close Buffer" })
 map("n", "<leader>.", ":!open .<CR>", { desc = "Open Directory in Finder" })
@@ -65,8 +65,8 @@ map({ "n", "v", "i" }, "<D-d>", "<cmd>vsp<CR>")
 map({ "n", "v", "i" }, "<D-l>", "<cmd>buffers<CR>")
 map({ "n", "v", "i" }, "<D-j>", "<C-w>l")
 map({ "n", "v", "i" }, "<D-k>", "<C-w>h")
-map("n", "<D-b>", ":!bash ~/dotfiles/shell/build-scripts/build.sh %<CR>")
-map("n", "<D-r>", ":!bash ~/dotfiles/shell/build-scripts/build_run.sh %<CR>")
+map("n", "<D-b>", ":!cbuild %<CR>")
+map("n", "<D-r>", ":!crun %<CR>")
 map("n", "<D-h>", "<cmd>Neotree toggle<CR>") -- Will setup Neotree as NERDTree replacement
 
 -- GUI Specific (using M- for Meta key)

@@ -86,7 +86,7 @@ opt.foldlevel = 99 -- Initial fold level (start unfolded)
 -- Neovide / GUI Settings
 if vim.g.neovide then
 	-- Using Underscore style for robust font loading in Neovide
-	vim.o.guifont = "Hack_Nerd_Font:h22"
+	vim.o.guifont = "Hack_Nerd_Font:h18"
 
 	-- Modern GUI enhancements
 	vim.g.neovide_cursor_animation_length = 0.08

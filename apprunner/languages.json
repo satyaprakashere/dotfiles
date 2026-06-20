@@ -1,0 +1,150 @@
+[
+  {
+    "compileCommand" : "",
+    "compilerPath" : "",
+    "defaultArguments" : "",
+    "defaultFlags" : "-u",
+    "extensions" : [
+      "py",
+      "pyw"
+    ],
+    "icon" : "chevron.left.forwardslash.chevron.right",
+    "isCompiled" : false,
+    "name" : "Python 3",
+    "runCommand" : "python3 -u \"$filename\" $args",
+    "template" : "#!\/usr\/bin\/env python3\nimport sys\n\ndef main():\n    print(\"Hello from AppRunner!\")\n\nif __name__ == \"__main__\":\n    main()\n"
+  },
+  {
+    "compileCommand" : "clang -Wall -O2 $flags \"$filename\" -o \"$out\"",
+    "compilerPath" : "",
+    "defaultArguments" : "",
+    "defaultFlags" : "-Wall -O2",
+    "extensions" : [
+      "c",
+      "h"
+    ],
+    "icon" : "c.circle",
+    "isCompiled" : true,
+    "name" : "C",
+    "runCommand" : "\"$out\" $args",
+    "template" : "#include <stdio.h>\n\nint main(int argc, char *argv[]) {\n    printf(\"Hello from C!\\n\");\n    return 0;\n}\n"
+  },
+  {
+    "compileCommand" : "clang++ -std=c++20 -Wall -O2 $flags \"$filename\" -o \"$out\"",
+    "compilerPath" : "",
+    "defaultArguments" : "",
+    "defaultFlags" : "-std=c++20 -Wall -O2",
+    "extensions" : [
+      "cpp",
+      "cc",
+      "cxx",
+      "hpp"
+    ],
+    "icon" : "plus.circle",
+    "isCompiled" : true,
+    "name" : "C++",
+    "runCommand" : "\"$out\" $args",
+    "template" : "#include <iostream>\n\nint main() {\n    std::cout << \"Hello from C++!\" << std::endl;\n    return 0;\n}\n"
+  },
+  {
+    "compileCommand" : "rustc -O $flags \"$filename\" -o \"$out\"",
+    "compilerPath" : "",
+    "defaultArguments" : "",
+    "defaultFlags" : "-O",
+    "extensions" : [
+      "rs"
+    ],
+    "icon" : "gearshape.2",
+    "isCompiled" : true,
+    "name" : "Rust",
+    "runCommand" : "\"$out\" $args",
+    "template" : "fn main() {\n    println!(\"Hello from Rust!\");\n}\n"
+  },
+  {
+    "compileCommand" : "",
+    "compilerPath" : "",
+    "defaultArguments" : "",
+    "defaultFlags" : "",
+    "extensions" : [
+      "swift"
+    ],
+    "icon" : "swift",
+    "isCompiled" : false,
+    "name" : "Swift",
+    "runCommand" : "swift \"$filename\" $args",
+    "template" : "import Foundation\n\nprint(\"Hello from Swift!\")\n"
+  },
+  {
+    "compileCommand" : "",
+    "compilerPath" : "",
+    "defaultArguments" : "",
+    "defaultFlags" : "",
+    "extensions" : [
+      "go"
+    ],
+    "icon" : "g.circle",
+    "isCompiled" : false,
+    "name" : "Go",
+    "runCommand" : "go run \"$filename\" $args",
+    "template" : "package main\n\nimport \"fmt\"\n\nfunc main() {\n    fmt.Println(\"Hello from Go!\")\n}\n"
+  },
+  {
+    "compileCommand" : "",
+    "compilerPath" : "",
+    "defaultArguments" : "",
+    "defaultFlags" : "",
+    "extensions" : [
+      "js",
+      "mjs"
+    ],
+    "icon" : "curlybraces",
+    "isCompiled" : false,
+    "name" : "JavaScript",
+    "runCommand" : "node \"$filename\" $args",
+    "template" : "console.log(\"Hello from JavaScript!\");\n"
+  },
+  {
+    "compileCommand" : "",
+    "compilerPath" : "",
+    "defaultArguments" : "",
+    "defaultFlags" : "",
+    "extensions" : [
+      "ts"
+    ],
+    "icon" : "t.circle",
+    "isCompiled" : false,
+    "name" : "TypeScript",
+    "runCommand" : "bun run \"$filename\" $args",
+    "template" : "const greeting: string = \"Hello from TypeScript!\";\nconsole.log(greeting);\n"
+  },
+  {
+    "compileCommand" : "",
+    "compilerPath" : "",
+    "defaultArguments" : "",
+    "defaultFlags" : "",
+    "extensions" : [
+      "sh",
+      "bash",
+      "zsh"
+    ],
+    "icon" : "terminal",
+    "isCompiled" : false,
+    "name" : "Bash",
+    "runCommand" : "bash \"$filename\" $args",
+    "template" : "#!\/usr\/bin\/env bash\necho \"Hello from Bash!\"\n"
+  },
+  {
+    "compileCommand" : "",
+    "compilerPath" : "",
+    "defaultArguments" : "",
+    "defaultFlags" : "",
+    "extensions" : [
+      "rb"
+    ],
+    "icon" : "diamond",
+    "isCompiled" : false,
+    "name" : "Ruby",
+    "runCommand" : "ruby \"$filename\" $args",
+    "template" : "puts \"Hello from Ruby!\"\n"
+  }
+]

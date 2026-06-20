@@ -83,8 +83,6 @@ autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "norm
 
 " ----[ Language Specific ]----------
 let g:tex_flavor='latex'
-autocmd Filetype sh,haskell,python,rekursion setlocal shiftwidth=2 softtabstop=2
-autocmd FileType swift setlocal shiftwidth=2 tabstop=2 expandtab
 "autocmd FileType markdown Goyo
 
 "augroup pencil

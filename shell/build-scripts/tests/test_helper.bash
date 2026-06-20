@@ -3,8 +3,8 @@
 # Load the source files
 # Note: we use absolute paths to ensure they are found
 SOURCE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." >/dev/null 2>&1 && pwd )"
-CR_BUILD_SH="$SOURCE_DIR/code-runner/cr_build.sh"
-GENERAL_CR_BUILD_SH="$SOURCE_DIR/code-runner/general_cr_build.sh"
+CR_BUILD_SH="$SOURCE_DIR/core/utils.sh"
+GENERAL_CR_BUILD_SH="$SOURCE_DIR/core/builder.sh"
 
 common_setup() {
     # Create a temporary directory for tests

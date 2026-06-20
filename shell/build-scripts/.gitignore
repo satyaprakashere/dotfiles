@@ -1,0 +1,12 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary directories if accidentally created locally
+CodeRunner/
+/tmp/

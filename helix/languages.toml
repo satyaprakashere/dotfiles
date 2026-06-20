@@ -1,0 +1,43 @@
+[language-server.rust-glancer]
+command = "rust-glancer"
+args = ["lsp"]
+
+[[language]]
+name = "rust"
+scope = "source.rust"
+file-types = ["rs"]
+language-servers = [ "rust-glancer" ]
+
+[[language]]
+name = "rekursion"
+scope = "source.rekursion"
+injection-regex = "rek(ursion)?"
+file-types = ["rek"]
+comment-token = ";"
+indent = { tab-width = 2, unit = "  " }
+language-servers = ["rekursion-lsp"]
+grammar = "scheme"
+
+[[language]]
+name = "loki"
+scope = "source.loki"
+injection-regex = "loki"
+file-types = ["loki"]
+comment-token = "//"
+indent = { tab-width = 2, unit = "  " }
+language-servers = ["rekursion-lsp"]
+grammar = "javascript"
+
+[[language]]
+name = "padini"
+scope = "source.padini"
+injection-regex = "pad(ini)?"
+file-types = ["pad", "padini"]
+comment-token = "--"
+indent = { tab-width = 2, unit = "  " }
+language-servers = ["rekursion-lsp"]
+grammar = "haskell"
+
+[language-server.rekursion-lsp]
+command = "rekursion"
+args = ["lsp"]

@@ -4,7 +4,7 @@
 [
   {
     "label": "Code Builder",
-    "command": "bash $HOME/dotfiles/shell/build-scripts/build.sh $ZED_FILE",
+    "command": "cbuild $ZED_FILE",
     // "args": ["$HOME/dotfiles/shell/build-scripts/build_run.sh", "{$file}"],
     // Env overrides for the command, will be appended to the terminal's environment from the settings.
     // "env": { "foo": "bar" },
@@ -47,7 +47,7 @@
   },
   {
     "label": "Code Runner",
-    "command": "bash $HOME/dotfiles/shell/build-scripts/build_run.sh $ZED_FILE",
+    "command": "crun $ZED_FILE",
     // "args": ["$HOME/dotfiles/shell/build-scripts/build_run.sh", "{$file}"],
     // Env overrides for the command, will be appended to the terminal's environment from the settings.
     // "env": { "foo": "bar" },

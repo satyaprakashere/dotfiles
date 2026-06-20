@@ -1,159 +1,188 @@
-[ -f /usr/local/share/autojump/autojump.fish ]; and source /usr/local/share/autojump/autojump.fish
-set RUSTFLAGS "-C opt-level=0 -C debuginfo=0 -C link-arg=-si -C link-arg=-fuse-ld=/usr/local/bin/mold"
-starship init fish | source
-fzf --fish | source
-bind \cf fzf-file-widget
-bind -e \ct
-#fish_vi_key_bindings
-# [ -f /opt/homebrew/share/autojump/autojump.fish ]; and source /opt/homebrew/share/autojump/autojump.fish
+# ==============================================================================
+# Fish Shell Configuration
+# ==============================================================================
 
-set -Ux EDITOR vim
-set -x MallocNanoZone 0
-set -x HOMEBREW_NO_AUTO_UPDATE true
-set -x HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK true
+# ------------------------------------------------------------------------------
+# 1. Homebrew Setup (Cross-Mac Support: Apple Silicon & Intel)
+# ------------------------------------------------------------------------------
+if test -d /opt/homebrew
+    /opt/homebrew/bin/brew shellenv | source
+else if test -d /usr/local/Homebrew -o -d /usr/local/Cellar
+    /usr/local/bin/brew shellenv | source
+else if type -q brew
+    brew shellenv | source
+end
 
-# bun
-set --export BUN_INSTALL "$HOME/.bun"
-#set --export VCPKG_ROOT="$HOME/github/vcpkg"
-#set --export JAVY_PLUGIN_WASM=/opt/javy/plugin.wasm
+# Autojump
+if type -q brew; and test -f (brew --prefix)/share/autojump/autojump.fish
+    source (brew --prefix)/share/autojump/autojump.fish
+end
 
-set -gx CPPFLAGS -I/usr/local/opt/openjdk/include
-#set -gx CPPFLAGS -I/opt/homebrew/opt/llvm/include
+# ------------------------------------------------------------------------------
+# 2. Environment Variables
+# ------------------------------------------------------------------------------
+set -gx EDITOR vim
+set -gx MallocNanoZone 0
+set -gx HOMEBREW_NO_AUTO_UPDATE 1
+set -gx HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK 1
 
-#set -gx LDFLAGS -L/usr/local/opt/llvm/lib
-#set -gx LDFLAGS "-L/opt/homebrew/opt/llvm/lib/unwind -lunwind"
-#set -gx LDFLAGS "-L/opt/homebrew/opt/llvm/lib/c++ -L/opt/homebrew/opt/llvm/lib/unwind -lunwind"
-set -gx LDFLAGS "-L/usr/local/opt/llvm/lib/c++ -L/usr/local/opt/llvm/lib/unwind -lunwind"
+# macOS SDK
+if test -x /usr/bin/xcrun
+    set -gx SDKROOT (xcrun --show-sdk-path 2>/dev/null)
+end
 
-alias e="vim"
-#alias ls="eza --icons --group-directories-first --git"
-#alias ll="ls -l"
-#alias la="ls -a"
-#alias lT="ls --tree"
-#alias cat="bat"
+# Bun
+set -gx BUN_INSTALL "$HOME/.bun"
+
+# Homebrew-dependent environment & compiler flags
+if type -q brew
+    # Rust mold linker
+    if test -f (brew --prefix)/bin/mold
+        set -gx RUSTFLAGS "-C opt-level=0 -C debuginfo=0 -C link-arg=-si -C link-arg=-fuse-ld="(brew --prefix)"/bin/mold"
+    end
+
+    # Dotnet
+    if test -d (brew --prefix)/opt/dotnet/libexec
+        set -gx DOTNET_ROOT (brew --prefix)/opt/dotnet/libexec
+    end
+
+    # Vulkan & MoltenVK
+    if test -d (brew --prefix)/opt/vulkan-loader
+        set -gx VULKAN_SDK (brew --prefix)/opt/vulkan-loader
+        set -gx DYLD_LIBRARY_PATH (brew --prefix)/opt/vulkan-loader/lib:(brew --prefix)/opt/molten-vk/lib(test -n "$DYLD_LIBRARY_PATH"; and echo ":$DYLD_LIBRARY_PATH")
+    end
+
+    # C / C++ include and library paths
+    set -gx LIBRARY_PATH (brew --prefix)/lib(test -n "$LIBRARY_PATH"; and echo ":$LIBRARY_PATH")
+    set -gx C_INCLUDE_PATH (brew --prefix)/include(test -n "$C_INCLUDE_PATH"; and echo ":$C_INCLUDE_PATH")
+    set -gx CPPFLAGS "-I"(brew --prefix)"/include"
+    set -gx LDFLAGS "-L"(brew --prefix)"/lib"
+
+    # LLVM (if installed)
+    if test -d (brew --prefix)/opt/llvm
+        fish_add_path (brew --prefix)/opt/llvm/bin
+        set -ga CPPFLAGS "-I"(brew --prefix)"/opt/llvm/include"
+        if test -d (brew --prefix)/opt/llvm/lib/c++
+            set -ga LDFLAGS "-L"(brew --prefix)"/opt/llvm/lib/c++ -L"(brew --prefix)"/opt/llvm/lib/unwind -lunwind"
+        end
+    end
+
+    # OpenJDK (if installed)
+    if test -d (brew --prefix)/opt/openjdk
+        fish_add_path (brew --prefix)/opt/openjdk/bin
+        set -ga CPPFLAGS "-I"(brew --prefix)"/opt/openjdk/include"
+    end
+end
+
+# ------------------------------------------------------------------------------
+# 3. PATH Configuration
+# ------------------------------------------------------------------------------
+# User & Language Toolchains
+fish_add_path ~/.local/bin
+fish_add_path ~/.antigravity-ide/antigravity-ide/bin
+fish_add_path ~/go/bin
+fish_add_path ~/.bun/bin
+fish_add_path ~/.cargo/bin
+fish_add_path ~/.rustup/bin
+fish_add_path ~/.config/emacs/bin
+fish_add_path ~/.local/roc
+
+# System & Package Managers
+if type -q brew
+    fish_add_path (brew --prefix)/bin
+    fish_add_path (brew --prefix)/sbin
+end
+fish_add_path /run/current-system/sw/bin
+fish_add_path /opt/local/bin
+fish_add_path /usr/local/sbin
+
+# ------------------------------------------------------------------------------
+# 4. Integrations & Prompts
+# ------------------------------------------------------------------------------
+# Nix daemon
+if test -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
+    source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
+end
+
+# Starship prompt
+if type -q starship
+    starship init fish | source
+end
+
+# FZF integration & keybindings
+if type -q fzf
+    fzf --fish | source
+    bind \cf fzf-file-widget
+    bind -e \ct
+end
+
+# Opam configuration
+if test -r "$HOME/.opam/opam-init/init.fish"
+    source "$HOME/.opam/opam-init/init.fish" > /dev/null 2>&1; or true
+end
+
+# Use fd for fzf if available
+if type -q fd
+    set -gx FZF_DEFAULT_COMMAND 'fd --type f --strip-cwd-prefix --follow \
+        --exclude .git \
+        --exclude node_modules \
+        --exclude Downloads \
+        --exclude Library \
+        --exclude .cargo \
+        --exclude .rustup \
+        --exclude "*.app" \
+        --exclude "*.dmg" \
+        --exclude "*.iso" \
+        --exclude "*.pkg"'
+
+    set -gx FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"
+    set -gx FZF_ALT_C_COMMAND 'fd --type d --strip-cwd-prefix --follow \
+        --exclude .git \
+        --exclude node_modules \
+        --exclude Downloads \
+        --exclude Library \
+        --exclude .cargo \
+        --exclude .rustup'
+end
+
+# ------------------------------------------------------------------------------
+# 5. Aliases
+# ------------------------------------------------------------------------------
+# Utilities
+alias e="hx"
+alias ls="eza --icons --group-directories-first --git"
 alias man="tldr"
-#alias grep="rg"
-#alias find="fd"
 alias python="python3"
-alias build="bash ~/dotfiles/shell/build-scripts/build.sh"
-alias run="bash ~/dotfiles/shell/build-scripts/build_run.sh"
+alias pip="uv pip"
 
+# Development & Scripts
+alias build="bash ~/dotfiles/shell/build-scripts/cbuild.sh"
+alias run="bash ~/dotfiles/shell/build-scripts/crun.sh"
 alias mem="~/dotfiles/shell/psm.sh"
 alias lone="~/github/lone/build/aarch64/lone"
-alias run="bash $HOME/dotfiles/shell/build-scripts/build_run.sh"
-# Open in a new GUI frame, start daemon if not running
+
+# Emacs
 alias em='emacsclient -c -a ""'
-# Open in the terminal (no GUI window)
 alias et='emacsclient -t -a ""'
 alias ke='emacsclient -e "(kill-emacs)"'
-abbr -a edit 'emacsclient -c -a ""'
 
-# Git aliases
+# Git
 alias gits="git status"
 alias gitd="git diff"
 alias gitl="git log --oneline --graph --decorate --all"
 alias gita="git add"
-alias gitc="git commit"
+alias gitc="git clone --depth 1 --branch"
 alias gitp="git push"
 alias gitpra="git pull --rebase origin master --autostash"
 
-# Navigation aliases
+# Navigation
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 
-## Config alias
+# Quick Config Access
 alias vimrc="vim ~/.config/vim/vimrc"
 alias fishrc="vim ~/.config/fish/config.fish"
 alias ghostrc="vim ~/.config/ghostty/config"
 alias emrc="vim ~/.config/doom/init.el"
-alias makfile="vim Makefile"
-
-fish_add_path ~/go/bin
-fish_add_path ~/.bun/bin
-#fish_add_path ~/.ghcup/bin
-fish_add_path ~/.config/emacs/bin
-#fish_add_path ~/.config/emacs/bin
-#fish_add_path ~/.local/bin
-#fish_add_path ~/.config/composer/vendor/bin
-#fish_add_path ~/.rustup/toolchains/stable-x86_64-apple-darwin/bin/
-
-fish_add_path /opt/local/bin
-fish_add_path /usr/local/sbin
-fish_add_path /opt/homebrew/bin
-fish_add_path /opt/homebrew/opt/llvm/bin
-fish_add_path /opt/homebrew/sbin
-#fish_add_path /usr/local/opt/llvm/bin
-#fish_add_path /usr/local/opt/expat/bin
-
-#fish_add_path /usr/local/opt/openjdk/bin
-#fish_add_path /opt/homebrew/lib/ruby/gems/4.0.0/bin
-#fish_add_path /opt/homebrew/Cellar/ruby/4.0.0/bin $PATH
-
-# Added by Antigravity
-#fish_add_path /Users/prakash/.antigravity/antigravity/bin
-
-# Use fd instead of find for fzf (much faster and avoids hidden files/folders by default)
-set -gx FZF_DEFAULT_COMMAND 'fd --type f --strip-cwd-prefix --follow \
-    --exclude .git \
-    --exclude node_modules \
-    --exclude Downloads \
-    --exclude Library \
-    --exclude .cargo \
-    --exclude .rustup \
-    --exclude "*.app" \
-    --exclude "*.dmg" \
-    --exclude "*.iso" \
-    --exclude "*.pkg"'
-
-set -gx FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"
-set -gx FZF_ALT_C_COMMAND 'fd --type d --strip-cwd-prefix --follow \
-    --exclude .git \
-    --exclude node_modules \
-    --exclude Downloads \
-    --exclude Library \
-    --exclude .cargo \
-    --exclude .rustup'
-
-function openf
-    # Resolve the physical path of the alias/symlink
-    set -l target (realpath $(which $argv[1]))
-
-    # Check if the path exists, then open its parent directory
-    if test -e $target
-        open (dirname $target)
-    else
-        echo "Error: Could not resolve original file for '$argv[1]'"
-    end
-end
-
-function cf
-    # Resolve the physical path of the alias/symlink
-    set -l target (realpath $(which $argv[1]))
-
-    # Check if the path exists, then open its parent directory
-    if test -e $target
-        cd (dirname $target)
-    else
-        echo "Error: Could not resolve original file for '$argv[1]'"
-    end
-end
-
-# Save it so it's available in every new session
-#funcsave openf
-
-# Added by Antigravity IDE
-fish_add_path /Users/prakash/.antigravity-ide/antigravity-ide/bin
-
-
-# BEGIN opam configuration
-# This is useful if you're using opam as it adds:
-#   - the correct directories to the PATH
-#   - auto-completion for the opam binary
-# This section can be safely removed at any time if needed.
-test -r '/Users/prakash/.opam/opam-init/init.fish' && source '/Users/prakash/.opam/opam-init/init.fish' > /dev/null 2> /dev/null; or true
-# END opam configuration
-
-
-# Added by Antigravity CLI installer
-set -gx PATH "/Users/prakash/.local/bin" $PATH
+alias makefile="vim Makefile"

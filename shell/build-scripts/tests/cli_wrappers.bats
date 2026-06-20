@@ -3,8 +3,8 @@
 load "test_helper.bash"
 
 # Path to the scripts under test
-BUILD_SH="$SOURCE_DIR/build.sh"
-BUILD_RUN_SH="$SOURCE_DIR/build_run.sh"
+BUILD_SH="$SOURCE_DIR/cbuild.sh"
+BUILD_RUN_SH="$SOURCE_DIR/crun.sh"
 
 setup() {
     common_setup
@@ -20,7 +20,7 @@ teardown() {
     common_teardown
 }
 
-@test "build.sh: successfully builds a single file" {
+@test "cbuild.sh: successfully builds a single file" {
     test_file="$FIXTURES_DIR/test.go"
     touch "$test_file"
     
@@ -32,7 +32,7 @@ teardown() {
     [[ "$output" == *"$TEST_TEMP_DIR/CodeRunner/test_go"* ]]
 }
 
-@test "build_run.sh: builds and executes binary" {
+@test "crun.sh: builds and executes binary" {
     test_file="$FIXTURES_DIR/hello.sh"
     echo 'echo "Hello from script"' > "$test_file"
     
@@ -44,7 +44,7 @@ teardown() {
     [[ "$output" == *"Hello from script"* ]]
 }
 
-@test "build.sh: outputs exactly one line to stdout for CodeRunner" {
+@test "cbuild.sh: outputs exactly one line to stdout for CodeRunner" {
     test_file="$FIXTURES_DIR/contract.go"
     touch "$test_file"
     
@@ -54,7 +54,7 @@ teardown() {
     [ "$stdout_count" -eq 1 ]
 }
 
-@test "build.sh: fails when source file does not exist" {
+@test "cbuild.sh: fails when source file does not exist" {
     run bash "$BUILD_SH" "/path/to/nonexistent.go"
     [ "$status" -ne 0 ]
 }
