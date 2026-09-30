@@ -340,29 +340,126 @@ build_haskell() {
 }
 
 build_nodejs() {
-    # Node.js/Deno: support package.json, deno.json and standalone files
-    local project_root_deno=$(find_project_root "$(dirname "$CR_FILENAME")" "deno.json")
-    local project_root_node=$(find_project_root "$(dirname "$CR_FILENAME")" "package.json")
+    # JavaScript / TypeScript / Node / Bun / Deno / Vite / Next.js
+    local root="${project_root:-$(find_project_root "$(dirname "$CR_FILENAME")" "package.json deno.json deno.jsonc bunfig.toml")}"
 
-    if [ -n "$project_root_deno" ]; then
-        create_project_wrapper "$project_root_deno" "deno run -A $(basename "$CR_FILENAME")"
-    elif [ -n "$project_root_node" ]; then
-        if grep -q '"start":' "$project_root_node/package.json"; then
-            create_project_wrapper "$project_root_node" "npm start"
+    # Check for Deno project or deno config
+    if [ -n "$root" ] && ([ -f "$root/deno.json" ] || [ -f "$root/deno.jsonc" ]); then
+        if [ "$CR_IS_DIR" = true ] || [[ "$(basename "$CR_FILENAME")" =~ ^(deno\.json|deno\.jsonc)$ ]]; then
+            create_project_wrapper "$root" "deno task start 2>/dev/null || deno run main.ts"
         else
-            create_project_wrapper "$project_root_node" "node $(basename "$CR_FILENAME")"
+            local rel_file=$(python3 -c "import os, sys; print(os.path.relpath(sys.argv[1], sys.argv[2]))" "$CR_FILENAME" "$root" 2>/dev/null || basename "$CR_FILENAME")
+            create_project_wrapper "$root" "deno run -A \"$rel_file\""
+        fi
+        return 0
+    fi
+
+    # Check for package.json project or bunfig.toml project
+    if [ -n "$root" ] && ([ -f "$root/package.json" ] || [ -f "$root/bunfig.toml" ]); then
+        # Detect package manager
+        local pm="npm"
+        if [ -f "$root/bun.lock" ] || [ -f "$root/bun.lockb" ] || [ -f "$root/bunfig.toml" ]; then
+            pm="bun"
+        elif [ -f "$root/pnpm-lock.yaml" ]; then
+            pm="pnpm"
+        elif [ -f "$root/yarn.lock" ]; then
+            pm="yarn"
+        elif [ -f "$root/package-lock.json" ]; then
+            pm="npm"
+        fi
+
+        # If package.json exists, inspect scripts
+        if [ -f "$root/package.json" ]; then
+            # Precedence of run scripts: dev (for Vite/Next/frontend apps), start, run, build
+            local run_script=""
+            if grep -q '"dev":' "$root/package.json"; then
+                run_script="dev"
+            elif grep -q '"start":' "$root/package.json"; then
+                run_script="start"
+            elif grep -q '"preview":' "$root/package.json"; then
+                run_script="preview"
+            elif grep -q '"build":' "$root/package.json"; then
+                run_script="build"
+            fi
+
+            # If user targeted project root, package.json, or vite.config, use package manager script
+            local base_name="$(basename "$CR_FILENAME")"
+            if [ "$CR_IS_DIR" = true ] || [[ "$base_name" =~ ^(package\.json|bunfig\.toml|vite\.config\.(js|ts|mjs|cjs)|next\.config\.(js|ts|mjs|cjs))$ ]] || [ -n "$run_script" ]; then
+                case "$pm" in
+                    bun)
+                        if [ -n "$run_script" ]; then
+                            create_project_wrapper "$root" "bun run $run_script"
+                        elif [ -f "$root/index.ts" ] || [ -f "$root/index.js" ] || [ -f "$root/src/index.ts" ] || [ -f "$root/src/index.js" ]; then
+                            create_project_wrapper "$root" "bun run ."
+                        else
+                            create_project_wrapper "$root" "bun start"
+                        fi
+                        ;;
+                    pnpm)
+                        if [ "$run_script" = "start" ]; then
+                            create_project_wrapper "$root" "pnpm start"
+                        elif [ -n "$run_script" ]; then
+                            create_project_wrapper "$root" "pnpm run $run_script"
+                        else
+                            create_project_wrapper "$root" "pnpm start"
+                        fi
+                        ;;
+                    yarn)
+                        if [ -n "$run_script" ]; then
+                            create_project_wrapper "$root" "yarn $run_script"
+                        else
+                            create_project_wrapper "$root" "yarn start"
+                        fi
+                        ;;
+                    *)
+                        if [ "$run_script" = "start" ]; then
+                            create_project_wrapper "$root" "npm start"
+                        elif [ -n "$run_script" ]; then
+                            create_project_wrapper "$root" "npm run $run_script"
+                        else
+                            create_project_wrapper "$root" "npm start"
+                        fi
+                        ;;
+                esac
+                return 0
+            fi
+
+            # Running a specific file inside the project
+            local rel_file=$(python3 -c "import os, sys; print(os.path.relpath(sys.argv[1], sys.argv[2]))" "$CR_FILENAME" "$root" 2>/dev/null || basename "$CR_FILENAME")
+            if [ "$pm" = "bun" ] && command -v bun >/dev/null 2>&1; then
+                create_project_wrapper "$root" "bun run $rel_file"
+            elif [[ "$CR_FILENAME" =~ \.(ts|tsx|mts|cts)$ ]]; then
+                if command -v tsx >/dev/null 2>&1; then
+                    create_project_wrapper "$root" "tsx $rel_file"
+                else
+                    create_project_wrapper "$root" "npx tsx $rel_file"
+                fi
+            else
+                create_project_wrapper "$root" "node $rel_file"
+            fi
+            return 0
+        elif [ -f "$root/bunfig.toml" ]; then
+            # Bun project without package.json
+            local rel_file=$(python3 -c "import os, sys; print(os.path.relpath(sys.argv[1], sys.argv[2]))" "$CR_FILENAME" "$root" 2>/dev/null || basename "$CR_FILENAME")
+            create_project_wrapper "$root" "bun run $rel_file"
+            return 0
+        fi
+    fi
+
+    # Standalone single file execution (no project root found)
+    local target_file="$(basename "$CR_FILENAME")"
+    local dir_path="$(dirname "$CR_FILENAME")"
+
+    if [[ "$CR_FILENAME" =~ \.(ts|tsx|mts|cts)$ ]]; then
+        if command -v deno >/dev/null 2>&1; then
+            create_project_wrapper "$dir_path" "deno run -A $target_file"
+        elif command -v tsx >/dev/null 2>&1; then
+            create_project_wrapper "$dir_path" "tsx $target_file"
+        else
+            create_project_wrapper "$dir_path" "npx tsx $target_file"
         fi
     else
-        if [[ "$CR_FILENAME" == *.ts ]]; then
-            if command -v deno >/dev/null 2>&1; then
-                create_project_wrapper "$(dirname "$CR_FILENAME")" "deno run -A $(basename "$CR_FILENAME")"
-            else
-                # Default to Node.js with tsx
-                create_project_wrapper "$(dirname "$CR_FILENAME")" "npx tsx $(basename "$CR_FILENAME")"
-            fi
-        else
-            create_project_wrapper "$(dirname "$CR_FILENAME")" "node $(basename "$CR_FILENAME")"
-        fi
+        create_project_wrapper "$dir_path" "node $target_file"
     fi
 }
 
@@ -573,7 +670,7 @@ build_command() {
             clj)    build_clojure "$@" ;;
             maven)  build_maven "$@" ;;
             gradle) build_gradle "$@" ;;
-            js)     build_nodejs "$@" ;;
+            js|ts|jsx|tsx|mjs|cjs|mts|cts|bun|deno) build_nodejs "$@" ;;
             py)     build_python "$@" ;;
             ex)     build_elixir "$@" ;;
             swift)  build_swift "$@" ;;
@@ -604,7 +701,7 @@ build_command() {
         *.clj|*.cljs|*.cljc|*.edn|deps.edn|*/deps.edn|project.clj|*/project.clj|bb.edn|*/bb.edn|nbb.edn|*/nbb.edn|squint.edn|*/squint.edn) build_clojure "$@" ;;
         pom.xml|*/pom.xml) build_maven "$@" ;;
         build.gradle|*/build.gradle|build.gradle.kts|*/build.gradle.kts) build_gradle "$@" ;;
-        *.js|*.ts|package.json|*/package.json|deno.json|*/deno.json) build_nodejs "$@" ;;
+        *.js|*.jsx|*.ts|*.tsx|*.mjs|*.cjs|*.mts|*.cts|package.json|*/package.json|deno.json|*/deno.json|deno.jsonc|*/deno.jsonc|bunfig.toml|*/bunfig.toml|bun.lock|*/bun.lock|bun.lockb|*/bun.lockb|vite.config.*|*/vite.config.*|next.config.*|*/next.config.*) build_nodejs "$@" ;;
         *.py|pyproject.toml|*/pyproject.toml) build_python "$@" ;;
         *.cs|*.csproj|*/BUILD_ARTIFACT.csproj|*.sln|*/BUILD_ARTIFACT.sln) build_dotnet "$@" ;;
         *.rb|Gemfile|*/Gemfile) build_ruby "$@" ;;

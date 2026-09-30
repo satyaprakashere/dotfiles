@@ -37,7 +37,7 @@ set __fish_sdkman_noexport_init "$fisher_path/functions/__sdkman-noexport-init.s
 # Create version of sdkman-init that doesn't export any environment variables.
 # Refresh if sdkman-init changed.
 if  begin       not test -f "$__fish_sdkman_noexport_init";
-          or    env test "$__fish_sdkman_init" -nt "$__fish_sdkman_noexport_init"
+          or    test "$__fish_sdkman_init" -nt "$__fish_sdkman_noexport_init"
     end
     mkdir -p (dirname $__fish_sdkman_noexport_init)
     sed -E -e 's/^(\s*).*(export|to_path).*$/\1:/g' "$__fish_sdkman_init" \
@@ -96,12 +96,28 @@ end
 # If this is a subshell of a(n initialized) fish owned by the same user,
 # no initialization necessary.
 # Otherwise:
-if not set -q SDKMAN_CANDIDATES_DIR; or test (ls -ld "$SDKMAN_CANDIDATES_DIR" | awk '{print $3}') != (whoami)
-    __fish_sdkman_run_in_bash "source $__fish_sdkman_init"
+if not set -q SDKMAN_CANDIDATES_DIR
+    set -gx SDKMAN_DIR "$HOME/.sdkman"
+    set -gx SDKMAN_CANDIDATES_DIR "$HOME/.sdkman/candidates"
+    set -gx SDKMAN_CANDIDATES_API "https://api.sdkman.io/2"
+    set -gx SDKMAN_BROKER_API "https://broker.sdkman.io"
+    if test -f "$SDKMAN_DIR/var/platform"
+        set -gx SDKMAN_PLATFORM (cat "$SDKMAN_DIR/var/platform")
+    else
+        set -gx SDKMAN_PLATFORM "darwinarm64"
+    end
+    if test -d "$SDKMAN_CANDIDATES_DIR/java/current"
+        set -gx JAVA_HOME "$SDKMAN_CANDIDATES_DIR/java/current"
+    end
+    for c in $SDKMAN_CANDIDATES_DIR/*/current/bin
+        if test -d "$c"
+            fish_add_path -gP "$c"
+        end
+    end
 end
 
 # Set up auto_env
-if grep -q "^sdkman_auto_env=true" "$SDKMAN_DIR/etc/config"
+if test -f "$SDKMAN_DIR/etc/config"; and string match -rq '^sdkman_auto_env=true' < "$SDKMAN_DIR/etc/config"
     function __fish_sdkman_autoenv --on-variable PWD
         # Run the (modified) init script, which performs the checks and calls for us!
         __fish_sdkman_run_in_bash "source \"$__fish_sdkman_noexport_init\""

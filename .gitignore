@@ -114,3 +114,4 @@ helix/grammars/
 zed/prompts/
 sublime-text/Package Control.user-ca-bundle
 nix/
+nix-darwin/

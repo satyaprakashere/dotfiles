@@ -12,9 +12,15 @@ set -g _fish_ai_config_path (test -z "$XDG_CONFIG_HOME"; and echo "$HOME/.config
 ## and restart the terminal emulator to change the keybindings from their defaults.
 ##
 function _fish_ai_bind --description "Create keybindings for fish-ai."
-    if test -n ("$_fish_ai_install_dir/bin/lookup_setting" keymap_1)
-        "$_fish_ai_install_dir/bin/lookup_setting" keymap_1 | string unescape | read -g -a _fish_ai_keymap_1
-    else
+    if test -f "$_fish_ai_config_path"
+        if test -n ("$_fish_ai_install_dir/bin/lookup_setting" keymap_1)
+            "$_fish_ai_install_dir/bin/lookup_setting" keymap_1 | string unescape | read -g -a _fish_ai_keymap_1
+        end
+        if test -n ("$_fish_ai_install_dir/bin/lookup_setting" keymap_2)
+            "$_fish_ai_install_dir/bin/lookup_setting" keymap_2 | string unescape | read -g -a _fish_ai_keymap_2
+        end
+    end
+    if not set -q _fish_ai_keymap_1
         # prefer fish key names above fish 4.x
         if string match -r '^[0-3]\.' "$FISH_VERSION" &>/dev/null
             set -g _fish_ai_keymap_1 \cp
@@ -22,9 +28,7 @@ function _fish_ai_bind --description "Create keybindings for fish-ai."
             set -g _fish_ai_keymap_1 ctrl-p
         end
     end
-    if test -n ("$_fish_ai_install_dir/bin/lookup_setting" keymap_2)
-        "$_fish_ai_install_dir/bin/lookup_setting" keymap_2 | string unescape | read -g -a _fish_ai_keymap_2
-    else
+    if not set -q _fish_ai_keymap_2
         # prefer fish key names above fish 4.x
         if string match -r '^[0-3]\.' "$FISH_VERSION" &>/dev/null
             set -g _fish_ai_keymap_2 -k nul

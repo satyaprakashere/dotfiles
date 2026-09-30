@@ -67,7 +67,7 @@ init_cr() {
         elif [ -f "$CR_FILENAME/deps.edn" ] || [ -f "$CR_FILENAME/project.clj" ] || [ -f "$CR_FILENAME/shadow-cljs.edn" ] || [ -f "$CR_FILENAME/bb.edn" ]; then LANGUAGE="clj"
         elif [ -f "$CR_FILENAME/pom.xml" ]; then LANGUAGE="maven"
         elif [ -f "$CR_FILENAME/build.gradle" ] || [ -f "$CR_FILENAME/build.gradle.kts" ]; then LANGUAGE="gradle"
-        elif [ -f "$CR_FILENAME/package.json" ]; then LANGUAGE="js"
+        elif [ -f "$CR_FILENAME/package.json" ] || [ -f "$CR_FILENAME/deno.json" ] || [ -f "$CR_FILENAME/deno.jsonc" ] || [ -f "$CR_FILENAME/bunfig.toml" ]; then LANGUAGE="js"
         elif [ -f "$CR_FILENAME/build.zig" ]; then LANGUAGE="zig"
         elif [ -f "$CR_FILENAME/mix.exs" ]; then LANGUAGE="ex"
         elif [ -f "$CR_FILENAME/pyproject.toml" ] || [ -f "$CR_FILENAME/requirements.txt" ]; then LANGUAGE="py"
@@ -90,6 +90,7 @@ init_cr() {
             rs|toml) project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "Cargo.toml") || project_root="" ;;
             zig)     project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "build.zig") || project_root="" ;;
             java|kt|xml|gradle|kts) project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "pom.xml build.gradle build.gradle.kts") || project_root="" ;;
+            js|jsx|ts|tsx|mjs|cjs|mts|cts) project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "package.json deno.json deno.jsonc bunfig.toml") || project_root="" ;;
             clj|cljs|cljc|edn) project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "deps.edn project.clj bb.edn shadow-cljs.edn nbb.edn") || project_root="" ;;
             swift)     project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "Package.swift") || project_root="" ;;
             ocaml|ml|mli) project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "dune-project") || project_root="" ;;
@@ -109,7 +110,9 @@ init_cr() {
           "$base" == "shadow-cljs.edn" || "$base" == "nbb.edn" || \
           "$base" == "dune-project" || "$base" == "dune" || \
           "$base" == "pubspec.yaml" || "$base" == "Makefile" || "$base" == "CMakeLists.txt" || \
-          "$base" == "deno.json" || "$base" == "rebar.config" || \
+          "$base" == "deno.json" || "$base" == "deno.jsonc" || "$base" == "bunfig.toml" || \
+          "$base" == "vite.config."* || "$base" == "next.config."* || \
+          "$base" == "rebar.config" || \
           "$base" == *.csproj || "$base" == *.sln || "$base" == *.nimble ]] || [[ -n "$project_root" ]]; then
 
         # Project-level build result

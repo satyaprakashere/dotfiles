@@ -78,19 +78,20 @@ teardown() {
     grep -q "npx tsx hello.ts" "$last_line"
 }
 
-@test "builder.sh: bunfig.toml is NOT recognized as a project root" {
+@test "builder.sh: bunfig.toml is recognized as a project root" {
     project=$(create_project "my-bun-app" "bunfig.toml" "index.js")
     export CR_FILENAME="$project/index.js"
     export CR_TMPDIR="$TEST_TEMP_DIR"
+    
+    mock_command "bun" "echo 'Mock bun running'"
     
     run bash "$GENERAL_CR_BUILD_SH"
     [ "$status" -eq 0 ]
     last_line=$(echo "$output" | tail -n 1)
     
-    # Should NOT have "_Project" suffix because bunfig.toml is ignored
-    [[ "$last_line" != *"_Project" ]]
-    # Should be a single-file build result
-    [[ "$last_line" == *"/index_js" ]]
+    # Should have "_Project" suffix because bunfig.toml is recognized
+    [[ "$last_line" == *"my-bun-app_Project" ]]
+    grep -q "bun run" "$last_line"
 }
 
 @test "builder.sh: Node.js project uses npm start if available" {
@@ -105,4 +106,47 @@ teardown() {
     
     # Check if wrapper script uses npm start
     grep -q "npm start" "$last_line"
+}
+
+@test "builder.sh: Vite project uses dev script when present" {
+    project=$(create_project "my-vite-app" "package.json" "vite.config.ts" "src/App.tsx")
+    echo '{"scripts": {"dev": "vite", "build": "vite build"}}' > "$project/package.json"
+    export CR_FILENAME="$project/src/App.tsx"
+    export CR_TMPDIR="$TEST_TEMP_DIR"
+    
+    run bash "$GENERAL_CR_BUILD_SH"
+    [ "$status" -eq 0 ]
+    last_line=$(echo "$output" | tail -n 1)
+    
+    [[ "$last_line" == *"my-vite-app_Project" ]]
+    grep -q "npm run dev" "$last_line"
+}
+
+@test "builder.sh: Bun project with bun.lock uses bun run" {
+    project=$(create_project "my-bun-vite" "package.json" "bun.lock" "src/main.ts")
+    echo '{"scripts": {"dev": "vite"}}' > "$project/package.json"
+    export CR_FILENAME="$project/src/main.ts"
+    export CR_TMPDIR="$TEST_TEMP_DIR"
+    
+    mock_command "bun" "echo 'Mock bun running'"
+    
+    run bash "$GENERAL_CR_BUILD_SH"
+    [ "$status" -eq 0 ]
+    last_line=$(echo "$output" | tail -n 1)
+    
+    [[ "$last_line" == *"my-bun-vite_Project" ]]
+    grep -q "bun run dev" "$last_line"
+}
+
+@test "builder.sh: Deno project with deno.json" {
+    project=$(create_project "my-deno-app" "deno.json" "main.ts")
+    export CR_FILENAME="$project/main.ts"
+    export CR_TMPDIR="$TEST_TEMP_DIR"
+    
+    run bash "$GENERAL_CR_BUILD_SH"
+    [ "$status" -eq 0 ]
+    last_line=$(echo "$output" | tail -n 1)
+    
+    [[ "$last_line" == *"my-deno-app_Project" ]]
+    grep -q "deno run" "$last_line"
 }
