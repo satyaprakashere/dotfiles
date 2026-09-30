@@ -107,7 +107,10 @@ fish_variables
 alacritty/themes/
 alire/indexes/community/repo/
 apprunner/scratch/
-helix/runtime*
+helix/runtime
+helix/runtime/
+helix/runtime/**
 helix/grammars/
 zed/prompts/
 sublime-text/Package Control.user-ca-bundle
+nix/

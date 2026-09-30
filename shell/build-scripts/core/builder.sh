@@ -26,14 +26,14 @@ build_go() {
 }
 
 build_odin() {
-    local project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "Makefile ols.json")
-    if [ -n "$project_root" ]; then
-        if [ -f "$project_root/Makefile" ]; then
-            (cd "$project_root" && make) || return $?
-            create_project_wrapper "$project_root" "make run"
+    local root="${project_root:-$(find_project_root "$(dirname "$CR_FILENAME")" "Makefile ols.json")}"
+    if [ -n "$root" ]; then
+        if [ -f "$root/Makefile" ]; then
+            (cd "$root" && make) || return $?
+            create_project_wrapper "$root" "make run"
         else
-            odin build "$project_root" -out="$CR_SUGGESTED_OUTPUT_FILE" "$@" || return $?
-            create_project_wrapper "$project_root" "odin run ."
+            odin build "$root" -out="$CR_SUGGESTED_OUTPUT_FILE" "$@" || return $?
+            create_project_wrapper "$root" "odin run ."
         fi
     else
         odin build "$CR_FILENAME" -file "$@" -out="$CR_SUGGESTED_OUTPUT_FILE" || return $?
@@ -43,10 +43,10 @@ build_odin() {
 }
 
 build_rust() {
-    local project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "Cargo.toml")
-    if [ -n "$project_root" ]; then
-        (cd "$project_root" && cargo build) || return $?
-        create_project_wrapper "$project_root" "cargo run --quiet"
+    local root="${project_root:-$(find_project_root "$(dirname "$CR_FILENAME")" "Cargo.toml")}"
+    if [ -n "$root" ]; then
+        (cd "$root" && cargo build) || return $?
+        create_project_wrapper "$root" "cargo run --quiet"
     else
         cratename="$(basename "$CR_SUGGESTED_OUTPUT_FILE" | sed 's/[[:blank:]]/_/g')"
         rustc -C opt-level=0 -C debuginfo=0 -o "$CR_SUGGESTED_OUTPUT_FILE" --crate-name "$cratename" "$CR_FILENAME" "$@" ${CR_DEBUGGING:+-g}
@@ -66,7 +66,7 @@ build_c() {
 build_swift() {
     local root="${project_root:-$(find_project_root "$(dirname "$CR_FILENAME")" "Package.swift")}"
     if [ -n "$root" ]; then
-        (cd "$root" && swift build)
+        (cd "$root" && swift build) || return $?
         create_project_wrapper "$root" "swift run"
     else
         xcrun -sdk macosx swiftc -Onone -o "$CR_SUGGESTED_OUTPUT_FILE" "$CR_FILENAME" "$@" ${CR_DEBUGGING:+-g}
@@ -74,10 +74,10 @@ build_swift() {
 }
 
 build_zig() {
-    local project_root=$(find_project_root "$(dirname "$CR_FILENAME")" "build.zig")
-    if [ -n "$project_root" ]; then
-        (cd "$project_root" && zig build "$@") || return $?
-        create_project_wrapper "$project_root" "zig build run"
+    local root="${project_root:-$(find_project_root "$(dirname "$CR_FILENAME")" "build.zig")}"
+    if [ -n "$root" ]; then
+        (cd "$root" && zig build "$@") || return $?
+        create_project_wrapper "$root" "zig build run"
     else
         zig build-exe "$CR_FILENAME" -femit-bin="$CR_SUGGESTED_OUTPUT_FILE" "$@"
     fi
@@ -92,6 +92,7 @@ build_java() {
         local full_classname="${package_name:+$package_name.}$classname"
 
         if [ -f "$project_root/pom.xml" ]; then
+            (cd "$project_root" && mvn test-compile) || return $?
             if grep -q "quarkus" "$project_root/pom.xml"; then
                 create_project_wrapper "$project_root" "mvn quarkus:dev"
             elif grep -q "spring-boot" "$project_root/pom.xml"; then
@@ -110,17 +111,23 @@ build_java() {
         elif [ -f "$project_root/build.gradle" ] || [ -f "$project_root/build.gradle.kts" ]; then
             local gradlew="./gradlew"
             [ ! -f "$project_root/gradlew" ] && gradlew="gradle"
+            (cd "$project_root" && $gradlew classes) || return $?
             create_project_wrapper "$project_root" "$gradlew run"
         fi
     else
         # Single-file javac with preview features and specific encoding
-        javac "$CR_FILENAME" -d "$(dirname "$CR_SUGGESTED_OUTPUT_FILE")" --enable-preview --source 28 --add-exports java.base/jdk.internal.vm=ALL-UNNAMED -encoding "${enc[$CR_ENCODING]:-UTF-8}" "$@" ${CR_DEBUGGING:+-g} || return $?
+        local java_version=$(javac -version 2>&1 | sed -E 's/.* ([0-9]+).*/\1/' | head -n 1)
+        local source_flag=""
+        if [ -n "$java_version" ] && [ "$java_version" -gt 0 ] 2>/dev/null; then
+            source_flag="--source $java_version"
+        fi
+        javac "$CR_FILENAME" -d "$(dirname "$CR_SUGGESTED_OUTPUT_FILE")" --enable-preview $source_flag --add-exports java.base/jdk.internal.vm=ALL-UNNAMED -encoding "${enc[$CR_ENCODING]:-UTF-8}" "$@" ${CR_DEBUGGING:+-g} || return $?
         local classpath="$(dirname "$CR_SUGGESTED_OUTPUT_FILE")"
         local package_name=$(grep -m 1 "^package " "$CR_FILENAME" | sed 's/package \(.*\);/\1/' | tr -d '[:space:]')
         local classname="$(basename "$CR_FILENAME" .java)"
         local full_classname="${package_name:+$package_name.}$classname"
 
-        create_project_wrapper "$(dirname "$CR_FILENAME")" "java --enable-preview --add-exports java.base/jdk.internal.vm=ALL-UNNAMED -cp \"$classpath\" \"$full_classname\""
+        create_project_wrapper "$(dirname "$CR_FILENAME")" "java --enable-preview --add-exports java.base/jdk.internal.vm=ALL-UNNAMED --add-opens java.base/jdk.internal.vm=ALL-UNNAMED -cp \"$classpath\" \"$full_classname\""
     fi
 }
 
@@ -135,6 +142,7 @@ build_kotlin() {
         local full_classname="${package_name:+$package_name.}$class_name"
 
         if [ -f "$project_root/pom.xml" ]; then
+            (cd "$project_root" && mvn test-compile) || return $?
             if grep -q "quarkus" "$project_root/pom.xml"; then
                 create_project_wrapper "$project_root" "mvn quarkus:dev"
             elif grep -q "spring-boot" "$project_root/pom.xml"; then
@@ -147,6 +155,7 @@ build_kotlin() {
         elif [ -f "$project_root/build.gradle" ] || [ -f "$project_root/build.gradle.kts" ]; then
             local gradlew="./gradlew"
             [ ! -f "$project_root/gradlew" ] && gradlew="gradle"
+            (cd "$project_root" && $gradlew classes) || return $?
             create_project_wrapper "$project_root" "$gradlew run"
         fi
     else
@@ -173,6 +182,7 @@ build_objc() {
 build_maven() {
     # Maven: project build/run from pom.xml
     local root="${project_root:-$(dirname "$CR_FILENAME")}"
+    (cd "$root" && mvn test-compile) || return $?
     if grep -q "quarkus" "$root/pom.xml"; then
         create_project_wrapper "$root" "mvn quarkus:dev"
     elif grep -q "spring-boot" "$root/pom.xml"; then
@@ -182,7 +192,6 @@ build_maven() {
         if [ -n "$discovered_main" ]; then
             create_project_wrapper "$root" "mvn exec:java -Dexec.mainClass=\"$discovered_main\""
         else
-            (cd "$root" && mvn compile)
             create_project_wrapper "$root" "mvn exec:java"
         fi
     fi
@@ -193,7 +202,7 @@ build_gradle() {
     local root="${project_root:-$(dirname "$CR_FILENAME")}"
     local gradlew="./gradlew"
     [ ! -f "$root/gradlew" ] && gradlew="gradle"
-    (cd "$root" && $gradlew classes)
+    (cd "$root" && $gradlew classes) || return $?
     create_project_wrapper "$root" "$gradlew run"
 }
 
@@ -213,7 +222,7 @@ build_ocaml() {
     # OCaml: support Dune projects and single files via ocamlopt
     local root="${project_root:-$(find_project_root "$(dirname "$CR_FILENAME")" "dune-project")}"
     if [ -n "$root" ]; then
-        (cd "$root" && dune build)
+        (cd "$root" && dune build) || return $?
         local filename=$(basename "$CR_FILENAME")
         local exe_target=""
         if [ "$CR_IS_DIR" = true ] || [[ "$filename" == "dune-project" || "$filename" == "dune" ]]; then
@@ -290,7 +299,7 @@ build_elixir() {
     # Elixir: check for mix.exs project root
     local root="${project_root:-$(find_project_root "$(dirname "$CR_FILENAME")" "mix.exs")}"
     if [ -n "$root" ]; then
-        (cd "$root" && mix compile)
+        (cd "$root" && mix compile) || return $?
         create_project_wrapper "$root" "mix run"
     else
         # Single-file elixirc with wrapper execution
@@ -419,7 +428,15 @@ build_mojo() {
     elif [ -n "$project_root_magic" ] && command -v magic >/dev/null 2>&1; then
         create_project_wrapper "$project_root_magic" "magic run mojo $(basename "$CR_FILENAME")"
     else
-        export SDKROOT=$(xcrun --show-sdk-path) && pixi run mojo build -o "$CR_SUGGESTED_OUTPUT_FILE" "$CR_FILENAME" "$@"
+        export SDKROOT=$(xcrun --show-sdk-path 2>/dev/null)
+        if command -v mojo >/dev/null 2>&1; then
+            mojo build -o "$CR_SUGGESTED_OUTPUT_FILE" "$CR_FILENAME" "$@"
+        elif command -v pixi >/dev/null 2>&1; then
+            pixi run mojo build -o "$CR_SUGGESTED_OUTPUT_FILE" "$CR_FILENAME" "$@"
+        else
+            echo "Error: Neither 'mojo' nor 'pixi' found in PATH." >&2
+            return 1
+        fi
     fi
 }
 

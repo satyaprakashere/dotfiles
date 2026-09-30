@@ -26,13 +26,14 @@ set -gx MallocNanoZone 0
 set -gx HOMEBREW_NO_AUTO_UPDATE 1
 set -gx HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK 1
 
+# Bun & Vcpkg
+set -gx BUN_INSTALL "$HOME/.bun"
+set -gx VCPKG_ROOT "$HOME/github/vcpkg"
+
 # macOS SDK
 if test -x /usr/bin/xcrun
     set -gx SDKROOT (xcrun --show-sdk-path 2>/dev/null)
 end
-
-# Bun
-set -gx BUN_INSTALL "$HOME/.bun"
 
 # Homebrew-dependent environment & compiler flags
 if type -q brew
@@ -150,7 +151,13 @@ end
 # ------------------------------------------------------------------------------
 # Utilities
 alias e="hx"
-alias ls="eza --icons --group-directories-first --git"
+alias edit="hx"
+if type -q eza
+    alias ls="eza --icons --group-directories-first --git"
+    alias ll="eza -l --icons --group-directories-first --git"
+    alias la="eza -la --icons --group-directories-first --git"
+    alias lt="eza --tree --icons"
+end
 alias man="tldr"
 alias python="python3"
 alias pip="uv pip"

@@ -155,3 +155,74 @@ teardown() {
     # Check if wrapper script uses rebar3 shell
     grep -q "rebar3 shell" "$last_line"
 }
+
+@test "builder.sh: builds OCaml project" {
+    project=$(create_project "my-ocaml-app" "dune-project" "bin/main.ml" "bin/dune")
+    echo '(executable (name main))' > "$project/bin/dune"
+    export CR_FILENAME="$project/bin/main.ml"
+    export CR_TMPDIR="$TEST_TEMP_DIR"
+    
+    mock_command "dune" "echo 'Mock dune build successful'"
+    
+    run bash "$GENERAL_CR_BUILD_SH"
+    [ "$status" -eq 0 ]
+    
+    last_line=$(echo "$output" | tail -n 1)
+    [ "$last_line" == "$TEST_TEMP_DIR/CodeRunner/my-ocaml-app_Project" ]
+    
+    # Check that wrapper exists and points to dune exec -- ./bin/main.exe
+    [ -f "$TEST_TEMP_DIR/CodeRunner/my-ocaml-app_Project" ]
+    wrapper_content=$(cat "$TEST_TEMP_DIR/CodeRunner/my-ocaml-app_Project")
+    [[ "$wrapper_content" == *"dune exec -- ./bin/main.exe"* ]]
+}
+
+@test "builder.sh: builds OCaml single file" {
+    project_dir="$FIXTURES_DIR/single-ocaml"
+    mkdir -p "$project_dir"
+    test_file="$project_dir/hello.ml"
+    touch "$test_file"
+
+    export CR_FILENAME="$test_file"
+    export CR_TMPDIR="$TEST_TEMP_DIR"
+    
+    mock_compiler "ocamlopt"
+    
+    run bash "$GENERAL_CR_BUILD_SH"
+    [ "$status" -eq 0 ]
+    last_line=$(echo "$output" | tail -n 1)
+    [ "$last_line" == "$TEST_TEMP_DIR/CodeRunner/hello_ml" ]
+}
+
+@test "builder.sh: builds Java single file" {
+    project_dir="$FIXTURES_DIR/single-java"
+    mkdir -p "$project_dir"
+    test_file="$project_dir/Main.java"
+    touch "$test_file"
+
+    export CR_FILENAME="$test_file"
+    export CR_TMPDIR="$TEST_TEMP_DIR"
+
+    mock_command "javac" "echo 'Mock javac build successful'"
+
+    run bash "$GENERAL_CR_BUILD_SH"
+    [ "$status" -eq 0 ]
+
+    last_line=$(echo "$output" | tail -n 1)
+    [ "$last_line" == "$TEST_TEMP_DIR/CodeRunner/Main_java" ]
+}
+
+@test "builder.sh: fails when Java single file compilation fails" {
+    project_dir="$FIXTURES_DIR/single-java-fail"
+    mkdir -p "$project_dir"
+    test_file="$project_dir/Bad.java"
+    touch "$test_file"
+
+    export CR_FILENAME="$test_file"
+    export CR_TMPDIR="$TEST_TEMP_DIR"
+
+    mock_command "javac" "echo 'Main.java: error' >&2; exit 1"
+
+    run bash "$GENERAL_CR_BUILD_SH"
+    [ "$status" -ne 0 ]
+}
+

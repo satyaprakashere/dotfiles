@@ -51,6 +51,7 @@ window-height=1800
 window-width=2800
 
 theme= Ayu Mirage
+#theme= Github Dark Default
 
 window-height=2048
 window-width=4096

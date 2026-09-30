@@ -73,6 +73,12 @@ Plug 'preservim/vim-colors-pencil'
 Plug 'preservim/vim-pencil'
 "Plug 'subnut/vim-iawriter'
 
+" Essential structural editing plugin stack
+Plug 'tpope/vim-sexp-mappings-for-regular-people'
+Plug 'guns/vim-sexp'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+
 call plug#end()
 
 " Now process all of the configuration files that I have stored in my 'config'
