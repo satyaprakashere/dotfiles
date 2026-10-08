@@ -11,7 +11,6 @@
 !README.md
 !starship.toml
 !bashrc
-!fish_ai.ini.example
 
 # ==============================================================================
 # 3. ALLOW CORE CONFIG DIRECTORIES
@@ -71,10 +70,42 @@
 **/.LSOverride
 **/Thumbs.db
 
-# Secrets & Machine-Specific State
+# Secrets, Credentials, Keys & Machine-Specific State
 fish_ai.ini
+**/fish_ai.ini
 fish/fish_variables
 fish_variables
+**/.env
+**/.env.*
+**/.envrc
+**/*.pem
+**/*.key
+**/*.keystore
+**/*.pkcs12
+**/*.p12
+**/*.pfx
+**/id_rsa*
+**/id_ed25519*
+**/id_ecdsa*
+**/id_dsa*
+**/.authinfo*
+**/.netrc
+**/.git-credentials
+**/credentials
+**/credentials.json
+**/*_token
+**/*_secret
+**/keys.txt
+**/*.age
+**/secrets/*.yaml
+**/secrets/*.json
+!**/secrets/.gitkeep
+**/*_history
+**/.bash_history
+**/.zsh_history
+**/.fish_history
+**/gh/
+**/backup/
 
 # Editor & Plugin Caches / Lockfiles / Backups / Logs
 **/*.log
@@ -101,4 +132,4 @@ zed/prompts/
 sublime-text/Package Control.user-ca-bundle
 nix/
 nix-darwin/
-emacs
+emacs/
