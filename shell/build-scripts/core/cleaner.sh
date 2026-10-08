@@ -5,44 +5,112 @@
 # Recursively discovers projects and cleans their build artifacts
 # ==============================================================================
 
-# Directories to prune during search to avoid deep traversal into build or vcs folders
-PRUNE_DIRS=(
+# Universal directories to prune during search (VCS internals)
+UNIVERSAL_PRUNE_DIRS=(
     ".git"
     ".hg"
     ".svn"
-    "node_modules"
-    "deps"
-    "vendor"
-    "elm-stuff"
-    ".phpunit.cache"
-    "target"
-    "build"
-    "_build"
-    ".build"
-    "dist"
-    "out"
-    "bin"
-    "obj"
-    ".gradle"
-    ".zig-cache"
-    "zig-cache"
-    "zig-out"
-    "zig-pkg"
-    ".zig-cache-global"
-    ".zig-global-cache-local"
-    ".stack-work"
-    "dist-newstyle"
-    ".lake"
-    ".dart_tool"
-    "__pycache__"
-    ".pytest_cache"
-    ".mypy_cache"
-    ".ruff_cache"
-    ".venv"
-    "venv"
-    "env"
-    ".env"
 )
+
+# Backwards compatibility: PRUNE_DIRS contains universal prune dirs by default
+PRUNE_DIRS=("${UNIVERSAL_PRUNE_DIRS[@]}")
+
+# Return prune directory names/patterns for specific project types
+# Pruning is project-sensitive: directories like deps, vendor, dist, obj are only
+# pruned when they belong to a project type that treats them as build artifacts/dependencies.
+get_project_prune_dirs() {
+    local -a types=("$@")
+    local -a prune_list=()
+
+    for ptype in "${types[@]}"; do
+        case "$ptype" in
+            "Rust")
+                prune_list+=("target")
+                ;;
+            "Go")
+                ;;
+            "Maven")
+                prune_list+=("target")
+                ;;
+            "Gradle")
+                prune_list+=("build" ".gradle")
+                ;;
+            "Zig")
+                prune_list+=("zig-out" ".zig-cache" "zig-cache" "zig-pkg" ".zig-cache-global" ".zig-global-cache-local")
+                ;;
+            "Node.js")
+                prune_list+=("dist" "build" "out" ".next" ".nuxt" ".turbo" ".parcel-cache" ".svelte-kit" ".output" "coverage" "node_modules")
+                ;;
+            "CMake")
+                prune_list+=("build" "CMakeFiles" "cmake-build-*")
+                ;;
+            "Make")
+                prune_list+=("*.dSYM")
+                ;;
+            "Swift")
+                prune_list+=(".build")
+                ;;
+            "OCaml"|"Erlang")
+                prune_list+=("_build")
+                ;;
+            "Elixir")
+                prune_list+=("_build" "deps" ".elixir_ls" ".lexical")
+                ;;
+            "Clojure")
+                prune_list+=("target" ".cpcache" ".shadow-cljs" "out" ".calva" ".lsp" ".clj-kondo")
+                ;;
+            "Haskell")
+                prune_list+=(".stack-work" "dist-newstyle" "dist")
+                ;;
+            ".NET")
+                prune_list+=("bin" "obj")
+                ;;
+            "Dart")
+                prune_list+=("build" ".dart_tool")
+                ;;
+            "Python")
+                prune_list+=("build" "dist" ".pytest_cache" ".mypy_cache" ".ruff_cache" "__pycache__" ".venv" "venv" "env" ".env" "*.egg-info")
+                ;;
+            "Nim")
+                prune_list+=("nimcache")
+                ;;
+            "Gleam")
+                prune_list+=("build")
+                ;;
+            "Mojo")
+                prune_list+=("build" ".pixi")
+                ;;
+            "Odin")
+                prune_list+=("bin")
+                ;;
+            "Lean")
+                prune_list+=(".lake")
+                ;;
+            "Elm")
+                prune_list+=("elm-stuff")
+                ;;
+            "PHP")
+                prune_list+=("vendor" ".phpunit.cache")
+                ;;
+        esac
+    done
+
+    echo "${prune_list[@]}"
+}
+
+# Helper to check if a directory name matches any prune pattern
+is_pruned_dir() {
+    local dir_name="$1"
+    shift
+    local pat
+    for pat in "$@"; do
+        [ -n "$pat" ] || continue
+        if [[ "$dir_name" == $pat ]]; then
+            return 0
+        fi
+    done
+    return 1
+}
 
 # Detect project types in a given directory
 detect_project_types() {
@@ -99,7 +167,7 @@ detect_project_types() {
     if [ -f "$dir/elm.json" ] || [ -d "$dir/elm-stuff" ]; then
         types+=("Elm")
     fi
-    if [ -f "$dir/composer.json" ] || [ -f "$dir/composer.lock" ] || [ -d "$dir/vendor" ]; then
+    if [ -f "$dir/composer.json" ] || [ -f "$dir/composer.lock" ] || [ -f "$dir/vendor/autoload.php" ]; then
         types+=("PHP")
     fi
     [ -f "$dir/ols.json" ] && types+=("Odin")
@@ -346,11 +414,38 @@ clean_loose_artifacts() {
     local root_dir="$1"
     local dry_run="$2"
     local verbose="$3"
+    shift 3 2>/dev/null || true
+    local -a skip_dirs=("$@")
 
     local total_loose_kb=0
     local loose_count=0
 
-    # Clean __pycache__ folders and .pytest_cache that might not be at project root
+    # Prune universal VCS directories (.git, .hg, .svn) and any specified skip paths
+    local prune_expr=()
+    for u in "${UNIVERSAL_PRUNE_DIRS[@]}" "${PRUNE_DIRS[@]}" "node_modules"; do
+        [ -n "$u" ] || continue
+        if [ ${#prune_expr[@]} -gt 0 ]; then
+            prune_expr+=("-o")
+        fi
+        prune_expr+=("-name" "$u")
+    done
+
+    for s in "${skip_dirs[@]}"; do
+        if [ -d "$s" ]; then
+            if [ ${#prune_expr[@]} -gt 0 ]; then
+                prune_expr+=("-o")
+            fi
+            prune_expr+=("-path" "$s")
+        fi
+    done
+
+    local find_cmd=(find "$root_dir")
+    if [ ${#prune_expr[@]} -gt 0 ]; then
+        find_cmd+=(\( "${prune_expr[@]}" \) -prune -o)
+    fi
+    find_cmd+=(\( -name "__pycache__" -o -name ".pytest_cache" -o -name "*.dSYM" -o -name "zig-pkg" -o -name ".zig-cache-global" -o -name ".zig-global-cache-local" -o -path "*/.clj-kondo/.cache" -o -path "*/.lsp/.cache" \) -type d -print0)
+
+    # Clean loose caches
     while IFS= read -r -d '' pcache; do
         if [ -d "$pcache" ]; then
             local sz
@@ -364,9 +459,76 @@ clean_loose_artifacts() {
                 rm -rf "$pcache" 2>/dev/null
             fi
         fi
-    done < <(find "$root_dir" \( -name ".git" -o -name "node_modules" -o -name "deps" -o -name "vendor" -o -name "elm-stuff" -o -name ".lake" -o -name ".phpunit.cache" \) -prune -o \( -name "__pycache__" -o -name ".pytest_cache" -o -name "*.dSYM" -o -name "zig-pkg" -o -name ".zig-cache-global" -o -name ".zig-global-cache-local" -o -path "*/.clj-kondo/.cache" -o -path "*/.lsp/.cache" \) -type d -print0 2>/dev/null)
+    done < <("${find_cmd[@]}" 2>/dev/null)
 
     echo "$total_loose_kb|$loose_count"
+}
+
+# Discover projects within root_dir using project-sensitive pruning
+# Traverses directory hierarchy, pruning only universal VCS dirs (.git, etc.)
+# and project-specific artifact dirs (e.g. deps for Elixir, vendor for PHP, obj/bin for .NET, target for Rust)
+discover_projects() {
+    local root_dir="$1"
+    candidate_project_dirs=()
+    candidate_project_types=()
+
+    local -a queue=("$root_dir")
+    local queue_idx=0
+
+    # Ensure dotglob is set so hidden directories are found, nullglob so non-matches expand to nothing
+    local old_dotglob old_nullglob
+    old_dotglob=$(shopt -p dotglob 2>/dev/null || true)
+    old_nullglob=$(shopt -p nullglob 2>/dev/null || true)
+    shopt -s dotglob nullglob
+
+    while [ $queue_idx -lt ${#queue[@]} ]; do
+        local curr="${queue[$queue_idx]}"
+        queue_idx=$((queue_idx + 1))
+
+        # Check if curr directory itself is universally pruned (e.g. .git)
+        local curr_base
+        curr_base="$(basename "$curr")"
+        if [ "$curr" != "$root_dir" ] && is_pruned_dir "$curr_base" "${UNIVERSAL_PRUNE_DIRS[@]}" "${PRUNE_DIRS[@]}"; then
+            continue
+        fi
+
+        # Detect project types in current directory
+        local types
+        types=$(detect_project_types "$curr")
+
+        local -a proj_prunes=()
+        if [ -n "$types" ]; then
+            candidate_project_dirs+=("$curr")
+            candidate_project_types+=("$types")
+            # Get prune directories specific to this project
+            proj_prunes=($(get_project_prune_dirs $types))
+        fi
+
+        # Iterate through immediate subdirectories of curr
+        for child in "$curr"/*; do
+            [ -d "$child" ] || continue
+            [ -L "$child" ] && continue  # Do not follow symlinks into outer trees
+
+            local child_base
+            child_base="$(basename "$child")"
+
+            # Check universal VCS prune
+            if is_pruned_dir "$child_base" "${UNIVERSAL_PRUNE_DIRS[@]}" "${PRUNE_DIRS[@]}"; then
+                continue
+            fi
+
+            # Check project-sensitive prune if current directory is a project
+            if [ ${#proj_prunes[@]} -gt 0 ] && is_pruned_dir "$child_base" "${proj_prunes[@]}"; then
+                continue
+            fi
+
+            queue+=("$child")
+        done
+    done
+
+    # Restore shell options
+    eval "$old_dotglob" 2>/dev/null || true
+    eval "$old_nullglob" 2>/dev/null || true
 }
 
 # Main cleaning driver
@@ -444,61 +606,44 @@ run_cleaner() {
         echo "----------------------------------------------------------------------"
     fi
 
-    # Build find prune expression
-    # We prune known build/dependency directories to keep scanning fast and avoid recursion into artifacts
-    local prune_expr=()
-    for pdir in "${PRUNE_DIRS[@]}"; do
-        if [ ${#prune_expr[@]} -gt 0 ]; then
-            prune_expr+=("-o")
-        fi
-        prune_expr+=("-name" "$pdir")
-    done
-
-    local candidate_dirs=()
-
-    # Collect directories safely without following symlinks into outer trees
-    while IFS= read -r -d '' d; do
-        candidate_dirs+=("$d")
-    done < <(find "$target_dir" \
-        -path "$target_dir" -o \
-        \( "${prune_expr[@]}" \) -prune -o \
-        -type d -print0 2>/dev/null)
+    # Discover candidate projects using project-sensitive pruning
+    local -a candidate_project_dirs=()
+    local -a candidate_project_types=()
+    discover_projects "$target_dir"
 
     local total_cleaned_projects=0
     local total_freed_kb=0
 
-    for cdir in "${candidate_dirs[@]}"; do
-        local detected_types
-        detected_types=$(detect_project_types "$cdir")
+    for ((i=0; i<${#candidate_project_dirs[@]}; i++)); do
+        local cdir="${candidate_project_dirs[$i]}"
+        local detected_types="${candidate_project_types[$i]}"
 
-        if [ -n "$detected_types" ]; then
-            local res
-            res=$(clean_project_artifacts "$cdir" "$detected_types" "$dry_run" "$verbose" "$run_tools")
-            local freed_kb="${res%%|*}"
-            local cleaned_items="${res##*|}"
+        local res
+        res=$(clean_project_artifacts "$cdir" "$detected_types" "$dry_run" "$verbose" "$run_tools")
+        local freed_kb="${res%%|*}"
+        local cleaned_items="${res##*|}"
 
-            if [ -n "$cleaned_items" ] || [ "$verbose" = true ]; then
-                total_cleaned_projects=$((total_cleaned_projects + 1))
-                total_freed_kb=$((total_freed_kb + freed_kb))
+        if [ -n "$cleaned_items" ] || [ "$verbose" = true ]; then
+            total_cleaned_projects=$((total_cleaned_projects + 1))
+            total_freed_kb=$((total_freed_kb + freed_kb))
 
-                if [ "$quiet" = false ]; then
-                    local type_label="[${detected_types// /, }]"
-                    local rel_proj_path="."
-                    if [ "$cdir" != "$target_dir" ]; then
-                        rel_proj_path="${cdir#$target_dir/}"
+            if [ "$quiet" = false ]; then
+                local type_label="[${detected_types// /, }]"
+                local rel_proj_path="."
+                if [ "$cdir" != "$target_dir" ]; then
+                    rel_proj_path="${cdir#$target_dir/}"
+                fi
+
+                if [ -n "$cleaned_items" ]; then
+                    local size_str=""
+                    [ "$freed_kb" -gt 0 ] && size_str=" ($(format_size "$freed_kb"))"
+                    if [ "$dry_run" = true ]; then
+                        echo "  $type_label $rel_proj_path -> would clean $cleaned_items$size_str"
+                    else
+                        echo "  $type_label $rel_proj_path -> cleaned $cleaned_items$size_str"
                     fi
-
-                    if [ -n "$cleaned_items" ]; then
-                        local size_str=""
-                        [ "$freed_kb" -gt 0 ] && size_str=" ($(format_size "$freed_kb"))"
-                        if [ "$dry_run" = true ]; then
-                            echo "  $type_label $rel_proj_path -> would clean $cleaned_items$size_str"
-                        else
-                            echo "  $type_label $rel_proj_path -> cleaned $cleaned_items$size_str"
-                        fi
-                    elif [ "$verbose" = true ]; then
-                        echo "  $type_label $rel_proj_path -> already clean"
-                    fi
+                elif [ "$verbose" = true ]; then
+                    echo "  $type_label $rel_proj_path -> already clean"
                 fi
             fi
         fi

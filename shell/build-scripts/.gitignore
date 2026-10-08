@@ -8,5 +8,5 @@ ehthumbs.db
 Thumbs.db
 
 # Temporary directories if accidentally created locally
-CodeRunner/
-/tmp/
+# CodeRunner/
+# /tmp/

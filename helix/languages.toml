@@ -41,3 +41,7 @@ grammar = "haskell"
 [language-server.rekursion-lsp]
 command = "rekursion"
 args = ["lsp"]
+
+[language-server.gopls.config]
+formatter = ["gofumpt"]
+gofumpt = true

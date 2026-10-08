@@ -12,4 +12,5 @@
 
 ; (set-random-theme themes)
 
-(helix.theme "catppuccin_macchiato")
+; (helix.theme "catppuccin_mocha")
+(helix.theme "github_dark_dimmed")

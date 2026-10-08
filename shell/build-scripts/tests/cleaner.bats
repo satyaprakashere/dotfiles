@@ -237,4 +237,110 @@ teardown() {
     [[ "$output" == *"Usage: cclean"* ]]
 }
 
+@test "get_project_prune_dirs: returns language-specific prune directories" {
+    elixir_prune=$(get_project_prune_dirs "Elixir")
+    [[ "$elixir_prune" == *"deps"* ]]
+    [[ "$elixir_prune" == *"_build"* ]]
+    [[ "$elixir_prune" != *"target"* ]]
+    [[ "$elixir_prune" != *"vendor"* ]]
+
+    rust_prune=$(get_project_prune_dirs "Rust")
+    [[ "$rust_prune" == *"target"* ]]
+    [[ "$rust_prune" != *"deps"* ]]
+    [[ "$rust_prune" != *"vendor"* ]]
+    [[ "$rust_prune" != *"obj"* ]]
+
+    dotnet_prune=$(get_project_prune_dirs ".NET")
+    [[ "$dotnet_prune" == *"bin"* ]]
+    [[ "$dotnet_prune" == *"obj"* ]]
+    [[ "$dotnet_prune" != *"deps"* ]]
+    [[ "$dotnet_prune" != *"vendor"* ]]
+
+    php_prune=$(get_project_prune_dirs "PHP")
+    [[ "$php_prune" == *"vendor"* ]]
+    [[ "$php_prune" != *"deps"* ]]
+    [[ "$php_prune" != *"obj"* ]]
+
+    node_prune=$(get_project_prune_dirs "Node.js")
+    [[ "$node_prune" == *"dist"* ]]
+    [[ "$node_prune" == *"node_modules"* ]]
+    [[ "$node_prune" != *"deps"* ]]
+    [[ "$node_prune" != *"obj"* ]]
+}
+
+@test "cclean.sh: project-sensitive pruning - deps inside non-Elixir project is not pruned" {
+    local workspace="$FIXTURES_DIR/deps_sensitivity"
+    # Create a C/Make project that contains a deps/ folder with a sub-project (Rust)
+    mkdir -p "$workspace/c_app/deps/sub_rust/target/debug"
+    touch "$workspace/c_app/Makefile"
+    touch "$workspace/c_app/deps/sub_rust/Cargo.toml"
+    touch "$workspace/c_app/deps/sub_rust/target/debug/sub_bin"
+
+    # Also create an Elixir project with deps/ containing dummy files
+    mkdir -p "$workspace/elixir_app/deps/phoenix_pkg/mix.exs"
+    touch "$workspace/elixir_app/mix.exs"
+    touch "$workspace/elixir_app/mix.lock"
+
+    run bash "$CLEAN_SH" "$workspace"
+    [ "$status" -eq 0 ]
+
+    # The subproject in c_app/deps/sub_rust should have been discovered and its target cleaned!
+    [ ! -d "$workspace/c_app/deps/sub_rust/target" ]
+    [ -f "$workspace/c_app/deps/sub_rust/Cargo.toml" ]
+
+    # The Elixir project should have its deps/ pruned from traversal and cleaned as an artifact
+    [ ! -d "$workspace/elixir_app/deps" ]
+}
+
+@test "cclean.sh: project-sensitive pruning - vendor inside non-PHP project is not pruned" {
+    local workspace="$FIXTURES_DIR/vendor_sensitivity"
+    # Create a Go or Make project that contains a vendor/ folder with a nested Node project
+    mkdir -p "$workspace/go_tool/vendor/nested_node/dist"
+    touch "$workspace/go_tool/go.mod"
+    touch "$workspace/go_tool/vendor/nested_node/package.json"
+    touch "$workspace/go_tool/vendor/nested_node/dist/bundle.js"
+
+    # Also create a PHP project with vendor/
+    mkdir -p "$workspace/php_app/vendor/composer_pkg"
+    touch "$workspace/php_app/composer.json"
+    touch "$workspace/php_app/composer.lock"
+
+    run bash "$CLEAN_SH" "$workspace"
+    [ "$status" -eq 0 ]
+
+    # The subproject in go_tool/vendor/nested_node should have been discovered and cleaned!
+    [ ! -d "$workspace/go_tool/vendor/nested_node/dist" ]
+    [ -f "$workspace/go_tool/vendor/nested_node/package.json" ]
+
+    # The PHP app's vendor should be cleaned
+    [ ! -d "$workspace/php_app/vendor" ]
+}
+
+@test "cclean.sh: project-sensitive pruning - obj and dist sensitivity" {
+    local workspace="$FIXTURES_DIR/obj_dist_sensitivity"
+    # Create a project with an obj/ directory that contains a nested Rust project (not a .NET project)
+    mkdir -p "$workspace/graphics/obj/nested_tool/target"
+    touch "$workspace/graphics/CMakeLists.txt"
+    touch "$workspace/graphics/obj/nested_tool/Cargo.toml"
+    touch "$workspace/graphics/obj/nested_tool/target/app"
+
+    # Create a .NET project where obj and bin are build artifacts
+    mkdir -p "$workspace/dotnet_app/obj/Debug" "$workspace/dotnet_app/bin/Debug"
+    touch "$workspace/dotnet_app/App.csproj"
+    touch "$workspace/dotnet_app/obj/Debug/project.assets.json"
+    touch "$workspace/dotnet_app/bin/Debug/app.dll"
+
+    run bash "$CLEAN_SH" "$workspace"
+    [ "$status" -eq 0 ]
+
+    # graphics/obj/nested_tool was visited and cleaned
+    [ ! -d "$workspace/graphics/obj/nested_tool/target" ]
+    [ -f "$workspace/graphics/obj/nested_tool/Cargo.toml" ]
+
+    # dotnet_app obj and bin were pruned and cleaned
+    [ ! -d "$workspace/dotnet_app/obj" ]
+    [ ! -d "$workspace/dotnet_app/bin" ]
+}
+
+
 

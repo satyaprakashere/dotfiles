@@ -132,7 +132,7 @@ if status is-interactive
         set -l starship_cache "$HOME/.cache/fish/starship_init.fish"
         if not test -f "$starship_cache"; or test "$starship_bin" -nt "$starship_cache"
             mkdir -p "$HOME/.cache/fish"
-            starship init fish --print-full-init > "$starship_cache"
+            starship init fish --print-full-init >"$starship_cache"
         end
         source "$starship_cache"
     end
@@ -143,7 +143,7 @@ if status is-interactive
         set -l fzf_cache "$HOME/.cache/fish/fzf_init.fish"
         if not test -f "$fzf_cache"; or test "$fzf_bin" -nt "$fzf_cache"
             mkdir -p "$HOME/.cache/fish"
-            fzf --fish > "$fzf_cache"
+            fzf --fish >"$fzf_cache"
         end
         source "$fzf_cache"
         bind \cf fzf-file-widget
@@ -221,4 +221,15 @@ if status is-interactive
     alias ghostrc="vim ~/.config/ghostty/config"
     alias emrc="vim ~/.config/doom/init.el"
     alias makefile="vim Makefile"
+end
+
+# Added by LM Studio CLI (lms)
+set -gx PATH $PATH /Users/prakash/.lmstudio/bin
+# End of LM Studio CLI section
+if test -e /nix/var/nix/profiles/default/etc/profile.d/nix-fish.sh
+    . /nix/var/nix/profiles/default/etc/profile.d/nix-fish.sh
+end
+
+if test -d /opt/homebrew/opt/rustup/bin
+    fish_add_path /opt/homebrew/opt/rustup/bin
 end

@@ -16,17 +16,9 @@
 # ==============================================================================
 # 3. ALLOW CORE CONFIG DIRECTORIES
 # ==============================================================================
-!alacritty/
-!alacritty/**
-
-!alire/
-!alire/**
 
 !apprunner/
 !apprunner/**
-
-!cmux/
-!cmux/**
 
 !CodeRunner/
 !CodeRunner/**
@@ -52,9 +44,6 @@
 !nvim/
 !nvim/**
 
-!pack/
-!pack/**
-
 !readme/
 !readme/**
 
@@ -69,9 +58,6 @@
 
 !vim/
 !vim/**
-
-!vscodium/
-!vscodium/**
 
 !zed/
 !zed/**
@@ -115,3 +101,4 @@ zed/prompts/
 sublime-text/Package Control.user-ca-bundle
 nix/
 nix-darwin/
+emacs

@@ -50,7 +50,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'scrooloose/nerdcommenter'
 Plug 'godlygeek/tabular'
 Plug 'terryma/vim-smooth-scroll'
-"Plug 'eraserhd/parinfer-rust', {'do': 'cargo build --release'}
+Plug 'eraserhd/parinfer-rust', {'do': 'cargo build --release'}
 
 " Syntax and Language Support
 let g:polyglot_disabled = ['ftdetect']

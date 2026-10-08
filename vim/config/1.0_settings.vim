@@ -3,8 +3,9 @@ let mapleader="\<Space>"
 set termguicolors
 
 " Appearance
-let g:lightline = {'colorscheme': 'catppuccin_mocha'}
-colorscheme catppuccin_mocha
+let g:lightline = {'colorscheme': 'ghdark'}
+let g:gh_color = "soft"
+colorscheme ghdark
 
 " ----[ Editing ]----------
 filetype plugin indent on
